@@ -10,11 +10,10 @@ import json
 import oauth2 as oauth
 import os
 
-SERVER_DATA_ROOT = 'data/'
+SERVER_DATA_ROOT = 'opt/lampp/htdocs/stuff/twitter-api/streaming/data/'
 API_ENDPOINT_URL = 'https://stream.twitter.com/1.1/statuses/filter.json'
-USER_AGENT = 'LatviesiTvito 1.0' # This can be anything really
+USER_AGENT = 'LatviesiTvito 1.0'
 
-# You need to replace these with your own values
 OAUTH_KEYS = {'consumer_key': 'vknyFajJqz5YUIwvwX6mg',
     'consumer_secret': '5ZyVTz8Z32baUnMUVXKp8riUEe04BBchr1uwAfOzvG0',
     'access_token_key': '1930450538-5EmqMGaJIIbnbz3mmqicVwCOoRVZoNq9hQoeSMx',
@@ -24,7 +23,7 @@ OAUTH_KEYS = {'consumer_key': 'vknyFajJqz5YUIwvwX6mg',
 POST_PARAMS = {'include_entities': 0,
     'stall_warning': 'true',
     'language': 'lv',
-    'track': 'latvija, latvieši, rīga, ministrija, depudāts, iestāde, kļūda, korumpēts, labrīt, nakts, rīts, diena, pusdienas, ēst, universitāte, mācās, mācos, biju, braukšu, twitterspēks, pulkstenis, miegs, gulēt, filma, mīlu, lv, ā, š, ē, ū, ģ, ļ, ņ, ž'}
+    'track': 'un, bet, vai, ir, bija, būs, nav, gan, pa, kā, arī, jau, es, man, tu, mēs, tev, jūs, viņš, viņa, viņi, labs, labi, slikts, slikti, latvija, latvieši, jāņi, jāņos, rīga, labrīt, nakts, rīts, diena, pusdienas, vakariņas, brokastis, ēst, universitāte, mācās, mācos, twitterspēks, pulkstenis, miegs, gulēt, filma, mīlu'}
 
 class TwitterStream:
     def __init__(self):
@@ -43,7 +42,6 @@ class TwitterStream:
         self.conn = pycurl.Curl()
         self.conn.setopt(pycurl.URL, API_ENDPOINT_URL)
         self.conn.setopt(pycurl.USERAGENT, USER_AGENT)
-        # Using gzip is optional but saves us bandwidth.
         self.conn.setopt(pycurl.ENCODING, 'deflate, gzip')
         self.conn.setopt(pycurl.POST, 1)
         self.conn.setopt(pycurl.POSTFIELDS, urllib.urlencode(POST_PARAMS))
@@ -99,7 +97,7 @@ class TwitterStream:
             """
         self.buffer += data
         if data.endswith('\r\n') and self.buffer.strip():
-            # complete message received
+            # Complete message received
             message = json.loads(self.buffer)
             self.buffer = ''
             msg = ''
@@ -110,9 +108,7 @@ class TwitterStream:
             elif message.get('warning'):
                 print 'Got warning: %s' % message['warning'].get('message')
             else:
-                print ' Tweet: %s' % message.get('text')
-
-                # create directory and files for saving
+                # Create directory and files for saving
                 explode = message.get('created_at').split(' ')
                 year = explode[5]
                 month = explode[1]
@@ -122,17 +118,32 @@ class TwitterStream:
                     os.makedirs(SERVER_DATA_ROOT + year)
                 if not os.path.exists(SERVER_DATA_ROOT + year + '/' + month):
                     os.makedirs(SERVER_DATA_ROOT + year + '/' + month)
-                file = codecs.open(SERVER_DATA_ROOT + year + '/' + month + '/' + day + '.csv', 'a', 'utf-8')
+                file = codecs.open(SERVER_DATA_ROOT + year + '/' + month + '/' + day + '.csv', 'a', encoding='utf-8')
 
-                # write header if file empty
+                # Write header if file empty
                 if os.stat(SERVER_DATA_ROOT + year + '/' + month + '/' + day + '.csv').st_size == 0:
-                    file.write('contributors,coordinates,created_at,entities,favorite_count,favorited,filter_level,geo,id_str,in_reply_to_screen_name,in_reply_to_status_id_str,in_reply_to_user_id_str,lang,place,possibly_sensitive,retweet_count,retweeted,retweeted_status,source,text,truncated,user\n')
+                    file.write('contributors,coordinates,created_at,entities_symbols,entities_user_mentions,entities_hashtags,entities_urls,favorite_count,favorited,filter_level,geo,id_str,in_reply_to_screen_name,in_reply_to_status_id_str,in_reply_to_user_id_str,lang,place,retweet_count,retweeted,retweeted_status,source,text,truncated,user_follow_request_sent,user_profile_use_background_image,user_default_profile_image,user_id,user_verified,user_profile_image_url_https,user_profile_sidebar_fill_color,user_profile_text_color,user_followers_count,user_profile_sidebar_border_color,user_profile_background_color,user_listed_count,user_profile_background_image_url_https,user_utc_offset,user_statuses_count,user_description,user_friends_count,user_location,user_profile_link_color,user_profile_image_url,user_following,user_geo_enabled,user_profile_banner_url,user_profile_background_image_url,user_name,user_lang,user_profile_background_tile,user_favourites_count,user_screen_name,user_notifications,user_url,user_created_at,user_contributors_enabled,user_time_zone,user_protected,user_default_profile,user_is_translator\n')
 
-                # save data
+                # Save data
                 file.write('"' + json.dumps(message.get('contributors'), ensure_ascii=False).replace('"', '""') + '"')
                 file.write(',"' + json.dumps(message.get('coordinates'), ensure_ascii=False).replace('"', '""') + '"')
                 file.write(',' + message.get('created_at'))
-                file.write(',"' + json.dumps(message.get('entities'), ensure_ascii=False).replace('"', '""') + '"')
+                if message.get('entities').get('symbols') == []:
+                    file.write(',None')
+                else:
+                    file.write(',"' + json.dumps(message.get('entities').get('symbols'), ensure_ascii=False).replace('"', '""') + '"')
+                if message.get('entities').get('user_mentions') == []:
+                    file.write(',None')
+                else:
+                    file.write(',"' + json.dumps(message.get('entities').get('user_mentions'), ensure_ascii=False).replace('"', '""') + '"')
+                if message.get('entities').get('hashtags') == []:
+                    file.write(',None')
+                else:
+                    file.write(',"' + json.dumps(message.get('entities').get('hashtags'), ensure_ascii=False).replace('"', '""') + '"')
+                if message.get('entities').get('urls') == []:
+                    file.write(',None')
+                else:
+                    file.write(',"' + json.dumps(message.get('entities').get('urls'), ensure_ascii=False).replace('"', '""') + '"')
                 file.write(',' + str(message.get('favorite_count')))
                 file.write(',' + str(message.get('favorited')))
                 file.write(',' + message.get('filter_level'))
@@ -142,15 +153,50 @@ class TwitterStream:
                 file.write(',' + str(message.get('in_reply_to_status_id_str')))
                 file.write(',' + str(message.get('in_reply_to_user_id_str')))
                 file.write(',' + message.get('lang'))
-                file.write(',' + str(message.get('place')))
-                file.write(',') # possibly_sensitive
+                file.write(',"' + json.dumps(message.get('place'), ensure_ascii=False).replace('"', '""') + '"')
                 file.write(',' + str(message.get('retweet_count')))
                 file.write(',' + str(message.get('retweeted')))
                 file.write(',"' + json.dumps(message.get('retweeted_status'), ensure_ascii=False).replace('"', '""') + '"')
                 file.write(',' + message.get('source'))
                 file.write(',"' + message.get('text').replace('"', '""') + '"')
                 file.write(',' + str(message.get('truncated')))
-                file.write(',"' + json.dumps(message.get('user'), ensure_ascii=False).replace('"', '""') + '"')
+                file.write(',' + str(message.get('user').get('follow_request_sent')))
+                file.write(',' + str(message.get('user').get('profile_use_background_image')))
+                file.write(',' + str(message.get('user').get('default_profile_image')))
+                file.write(',' + str(message.get('user').get('id')))
+                file.write(',' + str(message.get('user').get('verified')))
+                file.write(',' + str(message.get('user').get('profile_image_url_https')))
+                file.write(',' + str(message.get('user').get('profile_sidebar_fill_color')))
+                file.write(',' + str(message.get('user').get('profile_text_color')))
+                file.write(',' + str(message.get('user').get('followers_count')))
+                file.write(',' + str(message.get('user').get('profile_sidebar_border_color')))
+                file.write(',' + str(message.get('user').get('profile_background_color')))
+                file.write(',' + str(message.get('user').get('listed_count')))
+                file.write(',' + str(message.get('user').get('profile_background_image_url_https')))
+                file.write(',' + str(message.get('user').get('utc_offset')))
+                file.write(',' + str(message.get('user').get('statuses_count')))
+                file.write(',' + json.dumps(message.get('user').get('description'), ensure_ascii=False))
+                file.write(',' + str(message.get('user').get('friends_count')))
+                file.write(',' + json.dumps(message.get('user').get('location'), ensure_ascii=False))
+                file.write(',' + str(message.get('user').get('profile_link_color')))
+                file.write(',' + str(message.get('user').get('profile_image_url')))
+                file.write(',' + str(message.get('user').get('following')))
+                file.write(',' + str(message.get('user').get('geo_enabled')))
+                file.write(',' + str(message.get('user').get('profile_banner_url')))
+                file.write(',' + str(message.get('user').get('profile_background_image_url')))
+                file.write(',' + json.dumps(message.get('user').get('name'), ensure_ascii=False))
+                file.write(',' + str(message.get('user').get('lang')))
+                file.write(',' + str(message.get('user').get('profile_background_tile')))
+                file.write(',' + str(message.get('user').get('favourites_count')))
+                file.write(',' + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False))
+                file.write(',' + str(message.get('user').get('notifications')))
+                file.write(',' + str(message.get('user').get('url')))
+                file.write(',' + str(message.get('user').get('created_at')))
+                file.write(',' + str(message.get('user').get('contributors_enabled')))
+                file.write(',' + str(message.get('user').get('time_zone')))
+                file.write(',' + str(message.get('user').get('protected')))
+                file.write(',' + str(message.get('user').get('default_profile')))
+                file.write(',' + str(message.get('user').get('is_translator')))
                 file.write('\n')
                 file.close()
 
