@@ -190,7 +190,7 @@ class TwitterStream:
                 file.write(',' + str(message.get('user').get('favourites_count')))
                 file.write(',' + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False))
                 file.write(',' + str(message.get('user').get('notifications')))
-                file.write(',' + str(message.get('user').get('url')))
+                file.write(',' + json.dumps(message.get('user').get('url'), ensure_ascii=False))
                 file.write(',' + str(message.get('user').get('created_at')))
                 file.write(',' + str(message.get('user').get('contributors_enabled')))
                 file.write(',' + str(message.get('user').get('time_zone')))
