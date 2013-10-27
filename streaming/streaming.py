@@ -23,7 +23,7 @@ OAUTH_KEYS = {'consumer_key': 'vknyFajJqz5YUIwvwX6mg',
 POST_PARAMS = {'include_entities': 0,
     'stall_warning': 'true',
     'language': 'lv',
-    'track': 'un, bet, vai, ir, bija, būs, nav, gan, pa, kā, arī, jau, es, man, tu, mēs, tev, jūs, viņš, viņa, viņi, labs, labi, slikts, slikti, latvija, latvieši, jāņi, jāņos, rīga, labrīt, nakts, rīts, diena, pusdienas, vakariņas, brokastis, ēst, universitāte, mācās, mācos, twitterspēks, pulkstenis, miegs, gulēt, filma, mīlu'}
+    'track': 'jā, nē, būs, kā, arī, tomēr, laigan, mēs, jūs, viņš, viņa, viņi, šis, šī, šo, labs, labi, slikts, slikti, vakar, šodien, rīt, parīt, nākamnedēļ, pirmdiena, pirmdien, pirmdienā, otrdiena, otrdien, otrdienā, trešdiena, trešdien, trešdienā, ceturtdiena, ceturtdien, ceturdienā, piektdiena, piektdien, piektdienā, sestdiena, sestdien, sestdienā, svētdiena, svētdien, svētdienā, latvija, latvieši, jāņi, jāņos, rīga, labrīt, nakts, rīts, diena, pusdienas, vakariņas, brokastis, ēst, mācās, mācos, twitterspēks, pulkstenis, miegs, gulēt, filma, mīlu, iela, ielā, ielu, piemēram, piemērs, atzīme, ziņas, vasara, vasaru, vasarā, rudens, rudeni, rudenī, ziema, ziemu, ziemā, pavasaris, pavasarī, pavasari, šņabis, šnabi, treniņš, terniņā, treniņu, kurss, kursos, kursiem, lekcija, lekcijā, lekciju, mamma, tētis, sencis, muča, muteri, māsa, māsu, brālis, brāli'}
 
 class TwitterStream:
     def __init__(self):
