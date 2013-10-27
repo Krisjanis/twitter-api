@@ -10,7 +10,7 @@ import json
 import oauth2 as oauth
 import os
 
-SERVER_DATA_ROOT = 'opt/lampp/htdocs/stuff/twitter-api/streaming/data/'
+SERVER_DATA_ROOT = '/var/www/streaming/data/'
 API_ENDPOINT_URL = 'https://stream.twitter.com/1.1/statuses/filter.json'
 USER_AGENT = 'LatviesiTvito 1.0'
 
