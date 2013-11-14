@@ -11,7 +11,7 @@
 </head>
 <body>
 <?php
-$con = new mysqli('127.0.0.1', 'twitter', 'CvjWToO7', 'twitter');
+$con = new mysqli('127.0.0.1', 'root', 'CvjWToO7', 'twitter');
 $con->set_charset('utf8');
 ?>
 <div class="wrapper">
