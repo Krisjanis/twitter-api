@@ -145,7 +145,7 @@ class TwitterStream:
             # Save retweet
             print 'RT'
             try:
-                self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (" + str(message.get('retweeted_status').get('id')) + ", " + str(message.get('user').get('id')) + ", " + timestamp + ")")
+                self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (" + str(message.get('retweeted_status').get('id')) + ", " + str(message.get('user').get('id')) + ", " + str(timestamp) + ")")
                 self.db.commit()
             except:
                 self.db.rollback()
