@@ -195,7 +195,7 @@ class TwitterStream:
                 else:
                     # Create new coordinate
                     try:
-                        self.cur.execute("INSERT INTO `coordinates`(`coordinates`, `type`, `count`) VALUES ('" + str(coordx) + "," + str(coordy) + "', '" + message.get('coordinates').get('type') + "', 1")
+                        self.cur.execute("INSERT INTO `coordinates`(`coordinates`, `type`, `count`) VALUES ('" + str(coordx) + "," + str(coordy) + "', '" + message.get('coordinates').get('type') + "', 1)")
                         self.db.commit()
                     except:
                         self.db.rollback()
