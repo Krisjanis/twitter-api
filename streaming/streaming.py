@@ -180,7 +180,7 @@ class TwitterStream:
                 self.db.rollback()
             print 'coordinates'
             # Check if coordinates set in tweet and already exist in system
-            if message.get('coordinates') != None:
+            if message.get('coordinates') != []:
                 coord = message.get('coordinates').get('coordinates')
                 coordx = coord[1]
                 coordy = coord[0]
