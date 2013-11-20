@@ -143,7 +143,6 @@ class TwitterStream:
 
         if message.get('retweeted_status') != None:
             # Save retweet
-            print 'RT'
             try:
                 self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (" + str(message.get('retweeted_status').get('id')) + ", " + str(message.get('user').get('id')) + ", " + str(timestamp) + ")")
                 self.db.commit()
@@ -157,7 +156,6 @@ class TwitterStream:
             except:
                 self.db.rollback()
         else:
-            print 'legit tweet'
             # Save tweet
             # Determine if reply to screen name
             inReplyToScreenName = "'" + message.get('in_reply_to_screen_name') + "'" if message.get('in_reply_to_screen_name') else 'NULL'
@@ -172,15 +170,14 @@ class TwitterStream:
                 urls = 'NULL'
             else:
                 urls = "'" + json.dumps(message.get('entities').get('urls'), ensure_ascii=False) + "'"
-            print 'save tweet'
             try:
                 self.cur.execute("INSERT INTO `tweets`(`id`, `user_id`, `text`, `urls`, `created_at`, `favorite_count`, `filter_level`, `in_reply_to_screen_name`, `in_reply_to_status_id`, `in_reply_to_user_id_str`, `lang`, `retweeted_count`, `source`, `truncated`) VALUES (" + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ", '" + message.get('text') + "', " + urls + ", " + str(timestamp) + ", '" + str(message.get('user').get('favourites_count')) + "', '" + message.get('filter_level') + "', " + inReplyToScreenName + ", " + inReplyToStatusIdStr + ", " + inReplyToUserIdStr + ", '" + message.get('lang') + "', " + str(message.get('retweet_count')) + ", '" + message.get('source') + "', " + str(truncated) + ")")
                 self.db.commit()
             except:
                 self.db.rollback()
-            print 'coordinates'
+
             # Check if coordinates set in tweet and already exist in system
-            if message.get('coordinates') != []:
+            if message.get('coordinates') != None:
                 coord = message.get('coordinates').get('coordinates')
                 coordx = coord[1]
                 coordy = coord[0]
@@ -202,7 +199,7 @@ class TwitterStream:
                         self.db.commit()
                     except:
                         self.db.rollback()
-            print'hahstags'
+
             # Check if hashtags set in tweet and already exist in system
             if message.get('entities').get('hashtags') != []:
                 for hashtag in message.get('entities').get('hashtags'):
@@ -232,7 +229,6 @@ class TwitterStream:
                         except:
                             self.db.rollback()
 
-            print 'user mentions'
             # Check if users mentioned in tweet
             if message.get('entities').get('user_mentions') != []:
                 for mention in message.get('entities').get('user_mentions'):
@@ -241,8 +237,6 @@ class TwitterStream:
                         self.db.commit()
                     except:
                         self.db.rollback()
-
-        print 'tweet done'
 
         # Determine if location is set
         location = "'" + message.get('user').get('location') + "'" if message.get('user').get('location') else 'NULL'
@@ -272,7 +266,6 @@ class TwitterStream:
         self.cur.execute("SELECT `id` FROM `users` WHERE `id` = 27604297" + str(message.get('user').get('id')))
         existingUser = self.cur.fetchone()
         if existingUser != None:
-            print 'update user'
             # Update existing user fields
             try:
                 self.cur.execute("UPDATE `users` SET `followers_count` = " + str(message.get('user').get('followers_count')) + ", `listed_count` = " + str(message.get('user').get('listed_count')) + ", `statuses_count` = " + str(message.get('user').get('statuses_count')) + ", `friends_count` = " + str(message.get('user').get('friends_count')) + ", `location` = " + location + ", `geo_enabled` = " + str(geoEnabled) + ", `name` = " + json.dumps(message.get('user').get('name'), ensure_ascii=False) + ", `lang` = '" + str(message.get('user').get('lang')) + "', `favourites_count` = " + str(message.get('user').get('favourites_count')) + ", `screen_name` = " + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False) + ", `created_at` = " + str(timestamp) + ", `protected` = " + str(protected) + ", `url` = " + json.dumps(message.get('user').get('url'), ensure_ascii=False) + ", `contributors_enabled` = " + str(contributorsEnabled) + ", `time_zone` = " + timeZone + ", `default_profile` = " + str(defaultProfile) + ", `is_translator` = " + str(isTranslator) + ", `description` = " + json.dumps(message.get('user').get('description'), ensure_ascii=False) + ", `verified` = " + str(verified) + " WHERE `id` = " + str(message.get('user').get('id')))
@@ -286,7 +279,6 @@ class TwitterStream:
             except:
                 self.db.rollback()
         else:
-            print 'new user'
             # Create new user in system
             try:
                 self.cur.execute("INSERT INTO `users` (`id`, `followers_count`, `listed_count`, `statuses_count`, `friends_count`, `location`, `geo_enabled`, `name`, `lang`, `favourites_count`, `screen_name`, `created_at`, `protected`, `url`, `contributors_enabled`, `time_zone`, `default_profile`, `is_translator`, `description`, `verified`) VALUES (" + str(message.get('user').get('id')) + ", " + str(message.get('user').get('followers_count')) + ", " + str(message.get('user').get('listed_count')) + ", " + str(message.get('user').get('statuses_count')) + ", " + str(message.get('user').get('friends_count')) + ", " + location + ", " + str(geoEnabled) + ", " + json.dumps(message.get('user').get('name'), ensure_ascii=False) + ", '" + str(message.get('user').get('lang')) + "', " + str(message.get('user').get('favourites_count')) + ", " + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False) + ", " + str(timestamp) + ", " + str(protected) + ", " + json.dumps(message.get('user').get('url'), ensure_ascii=False) + ", " + str(contributorsEnabled) + ", " + timeZone + ", " + str(defaultProfile) + ", " + str(isTranslator) + ", " + json.dumps(message.get('user').get('description'), ensure_ascii=False) + ", " + str(verified) + ")")
@@ -299,8 +291,6 @@ class TwitterStream:
                 self.db.commit()
             except:
                 self.db.rollback()
-
-        print'tweet end'
 
     def save_tweet_csv(self, message):
         # Create directory and files for saving
