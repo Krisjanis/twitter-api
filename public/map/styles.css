@@ -1,0 +1,10 @@
+html, body, #map-canvas { height:100%; margin:0; padding:0; }
+.map-wrapper { margin:40px auto 0; height:600px; width:960px; }
+.map-menu a { padding:0 5px; }
+#menu a { cursor:pointer; }
+#map-canvas { width:100%; }
+#map-canvas img.category { max-height:25px; }
+#map-canvas h2 { line-height:22px; margin:0; }
+#map-canvas p, #map-canvas a { line-height:10px; }
+#map-canvas img { margin-right:10px; }
+#map-canvas .loading-gif { margin:0; }
