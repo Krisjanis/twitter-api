@@ -20,7 +20,7 @@ $currentUrl = $_SERVER['PHP_SELF'];
         <title>Tvitstat</title>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-        <script src="jquery.js"></script>
+        <script src="../../assets/js/charts/jquery-1.9.1.min.js"></script>
         <script>
             function initialize() {
                 var coordinates = <?php echo json_encode($coordinates); ?>,
