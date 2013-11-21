@@ -3,8 +3,8 @@ class Model_Coordinates {
 
     public function getCoordinates($venuesCount)
     {
-        $con = mysql_connect("localhost","root","root");
-        mysql_select_db('twitter3', $con);
+        $con = mysql_connect("localhost","root","CvjWToO7");
+        mysql_select_db('twitter', $con);
 
         $data = mysql_query("SELECT * FROM  `coordinates` ORDER BY  `coordinates`.`count` DESC LIMIT 0," . $venuesCount);
         
