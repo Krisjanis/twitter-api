@@ -56,12 +56,12 @@ abstract class KISS_Controller {
   function parse_http_request() {
     $this->params = array();
     $p = $this->request_uri_parts;
-    if (isset($p[0]) && $p[0] && $p[0][0]!='?')
-      $this->controller=$p[0];
-    if (isset($p[1]) && $p[1] && $p[1][0]!='?')
-      $this->action=$p[1];
-    if (isset($p[2]))
-      $this->params=array_slice($p,2);
+    if (isset($p[2]) && $p[2] && $p[2][0]!='?')
+      $this->controller=$p[2];
+    if (isset($p[3]) && $p[3] && $p[3][0]!='?')
+      $this->action=$p[3];
+    if (isset($p[4]))
+      $this->params=array_slice($p,4);
     return $this;
   }
 
