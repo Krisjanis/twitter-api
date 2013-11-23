@@ -1,0 +1,17 @@
+.content { margin-top:50px; }
+.uk-container { padding:15px 0; }
+
+.main-nav { list-style:none; }
+.main-nav li { display:inline-block; margin:15px 0 0 10px; }
+
+/* Map ============================= */
+#map-canvas { width:100%; height:600px; }
+/*.map-wrapper { margin:40px auto 0; height:600px; width:960px; }*/
+.map-menu a { padding:0 5px; }
+#menu a { cursor:pointer; }
+#map-canvas img.category { max-height:25px; }
+#map-canvas h2 { line-height:22px; margin:0; }
+#map-canvas p, #map-canvas a { line-height:10px; }
+#map-canvas img { margin-right:10px; }
+#map-canvas .loading-gif { margin:0; }
+/* Map end ========================= */

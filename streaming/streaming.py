@@ -263,7 +263,7 @@ class TwitterStream:
         backgroundTile = 1 if message.get('user').get('profile_background_tile') else 0
 
         # Check if user already in system
-        self.cur.execute("SELECT `id` FROM `users` WHERE `id` = 27604297" + str(message.get('user').get('id')))
+        self.cur.execute("SELECT `id` FROM `users` WHERE `id` = " + str(message.get('user').get('id')))
         existingUser = self.cur.fetchone()
         if existingUser != None:
             # Update existing user fields
