@@ -14,6 +14,9 @@ function _index () {
     $content->set('existingUserCount', $existingUserCount);
 
 
+    $pageTitle = "Vispārējā statistika";
+    $view->set('pageTitle', $pageTitle);
+ 
     $view->set('content', $content->fetch());
     $view->dump();
 }

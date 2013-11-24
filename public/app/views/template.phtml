@@ -1,13 +1,15 @@
 <html>
     <head>
-        <title><?php echo $GLOBALS['sitename'];?></title>
+        <title><?php echo $GLOBALS['sitename'];?><?php if (isset($pageTitle)) echo ' | ' . $pageTitle; ?></title>
         <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>uikit.css">
         <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>style.css">
         <script src="<?php echo JS_PATH ?>charts/jquery-1.9.1.min.js"></script>
         <script src="<?php echo JS_PATH ?>charts/knockout-2.2.1.js"></script>
         <script src="<?php echo JS_PATH ?>charts/globalize.min.js"></script>
         <script src="<?php echo JS_PATH ?>charts/dx.chartjs.js"></script>
+        <script src="<?php echo JS_PATH ?>functions.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     </head>
     <body>
@@ -25,6 +27,9 @@
 
             <!-- CONTENT -->
             <div class="content uk-container uk-container-center">
+                <?php if (isset($pageTitle)): ?>
+                    <h2 class="uk-h1"><?php echo $pageTitle; ?></h2>
+                 <?php endif; ?>
                 <?php echo $content ?>
             </div>
 
