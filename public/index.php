@@ -13,19 +13,23 @@ error_reporting(E_ALL);
 //===============================================
 // Madatory KISSMVC Settings (please configure)
 //===============================================
-define('APP_PATH','app/'); //with trailing slash pls
-define('WEB_FOLDER','/kissmvc/'); //with trailing slash pls
+define('WEB_FOLDER','/public/');
+define('BASE_URL','http://'.$_SERVER['HTTP_HOST'].WEB_FOLDER);
+define('APP_PATH','app/');
+define('CSS_PATH',BASE_URL.'css/');
+define('IMG_PATH',BASE_URL.'img/');
+define('JS_PATH',BASE_URL.'js/');
+
 
 //===============================================
 // Other Settings
 //===============================================
-$GLOBALS['sitename']='KISSMVC - Simple PHP MVC Framework';
+$GLOBALS['sitename']='Tvitstat';
 
 //===============================================
 // Includes
 //===============================================
 require('kissmvc.php');
-require('config.php');
 
 //===============================================
 // Session
@@ -57,8 +61,9 @@ function custom_error($msg='') {
 function getdbh() {
   if (!isset($GLOBALS['dbh']))
     try {
-      $GLOBALS['dbh'] = new PDO('sqlite:'.APP_PATH.'db/kissmvc.sqlite');
-      //$GLOBALS['dbh'] = new PDO('mysql:host=localhost;dbname=dbname', 'username', 'password');
+      require('config.php');
+      //$GLOBALS['dbh'] = new PDO('sqlite:'.APP_PATH.'db/kissmvc.sqlite');
+      $GLOBALS['dbh'] = new PDO('mysql:host=' . $CONFIG['db_host'] . ';dbname=' . $CONFIG['db_table'], $CONFIG['username'], $CONFIG['password']);
 
     } catch (PDOException $e) {
       die('Connection failed: '.$e->getMessage());
@@ -69,8 +74,6 @@ function getdbh() {
 //===============================================
 // Autoloading for Business Classes
 //===============================================
-// Assumes Model Classes start with capital letters and Helpers start with lower case letters
-/*
 function __autoload($classname) {
   $a=$classname[0];
   if ($a >= 'A' && $a <='Z')
@@ -78,7 +81,6 @@ function __autoload($classname) {
   else
     require_once(APP_PATH.'helpers/'.$classname.'.php');  
 }
-*/
 
 //===============================================
 // Start the controller

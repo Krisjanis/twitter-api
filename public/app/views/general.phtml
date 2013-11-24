@@ -1,0 +1,33 @@
+<h2 class="uk-h1">Vispārējā statistika</h2>
+
+<p>Līdz šim sistēma ir savākusi <span class="uk-badge uk-badge-success"><?php echo $existingUserCount ?></span> unikālu lieotāju</p>
+
+<p>Līdz šim sistēma ir savākusi <span class="uk-badge uk-badge-success"><?php echo $existingTweetCount ?></span> unikālu tvītu</p>
+
+<h2 class="uk-h1">Lietotāju aktivitāte no sistēmas sākuma</h2>
+
+<script type="text/javascript">
+    $(function ()
+        {
+            $("#chartContainer").dxChart({
+                dataSource: [
+                    <?php foreach ($tweetCountByDay as $key => $day): ?>
+                    {day: "<?php echo $day['date'] ?>", oranges: <?php echo $day['count'] ?>},
+                    <?php endforeach; ?>
+
+                ],
+
+                series: {
+                    argumentField: "day",
+                    valueField: "oranges",
+                    name: "Tvīti",
+                    type: "bar",
+                    color: '#45ada8'
+                }
+            });
+        }
+
+    );
+</script>
+<div id="chartContainer" style="width: 100%; height: 440px;"></div>
+

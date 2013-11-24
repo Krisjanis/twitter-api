@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title><?php echo $GLOBALS['sitename'];?></title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>uikit.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>style.css">
+        <script src="<?php echo JS_PATH ?>charts/jquery-1.9.1.min.js"></script>
+        <script src="<?php echo JS_PATH ?>charts/knockout-2.2.1.js"></script>
+        <script src="<?php echo JS_PATH ?>charts/globalize.min.js"></script>
+        <script src="<?php echo JS_PATH ?>charts/dx.chartjs.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+
+            <!-- HEADER -->
+            <nav class="uk-navbar uk-navbar-attached">
+                <div class="uk-container uk-container-center">
+                    <ul class="main-nav uk-float-right">
+                        <li><a href="<?php echo BASE_URL ?>" class="uk-button uk-button-primary uk-button-large">Sākums</a></li>
+                        <li><a href="<?php echo BASE_URL ?>coordinates" class="uk-button uk-button-primary uk-button-large">Vietas</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- CONTENT -->
+            <div class="content uk-container uk-container-center">
+                <?php echo $content ?>
+            </div>
+
+            <!-- FOOTER -->
+
+        </div>
+    </body>
+</html>
