@@ -136,7 +136,7 @@ class TwitterStream:
     def save_tweet_db(self, message):
         """ This method saves tweets into database.
             """
-        print'tweet'
+
         # Get current timestamp
         time = datetime.datetime.now()
         timestamp = calendar.timegm(time.utctimetuple())
@@ -199,6 +199,16 @@ class TwitterStream:
                         self.db.commit()
                     except:
                         self.db.rollback()
+
+                    self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = '" + str(coordx) + "," + str(coordy) + "'")
+                    existingCoord = self.cur.fetchone()
+
+                # Create coordinate and tweet relation
+                try:
+                    self.cur.execute("INSERT INTO `has_coordinates`(`coordinate_id`, `tweet_id`, `user_id`) VALUES (" + str(existingCoord[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
+                    self.db.commit()
+                except:
+                    self.db.rollback()
 
             # Check if hashtags set in tweet and already exist in system
             if message.get('entities').get('hashtags') != []:
