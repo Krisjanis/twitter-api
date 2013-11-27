@@ -1,8 +1,8 @@
-<div class="uk-grid">
-    <div class="uk-width-1-2">
+<div class="content-1">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Lietotāji, kas pieminēti visvairāk</h2>
         <table class="uk-table uk-table-hover">
             <?php $counter = 1; $counter2 = 1; ?>
-            <caption>Top 20 lietotāji, kas pieminēti visvairāk</caption>
             <thead>
             <tr>
                 <th>Vieta</th>
@@ -21,9 +21,13 @@
             </tbody>
         </table>
     </div>
-    <div class="uk-width-1-2">
+</div>
+
+
+<div class="content-2">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Hashtagi, kas izmantoti visvairāk</h2>
         <table class="uk-table uk-width-1-2 uk-table-hover">
-            <caption>Top 20 hashtagi, kas izmantoti visvairāk</caption>
             <thead>
             <tr>
                 <th>Vieta</th>
@@ -33,12 +37,12 @@
             </thead>
             <tbody>
             <?php foreach ($hashtags as $hashtag): ?>
-            <tr>
-                <td class="uk-width-1-10"><?php echo $counter2; $counter2++; ?>.</td>
-                <td class="uk-width-4-10"><?php echo $hashtag["hashtag"] ?></td>
-                <td class="uk-width-5-10"><?php echo $hashtag["count"] ?></td>
-            </tr>
-                <?php endforeach; ?>
+                <tr>
+                    <td class="uk-width-1-10"><?php echo $counter2; $counter2++; ?>.</td>
+                    <td class="uk-width-4-10"><?php echo $hashtag["hashtag"] ?></td>
+                    <td class="uk-width-5-10"><?php echo $hashtag["count"] ?></td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>
