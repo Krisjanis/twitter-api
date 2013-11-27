@@ -18,7 +18,7 @@ class Tweet extends Model
 
     function getTweetCountByDay()
     {
-        $result = $this->SELECT("DATE( FROM_UNIXTIME(created_at)) AS date, COUNT(id) AS count", "'count' IS NOT NULL group by 1");
+        $result = $this->select("DATE(FROM_UNIXTIME(created_at)) AS date, COUNT(id) AS count", "'count' IS NOT NULL group by 1");
         return $result;
     }
 
@@ -36,5 +36,11 @@ class Tweet extends Model
                                         FROM tweets
                                         GROUP BY 1");
         return $result;
+    }
+
+    function getDayTweetCount()
+    {
+        $result = $this->select("DATE(FROM_UNIXTIME(created_at)) AS date , COUNT(id) AS count", "'count' IS NOT NULL GROUP BY 1 ORDER BY count DESC LIMIT 1");
+        return $result[0];
     }
 }

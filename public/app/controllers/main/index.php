@@ -6,8 +6,10 @@ function _index () {
     $tweets = new Tweet();
     $existingTweetCount = $tweets->getTotalTweetCount();
     $tweetCountByDay = $tweets->getTweetCountByDay();
+    $dayTweets = $tweets->getDayTweetCount();
     $content->set('existingTweetCount', $existingTweetCount);
     $content->set('tweetCountByDay', $tweetCountByDay);
+    $content->set('maxTweets', $dayTweets);
 
     $users = new User();
     $existingUserCount = $users->getTotalUserCount();

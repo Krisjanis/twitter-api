@@ -18,22 +18,18 @@
             <!-- HEADER -->
             <nav class="uk-navbar uk-navbar-attached">
                 <div class="uk-container uk-container-center">
+                    <a href="<?php echo BASE_URL ?>" class="uk-navbar-brand uk-float-left">Letiņš Tvītiņš</a>
                     <ul class="main-nav uk-float-right">
-                        <li><a href="<?php echo BASE_URL ?>" class="uk-button uk-button-primary uk-button-large">Sākums</a></li>
-                        <li><a href="<?php echo BASE_URL ?>coordinates" class="uk-button uk-button-primary uk-button-large">Vietas</a></li>
-                        <li><a href="<?php echo BASE_URL ?>tops" class="uk-button uk-button-primary uk-button-large">Topi</a></li>
-                        <li><a href="<?php echo BASE_URL ?>statistics" class="uk-button uk-button-primary uk-button-large">Statistika</a></li>
+                        <li><a href="<?php echo BASE_URL ?>" class="nav-item">Sākums</a></li>
+                        <li><a href="<?php echo BASE_URL ?>coordinates" class="nav-item">Vietas</a></li>
+                        <li><a href="<?php echo BASE_URL ?>tops" class="nav-item">Topi</a></li>
+                        <li><a href="<?php echo BASE_URL ?>statistics" class="nav-item">Statistika</a></li>
                     </ul>
                 </div>
             </nav>
 
             <!-- CONTENT -->
-            <div class="content uk-container uk-container-center">
-                <?php if (isset($pageTitle)): ?>
-                    <h2 class="uk-h1"><?php echo $pageTitle; ?></h2>
-                 <?php endif; ?>
-                <?php echo $content ?>
-            </div>
+            <?php echo $content ?>
 
             <!-- FOOTER -->
 
