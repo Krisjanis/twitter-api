@@ -1,11 +1,11 @@
 <?php
 function _infowindow() {
-    $rquestedData = 'all';
+    $requestedData = 'all';
     if (isset($_GET['data'])) {
-        $rquestedData = $_GET['data'];
+        $requestedData = $_GET['data'];
     }
-    $venue = _getFoursquareData($_POST['pointLat'], $_POST['pointLng'], $rquestedData);
-    if ($rquestedData != 'all') {
+    $venue = _getFoursquareData($_POST['pointLat'], $_POST['pointLng'], $requestedData);
+    if ($requestedData != 'all') {
         echo $venue;
     } else {
         $view = new View (APP_PATH . 'views/coordinates/infowindow.phtml');
@@ -20,11 +20,11 @@ function _getClientData() {
     return array($clientId, $clientSecret);
 }
 
-function _getFoursquareData($pointLat, $pointLng, $rquestedData) {
+function _getFoursquareData($pointLat, $pointLng, $requestedData) {
     $client = _getClientData();
     $coordinates = $pointLat . '%2C' . $pointLng;
     $requestUrl = 'https://api.foursquare.com/v2/venues/search?ll=' . $coordinates
-                . '&limit=1&client_id=' . $client[0] . '&client_secret='
+                . '&limit=1&intent=browse&radius=15&client_id=' . $client[0] . '&client_secret='
                 . $client[1] . '&v=20131119';
     $curlhandle = curl_init();
     curl_setopt($curlhandle, CURLOPT_URL, $requestUrl);
@@ -32,12 +32,16 @@ function _getFoursquareData($pointLat, $pointLng, $rquestedData) {
 
     $response = curl_exec($curlhandle);
     curl_close($curlhandle);
-
     $json = json_decode($response, true);
-    $venue = $json['response']['venues'][0];
-    if ($rquestedData != 'all') {
-        echo $venue[$rquestedData];
+
+    if (isset($json['response']['venues'][0])) {
+        $venue = $json['response']['venues'][0];
+        if ($requestedData != 'all') {
+            echo $venue[$requestedData];
+        } else {
+            return $venue;
+        }
     } else {
-        return $venue;
+        return null;
     }
 }

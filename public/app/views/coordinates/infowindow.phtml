@@ -18,7 +18,9 @@
     <?php if (isset($venue['stats']['usersCount'])): ?>
         <p><?php echo 'Foursquare users: ' . $venue['stats']['usersCount']; ?></p>
     <?php endif; ?>
-    <p><a href="https://foursquare.com/v/<?php echo $venue['id'] ?>">foursquare</a></p>
+    <?php if(isset($venue['id'])): ?>
+        <p><a href="https://foursquare.com/v/<?php echo $venue['id'] ?>">foursquare</a></p>
+    <?php endif; ?>
     <?php if (isset($venue['url'])): ?>
         <p><a href="<?php echo $venue['url'] ?>"><?php echo $venue['url'] ?></a></p>
     <?php endif; ?>
