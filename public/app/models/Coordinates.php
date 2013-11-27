@@ -1,12 +1,12 @@
 <?php
 class Coordinates extends Model
 {
-    function getData($venuesCount)
+    function getTopCoordinates($venuesCount, $maxTopVenues)
     {
         if ($venuesCount == 'all') {
             $limit = '';
-        } elseif ($venuesCount < 10) {
-            $limit = ' LIMIT 0, ' . 10;
+        } elseif ($venuesCount < $maxTopVenues) {
+            $limit = ' LIMIT 0, ' . $maxTopVenues;
         } else {
             $limit = ' LIMIT 0, ' . $venuesCount;
         }
@@ -15,8 +15,8 @@ class Coordinates extends Model
         $key = 1;
         foreach ($result as $row) {
             $points = explode(',', $row['coordinates']);
-            $coordinates[$key] = array('0' => $points[0],
-                                       '1' => $points[1],
+            $coordinates[$key] = array('0' => substr($points[0], 0, -3),
+                                       '1' => substr($points[1], 0, -3),
                                        '2' => $row['id'],
                                        '3' => $row['count']
                                       );

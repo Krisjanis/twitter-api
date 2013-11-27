@@ -10,7 +10,9 @@ $(document).ready(function() {
                     pointLng: thisPoint.attr('lng')
                 },
                 success: function(data) {
-                    thisPoint.html(data);
+                    if (data) {
+                        thisPoint.html(data);
+                    }
                 }
             });
         });

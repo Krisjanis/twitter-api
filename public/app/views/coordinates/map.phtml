@@ -56,35 +56,53 @@
                     infowindow.open(map, marker);
                 },
                 success: function(data) {
-                    map.setZoom(10);
+                    map.setZoom(17);
                     infowindow.setContent(data);
                     infowindow.open(map, marker);
                 }
             });
         }
+
+        function showAllMarkers() {
+            var LatLngList = new Array (
+                    <?php foreach ($coordinates as $coordinate): ?>
+                        new google.maps.LatLng(<?php echo $coordinate[0] . ',' . $coordinate[1]; ?>),
+                    <?php endforeach; ?>
+                    new google.maps.LatLng(coordinates[1][0], coordinates[1][1])
+                ),
+                bounds = new google.maps.LatLngBounds ();
+            for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+              bounds.extend (LatLngList[i]);
+            }
+            map.fitBounds(bounds);
+        }
+
+        showAllMarkers();
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <div class="uk-grid">
     <div id="menu"class="map-menu uk-width-2-10">
-        <?php for($i=1; $i<=10; $i++): ?>
+        <?php for ($i = 1; $i <= $maxTopVenues; $i ++): ?>
             <?php $nameUrl = BASE_URL . 'coordinates/infowindow/?data=name'; ?>
             <?php $lat = $coordinates[$i][0]; ?>
             <?php $lng = $coordinates[$i][1]; ?>
             <div>
                 <span class="uk-badge uk-badge-notification"><?php echo $i; ?></span>
-                <a class="top-cordinates" id="marker<?php echo $coordinates[$i][2] ?>" name="<?php echo $nameUrl ?>" lat="<?php echo $lat ?>" lng="<?php echo $lng ?>"></a>
+                <a class="top-cordinates" id="marker<?php echo $coordinates[$i][2] ?>" name="<?php echo $nameUrl ?>" lat="<?php echo $lat ?>" lng="<?php echo $lng ?>">
+                    <?php echo $lat . ', ' . $lng; ?>
+                </a>
             </div>
         <?php endfor; ?>
     </div>
     <div class="uk-width-8-10">
         <nav class="uk-navbar">
             <ul class="uk-navbar-nav">
-                <li><a href="<?php echo BASE_URL . 'coordinates/index/' ?>?venues=10">Top 10</a></li>
-                <li><a href="<?php echo BASE_URL . 'coordinates/index/' ?>?venues=100">Top 100</a></li>
-                <li><a href="<?php echo BASE_URL . 'coordinates/index/' ?>?venues=1000">Top 1000</a></li>
-                <li><a href="<?php echo BASE_URL . 'coordinates/index/' ?>?venues=10000">Top 10000</a></li>
-                <li><a href="<?php echo BASE_URL . 'coordinates/index/' ?>?venues=all">Visas</a></li>
+                <li><a href="<?php echo BASE_URL . 'coordinates/' ?>?venues=10">Top 15</a></li>
+                <li><a href="<?php echo BASE_URL . 'coordinates/' ?>?venues=100">Top 100</a></li>
+                <li><a href="<?php echo BASE_URL . 'coordinates/' ?>?venues=1000">Top 1000</a></li>
+                <li><a href="<?php echo BASE_URL . 'coordinates/' ?>?venues=10000">Top 10000</a></li>
+                <li><a href="<?php echo BASE_URL . 'coordinates/' ?>?venues=all">Visas vietas</a></li>
             </ul>
         </nav>
         <div id="map-canvas" ></div>
