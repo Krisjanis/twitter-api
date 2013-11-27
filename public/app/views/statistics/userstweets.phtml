@@ -61,7 +61,10 @@
 
 <script>
     var isValidForm = function(){
-        if ($('#from').val() > $('#to').val()) return false;
+        var from = $('#from').val();
+        var to = $('#to').val();
+        if (from > to) return false;
+        if (from < 0 || to < 0) return false;
         return true;
     };
 </script>
