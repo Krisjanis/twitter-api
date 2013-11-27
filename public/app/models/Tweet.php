@@ -21,4 +21,20 @@ class Tweet extends Model
         $result = $this->SELECT("DATE( FROM_UNIXTIME(created_at)) AS date, COUNT(id) AS count", "'count' IS NOT NULL group by 1");
         return $result;
     }
+
+    function getTweetsByHour()
+    {
+        $result = $this->simple_query("SELECT DATE( FROM_UNIXTIME( created_at ) ) AS date, HOUR( FROM_UNIXTIME( created_at ) ) AS hour , COUNT( id ) AS count
+                                        FROM tweets
+                                        GROUP BY 1 , 2");
+        return $result;
+    }
+
+    function getDates()
+    {
+        $result = $this->simple_query("SELECT DATE( FROM_UNIXTIME( created_at ) ) AS date
+                                        FROM tweets
+                                        GROUP BY 1");
+        return $result;
+    }
 }

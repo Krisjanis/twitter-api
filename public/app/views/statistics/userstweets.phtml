@@ -1,0 +1,67 @@
+<script type="text/javascript">
+    $(function ()
+    {
+        var dataSource = [
+        <?php foreach ($counts as $count):?>
+            { tweets: <?php echo $count["tweets"]; ?>, users: <?php echo $count["users"] ?>},
+            <?php endforeach; ?>
+        ];
+
+        $("#chartContainer").dxChart({
+            dataSource: dataSource,
+            commonSeriesSettings: {
+                argumentField: "tweets"
+            },
+            series: [
+                { valueField: "users", name: "x - Tvīti, y - Lietotāji" }
+            ],
+            argumentAxis:{
+                grid:{
+                    visible: true
+                }
+            },
+            tooltip:{
+                enabled: true
+            },
+        <?php if ($isPost): ?>
+            title: "Lietotāju skaits tvītu skaitam <?php echo $from; ?> - <?php echo $to; ?>",
+            <?php else: ?>
+            title: "Lietotāju skaits tvītu skaitam",
+            <?php endif; ?>
+            legend: {
+                verticalAlignment: "bottom",
+                horizontalAlignment: "center"
+            },
+            commonPaneSettings: {
+                border:{
+                    visible: true,
+                    right: false
+                }
+            }
+        });
+    });
+</script>
+<div class="content">
+    <div class="">
+        <form action="" method="post" onsubmit="return isValidForm()">
+            <h3>Izvēlies tvītu skaita ierobežojumu</h3>
+            <input type="text" name="from" id="from" required>
+            <span>līdz</span>
+            <input type="text" name="to" id="to" required>
+            <button type="submit" id="show">Parādīt</button>
+        </form>
+
+    </div>
+    <div class="pane">
+        <div class="long-title"><h3></h3></div>
+        <div id="chartContainer" style="width: 100%; height: 440px;"></div>
+        <div class="credits"></div>
+    </div>
+</div>
+
+<script>
+    var isValidForm = function(){
+        if ($('#from').val() > $('#to').val()) return false;
+        return true;
+    };
+</script>
