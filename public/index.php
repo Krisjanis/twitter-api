@@ -63,7 +63,10 @@ function getdbh() {
     try {
       require('config.php');
       //$GLOBALS['dbh'] = new PDO('sqlite:'.APP_PATH.'db/kissmvc.sqlite');
-      $GLOBALS['dbh'] = new PDO('mysql:host=' . $CONFIG['db_host'] . ';dbname=' . $CONFIG['db_table'], $CONFIG['username'], $CONFIG['password']);
+        $options = array(
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+        );
+      $GLOBALS['dbh'] = new PDO('mysql:host=' . $CONFIG['db_host'] . ';dbname=' . $CONFIG['db_table'], $CONFIG['username'], $CONFIG['password'], $options);
 
     } catch (PDOException $e) {
       die('Connection failed: '.$e->getMessage());
@@ -79,7 +82,7 @@ function __autoload($classname) {
   if ($a >= 'A' && $a <='Z')
     require_once(APP_PATH.'models/'.$classname.'.php');
   else
-    require_once(APP_PATH.'helpers/'.$classname.'.php');  
+    require_once(APP_PATH.'helpers/'.$classname.'.php');
 }
 
 //===============================================
