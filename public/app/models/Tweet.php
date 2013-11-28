@@ -54,4 +54,14 @@ class Tweet extends Model
                                         LIMIT 0, " . $count);
         return $result;
     }
+
+    function getSource($count)
+    {
+        $result = $this->simple_query("SELECT source, count( id ) AS count
+                                        FROM tweets
+                                        GROUP BY source
+                                        ORDER BY count DESC
+                                        LIMIT 0, " . $count);
+        return $result;
+    }
 }

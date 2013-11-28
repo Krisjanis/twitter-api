@@ -15,6 +15,9 @@ function _index () {
     $top20retweets = $tweets->getMostRetweeted(20);
     $content->set('top20retweets', $top20retweets);
 
+    $sources = $tweets->getSource(50);
+    $content->set('sources', $sources);
+
     $pageTitle = "Topi";
     $view->set('pageTitle', $pageTitle);
 
