@@ -2,7 +2,7 @@
     <div class="uk-container uk-container-center">
         <h2 class="uk-h1">Lietotāji, kas pieminēti visvairāk</h2>
         <table class="uk-table uk-table-hover">
-            <?php $counter = 1; $counter2 = 1; ?>
+            <?php $counter = 1; ?>
             <thead>
             <tr>
                 <th>Vieta</th>
@@ -17,7 +17,7 @@
                 <td class="uk-width-4-10"><?php echo $user["screen_name"] ?></td>
                 <td class="uk-width-5-10"><?php echo $user["count"] ?></td>
             </tr>
-                <?php endforeach; ?>
+                <?php endforeach; $counter = 1;?>
             </tbody>
         </table>
     </div>
@@ -38,11 +38,35 @@
             <tbody>
             <?php foreach ($hashtags as $hashtag): ?>
                 <tr>
-                    <td class="uk-width-1-10"><?php echo $counter2; $counter2++; ?>.</td>
+                    <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
                     <td class="uk-width-4-10"><?php echo $hashtag["hashtag"] ?></td>
                     <td class="uk-width-5-10"><?php echo $hashtag["count"] ?></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endforeach; $counter = 1;?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="content-3">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Populārākie retvīti</h2>
+        <table class="uk-table uk-width-1-2 uk-table-hover">
+            <thead>
+            <tr>
+                <th>Vieta</th>
+                <th>Ziņa</th>
+                <th>Skaits</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($top20retweets as $retweet): ?>
+            <tr>
+                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                <td class="uk-width-4-10"><?php echo $retweet["text"] ?></td>
+                <td class="uk-width-5-10"><?php echo $retweet["count"] ?></td>
+            </tr>
+                <?php endforeach; $counter = 1; ?>
             </tbody>
         </table>
     </div>

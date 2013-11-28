@@ -11,6 +11,10 @@ function _index () {
     $top20users = $users->getTopUserMentions(20);
     $content->set('users', $top20users);
 
+    $tweets = new Tweet();
+    $top20retweets = $tweets->getMostRetweeted(20);
+    $content->set('top20retweets', $top20retweets);
+
     $pageTitle = "Topi";
     $view->set('pageTitle', $pageTitle);
 

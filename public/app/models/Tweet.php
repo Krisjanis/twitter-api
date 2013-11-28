@@ -43,4 +43,15 @@ class Tweet extends Model
         $result = $this->select("DATE(FROM_UNIXTIME(created_at)) AS date , COUNT(id) AS count", "'count' IS NOT NULL GROUP BY 1 ORDER BY count DESC LIMIT 1");
         return $result[0];
     }
+
+    function getMostRetweeted($count)
+    {
+        $result = $this->simple_query("SELECT tweet_id, count( retweets.user_id ) AS count, text
+                                        FROM retweets
+                                        JOIN tweets ON tweet_id = tweets.id
+                                        GROUP BY 1
+                                        ORDER BY count DESC
+                                        LIMIT 0, " . $count);
+        return $result;
+    }
 }
