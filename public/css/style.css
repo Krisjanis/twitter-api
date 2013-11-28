@@ -45,12 +45,16 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 .uk-h1 { font-size:50px; padding-bottom:10px; }
 
 /* Map ============================= */
-.top-cordinates { cursor:pointer; padding-left:5px }
-.map-menu div { margin-bottom:10px; }
-#map-canvas { height:600px; }
+.top-cordinates { cursor:pointer; padding-left:5px; display:inline !important; }
+.secondary-menu { background:transparent; position:absolute; left:50%; padding:0 !important; }
+.uk-navbar.map-menu { padding:0; border-radius:0 0 4px 4px; background-color:#e8e8e8; }
+.secondary-menu .uk-navbar li { display:block; }
+.secondary-menu .uk-navbar li li { padding-bottom:5px; }
+.secondary-menu .uk-dropdown .uk-nav { margin:0; }
+#map-canvas { height:100%; }
 #map-canvas img.category { max-height:25px; }
 #map-canvas h2 { line-height:22px; margin:0; }
 #map-canvas p, #map-canvas a { line-height:10px; }
 #map-canvas img { margin-right:10px; }
 #map-canvas .loading-gif { margin:0; }
-/* Map end ========================= */
+/* ================================= */

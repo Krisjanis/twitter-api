@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 //===============================================
 // Madatory KISSMVC Settings (please configure)
 //===============================================
-define('WEB_FOLDER','/public/');
+define('WEB_FOLDER','/tvitstat/twitter-api/public/');
 define('BASE_URL','http://'.$_SERVER['HTTP_HOST'].WEB_FOLDER);
 define('APP_PATH','app/');
 define('CSS_PATH',BASE_URL.'css/');

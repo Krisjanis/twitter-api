@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if ($('.map-menu').length) {
+    if ($('.secondary-menu').length) {
         $('.top-cordinates').each(function() {
             var thisPoint = $(this);
             $.ajax({
@@ -17,4 +17,19 @@ $(document).ready(function() {
             });
         });
     }
+
+    secondaryMenuPosition();
+});
+
+function secondaryMenuPosition() {
+    var nav = jQuery('nav .uk-container.uk-container-center'),
+        secondaryMenu = jQuery('.secondary-menu');
+    secondaryMenu.css({
+        'top': nav.height() + 2,
+        'margin-left': '-' + (secondaryMenu.width() / 2)
+    });
+}
+
+$(window).resize(function() {
+    secondaryMenuPosition();
 });

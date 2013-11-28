@@ -1,5 +1,4 @@
 <?php
-
 function _index() {
     $maxTopVenues = 15;
     $venuesCount = (isset($_GET['venues']) ? $_GET['venues'] : 15);
@@ -8,7 +7,6 @@ function _index() {
 
     $coordinates = new Coordinates();
     $coordinatesData = $coordinates->getTopCoordinates($venuesCount, $maxTopVenues);
-
     $pageTitle = "Top vietas";
 
     $content->set('maxTopVenues', $maxTopVenues);

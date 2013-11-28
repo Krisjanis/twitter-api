@@ -15,8 +15,8 @@ class Coordinates extends Model
         $key = 1;
         foreach ($result as $row) {
             $points = explode(',', $row['coordinates']);
-            $coordinates[$key] = array('0' => substr($points[0], 0, -3),
-                                       '1' => substr($points[1], 0, -3),
+            $coordinates[$key] = array('0' => $points[0],
+                                       '1' => $points[1],
                                        '2' => $row['id'],
                                        '3' => $row['count']
                                       );
