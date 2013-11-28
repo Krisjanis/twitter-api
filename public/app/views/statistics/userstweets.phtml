@@ -60,8 +60,8 @@
 
         <script>
             var isValidForm = function(){
-                var from = $('#from').val();
-                var to = $('#to').val();
+                var from = parseInt($('#from').val());
+                var to = parseInt($('#to').val());
                 if (from > to) return false;
                 if (from < 0 || to < 0) return false;
                 return true;
