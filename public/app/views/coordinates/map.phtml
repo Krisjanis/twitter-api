@@ -8,34 +8,54 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             },
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
+            imagePath = '<?php echo IMG_PATH ?>',
+            baseUrl = '<?php echo BASE_URL ?>',
             icon = {
-                url: '<?php echo IMG_PATH ?>marker.png',
+                url: imagePath + 'marker.png',
                 anchor: new google.maps.Point(16, 16)
             },
             infowindow = new google.maps.InfoWindow({maxWidth:300}),
-            markers = [];
+            markers = [],
+            mcOptions = { maxZoom: 21,
+                          styles: [{ height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 }]
+                        };
 
+        /* Create all markers */
         <?php for ($i = 1; $i <= $displayVenues; $i++): ?>
             <?php $id = $coordinates[$i][2]; ?>
-            var data = coordinates[<?php echo $i; ?>];
-                marker<?php echo $id; ?> = new google.maps.Marker({
-                    position: new google.maps.LatLng(data[0], data[1]),
-                    map: map,
-                    icon: icon,
-                    pointid: data[2],
-                    pointcount: data[3],
-                    pointlat: data[0],
-                    pointlng: data[1]
-                });
-                addMarkerListener(marker<?php echo $id; ?>);
-            markers.push(marker<?php echo $id; ?>);
+            marker<?php echo $id; ?> = new google.maps.Marker(getMarkerData(coordinates[<?php echo $i; ?>]));
+            addMarker(marker<?php echo $id; ?>)
         <?php endfor; ?>
 
+        /* Get marker data */
+        function getMarkerData(data) {
+            return { position: new google.maps.LatLng(data[0], data[1]),
+                     map: map,
+                     icon: icon,
+                     pointid: data[2],
+                     pointcount: data[3],
+                     pointlat: data[0],
+                     pointlng: data[1]
+                   }
+        }
+
+        /* Add marker listener and push into markers array */
+        function addMarker(marker) {
+            addMarkerListener(marker);
+            markers.push(marker);
+        }
+
+        /* Show infowindow if click on names from menu */
         jQuery('.secondary-menu a.top-cordinates').click(function () {
             var markerId = jQuery(this).attr('id');
             getInfoWindow(eval(markerId));
         });
 
+        /* Creats listener that shows infowindow if click on marker */
         function addMarkerListener(marker) {
             google.maps.event.addListener(marker, 'click', function() {
                 infowindow.close();
@@ -43,9 +63,10 @@
             });
         }
 
+        /* Returns infowindow content for given marker */
         function getInfoWindow(marker) {
             jQuery.ajax({
-                url: '<?php echo BASE_URL ?>coordinates/infowindow',
+                url: baseUrl + 'coordinates/infowindow',
                 type: 'POST',
                 data: {
                     pointCount: marker.pointcount,
@@ -54,33 +75,30 @@
                 },
                 beforeSend: function() {
                     map.setCenter(marker.position);
-                    infowindow.setContent('<img class="loading-gif" src="<?php echo IMG_PATH ?>loader.gif"/>');
+                    infowindow.setContent('<img class="loading-gif" src="' + imagePath + 'loader.gif"/>');
                     infowindow.open(map, marker);
                 },
                 success: function(data) {
-                    map.setZoom(17);
+                    if (map.getZoom() < 16) {
+                        map.setZoom(16);
+                    }
                     infowindow.setContent(data);
                     infowindow.open(map, marker);
                 }
             });
         }
 
+        /* On page load shows all markers in window */
         function showAllMarkers() {
-            var LatLngList = new Array (
-                    <?php foreach ($coordinates as $coordinate): ?>
-                        new google.maps.LatLng(<?php echo $coordinate[0] . ',' . $coordinate[1]; ?>),
-                    <?php endforeach; ?>
-                    new google.maps.LatLng(coordinates[1][0], coordinates[1][1])
-                ),
-                bounds = new google.maps.LatLngBounds ();
-            for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
-              bounds.extend (LatLngList[i]);
+            var bounds = new google.maps.LatLngBounds();
+            for (var i = 0, LtLgLen = markers.length; i < LtLgLen; i++) {
+              bounds.extend (markers[i].position);
             }
             map.fitBounds(bounds);
         }
 
         showAllMarkers();
-        new MarkerClusterer(map, markers);
+        new MarkerClusterer(map, markers, mcOptions);
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>

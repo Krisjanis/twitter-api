@@ -53,7 +53,7 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 .secondary-menu .uk-dropdown .uk-nav { margin:0; }
 #map-canvas { height:100%; }
 #map-canvas img.category { max-height:25px; }
-#map-canvas h2 { line-height:22px; margin:0; }
+#map-canvas h2 { line-height:22px; margin:0; text-align:left; }
 #map-canvas p, #map-canvas a { line-height:10px; }
 #map-canvas img { margin-right:10px; }
 #map-canvas .loading-gif { margin:0; }
