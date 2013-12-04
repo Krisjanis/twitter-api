@@ -30,6 +30,14 @@ class Tweet extends Model
         return $result;
     }
 
+    function getTweetsByDate()
+    {
+        $result = $this->simple_query("SELECT created_at as date, COUNT(id) AS count
+                                       FROM tweets
+                                       GROUP BY 1");
+        return $result;
+    }
+
     function getDates()
     {
         $result = $this->simple_query("SELECT DATE( FROM_UNIXTIME( created_at ) ) AS date

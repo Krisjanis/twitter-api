@@ -1,0 +1,330 @@
+@import "bar.css";
+
+/*main layout*/
+
+.TimeChart-container.TC-flat .TimeChart-background {
+    background: #FFF;
+}
+.TimeChart-container.TC-gradient .TimeChart-background {
+    background: #fafafa; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fafafa 0%, #bababa 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#bababa)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fafafa 0%,#bababa 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fafafa 0%,#bababa 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fafafa 0%,#bababa 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fafafa 0%,#bababa 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#bababa',GradientType=0 ); /* IE6-9 */
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.TimeChart-container.TC-round .TimeChart-background {
+	border:1px solid #DDD;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+	background: #FFF;
+}
+
+.TC-valueAxisInside .TimeChart-valueAxis {
+    background-color: rgba(255,255,255,0.7);
+}
+.TC-valueAxisInside .TimeChart-valueAxis.TC-gradient {
+    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:    2px 2px 4px rgba(0, 0, 0, 0.5);
+    box-shadow:         2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.TimeChart-container .TC-valueAxisOutside .TimeChart-valueAxis {
+    /*Empty style */
+}
+
+.TimeChart-container.TC-gradient .TimeChart-timeAxis {
+    background: #cacaca; /* Old browsers */
+    background: -moz-linear-gradient(top,  #cacaca 0%, #989898 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cacaca), color-stop(100%,#989898)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #cacaca 0%,#989898 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #cacaca 0%,#989898 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #cacaca 0%,#989898 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #cacaca 0%,#989898 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cacaca', endColorstr='#989898',GradientType=0 ); /* IE6-9 */
+
+    border-top:1px solid #c9c9c9;
+
+    -webkit-box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:    0 -2px 4px -1px rgba(0, 0, 0, 0.5);
+    box-shadow:         0 -2px 4px -1px rgba(0, 0, 0, 0.5);
+
+    -webkit-border-bottom-right-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.TC-valueAxisInside .TimeChart-timeAxis.TC-gradient  {
+    -webkit-box-shadow: 0 -2px 4px -1px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:    0 -2px 4px -1px rgba(0, 0, 0, 0.5);
+    box-shadow:         0 -2px 4px -1px rgba(0, 0, 0, 0.5);
+}
+
+.TimeChart-container.TC-gradient .TimeChart-border {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.8);
+    -moz-box-shadow:    inset 0px 0px 8px rgba(0, 0, 0, 0.8);
+    box-shadow:         inset 0px 0px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Hack for IE 10 */
+.TimeChart-container.TC-flat .TimeChart-border {
+    box-shadow:         none;
+}
+
+/* bar hover */
+.TC-bar-hover-right {
+    left:30px;
+    top:10px;
+}
+.TC-bar-hover-center {
+    left:300px;
+    top:10px;
+}
+.TC-bar-hover-left {
+    left:550px;
+    top:10px;
+}
+.TC-bar-hover-right, .TC-bar-hover-left, .TC-bar-hover-center {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    color:#333;
+    background:rgba(255,255,255,.95);
+    position:absolute;
+    padding:5px 0;
+}
+.TC-gradient .TC-bar-hover-right, .TC-gradient .TC-bar-hover-left, .TC-gradient .TC-bar-hover-center {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.TC-gradient .TC-bar-hover-right, .TC-gradient .TC-bar-hover-left {
+	-webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:    0px 0px 5px rgba(0, 0, 0, 0.5);
+    box-shadow:         0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+.TC-flat .TC-bar-hover-right, .TC-flat .TC-bar-hover-left {
+    border:1px solid #DDD;
+}
+.TC-bar-hover-center {
+    background:rgba(45,136,181,.5);
+    -webkit-box-shadow: none;
+    -moz-box-shadow:    none;
+    box-shadow:         none;
+}
+.TC-bar-hover-right em, .TC-bar-hover-left em {
+    content: "";
+    width:0;
+    height:0;
+    position:absolute;
+}
+.TC-bar-hover-right em {
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right:6px solid #FFF;
+    left:-6px;
+    top:50%;
+    margin-top:-6px;
+}
+.TC-bar-hover-left em {
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left:6px solid #FFF;
+    right:-6px;
+    top:50%;
+    margin-top:-6px;
+}
+.TC-flat .TC-bar-hover-right em {
+    border-right:6px solid #DDD;
+}
+.TC-flat .TC-bar-hover-left em {
+    border-left:6px solid #DDD;
+}
+.TC-bar-hover-left div, .TC-bar-hover-right div {
+    float:left;
+    padding:5px 8px;
+    border-right:1px solid #EFEFEF;
+    border-left:1px solid #EFEFEF;
+    margin-left:-1px;
+}
+.TC-bar-hover-center div {
+    padding:0 6px;
+}
+.TC-bar-hover-left div:first-child, .TC-bar-hover-right div:first-child, .TC-bar-hover-center div:first-child {
+    border-left:none;
+}
+.TC-bar-hover-left div:last-child, .TC-bar-hover-right div:last-child, .TC-bar-hover-center div:last-child {
+    border-right:none;
+}
+.TC-bar-hover-left p, .TC-bar-hover-right p, .TC-bar-hover-center p {
+    padding:0;
+    margin:0;
+    font-size:13px;
+}
+.TC-bar-hover-center p {
+    display:none;
+}
+.TC-bar-hover-left strong, .TC-bar-hover-right strong, .TC-bar-hover-center strong {
+    display:block;
+    font-weight:bold;
+    color:#39c;
+    font-size:28px;
+    line-height:28px;
+}
+.TC-bar-hover-center strong {
+    color:#333;
+}
+.TC-gradient .TC-bar-hover-center strong {
+    text-shadow:0 1px 0 rgba(255,255,255,.5);
+}
+.TC-bar-hover-left small, .TC-bar-hover-right small, .TC-bar-hover-center small {
+    font-size:12px;
+    color:#666;
+}
+.TC-bar-hover-center small {
+    color:#FFF;
+}
+
+/* resizer */
+.TimeChart-resizer {
+    position: absolute;
+    display:none;
+    height: 1px;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    background: #FFF;
+	border-bottom:1px dotted #CCC;
+	border-top:1px dotted #CCC;
+}
+.TC-gradient .TimeChart-resizer {
+    height: 8px;
+    background: url(vertical-resizer.png) top center;
+	border-bottom:none;
+	border-top:none;
+}
+
+
+/* info popup */
+.TC-info-right {
+                left:30px;
+                top:10px;
+}
+.TC-info-center {
+                left:550px;
+                top:10px;
+}
+.TC-info-left {
+                left:850px;
+                top:10px;
+}
+.TC-info-right, .TC-info-left, .TC-info-center {
+                position:absolute;
+                background:#efefef;
+                -webkit-box-shadow: 0px 1px 7px rgba(0,0,0,.6);
+                -moz-box-shadow:    0px 1px 7px rgba(0,0,0,.6);
+                box-shadow:         0px 1px 7px rgba(0,0,0,.6);
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                border-radius: 6px;
+                border-bottom:1px solid #FFF;
+                font-size:13px;
+                color:#333;
+                font-family:Arial, Helvetica, sans-serif;
+                padding-bottom:5px;
+                z-index:1;
+}
+.TC-info-right strong, .TC-info-left strong, .TC-info-center strong {
+                padding:7px 10px;
+                background:#FFF;
+                display:block;
+                border-bottom:1px solid #DDD;
+                -webkit-border-top-left-radius: 6px;
+                -webkit-border-top-right-radius: 6px;
+                -moz-border-radius-topleft: 6px;
+                -moz-border-radius-topright: 6px;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                font-size:15px;
+                color:#000;
+                font-weight:normal;
+}
+.TC-info-right strong small, .TC-info-left strong small, .TC-info-center strong small {
+                display:inline-block;
+                padding-left:5px;
+                font-size:12px; 
+                color:#666;
+}
+.TC-info-left h3, .TC-info-right h3, .TC-info-center h3 {
+                padding:6px 7px 5px 7px;
+                margin:0;
+                font-size:12px;
+                font-weight:normal;
+                background-color:rgba(0,0,0,.05);
+                border-top:1px solid rgba(0,0,0,.1);        
+}
+.TC-info-left table, .TC-info-right table, .TC-info-center table {
+                padding:0;
+                margin:0;
+                font-size:12px; 
+                width:100%;
+}
+.TC-info-left tr, .TC-info-right tr, .TC-info-center tr {
+                padding:0;
+                margin:0;            
+}
+.TC-info-left tr:nth-child(even), .TC-info-right tr:nth-child(even), .TC-info-center tr:nth-child(even) {
+                background-color:rgba(255,255,255,.5);
+}
+.TC-info-left td, .TC-info-right td, .TC-info-center td {
+                padding:3px 5px;
+                color:#666;         
+                text-align:right;
+}
+.TC-info-left td:nth-child(even), .TC-info-right td:nth-child(even), .TC-info-center td:nth-child(even) {
+                padding-right:1px;          
+}
+.TC-info-left td:nth-child(odd), .TC-info-right td:nth-child(odd), .TC-info-center td:nth-child(odd) {
+                padding-left:1px;            
+}
+.TC-info-left td:first-child, .TC-info-right td:first-child, .TC-info-center td:first-child {
+                padding-left:5px;            
+                text-align:left;
+}
+.TC-info-left td:last-child, .TC-info-right td:last-child, .TC-info-center td:last-child {
+                padding-right:5px;          
+}
+.TC-info-right em, .TC-info-left em {
+                content: "";
+                width:0;
+                height:0;
+                position:absolute;
+}
+.TC-info-right em {
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-right:6px solid #FFF;
+                left:-6px;
+                top:16px;
+                margin-top:-6px;
+}
+.TC-info-left em {
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-left:6px solid #FFF;
+                right:-6px;
+                top:16px;
+                margin-top:-6px;
+}

@@ -1,0 +1,31 @@
+<div class="content-1">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Statistika laika periodā</h2>
+        <div id="chartDiv" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    settings = {
+        container: $("#chartDiv")[0],
+        data: {
+            units:["s"],
+            dataFunction: function(from, to, step, success, fail){
+                jQuery.ajax({
+                    url:'<?php echo BASE_URL ?>statistics/gettweetcount',
+                    success: success,
+                    error: fail});
+            }
+        },
+        series: [{
+            type: "line",
+            style:{
+                 fillColor: "#F6F4E7",
+                 lineColor: "#ABC2AB"
+            }
+        }]
+    };
+
+    $(document).ready(function() {
+        new TimeChart(settings);
+    });
+</script>
