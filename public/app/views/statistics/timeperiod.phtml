@@ -8,10 +8,10 @@
     settings = {
         container: $("#chartDiv")[0],
         data: {
-            units:["s"],
+            units:['d', 'h', 'm', 's'],
             dataFunction: function(from, to, step, success, fail){
                 jQuery.ajax({
-                    url:'<?php echo BASE_URL ?>statistics/gettweetcount',
+                    url:'<?php echo BASE_URL ?>statistics/gettweetcount/?step=' + step,
                     success: success,
                     error: fail});
             }

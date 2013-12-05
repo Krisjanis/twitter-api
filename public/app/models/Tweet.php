@@ -30,14 +30,6 @@ class Tweet extends Model
         return $result;
     }
 
-    function getTweetsByDate()
-    {
-        $result = $this->simple_query("SELECT created_at as date, COUNT(id) AS count
-                                       FROM tweets
-                                       GROUP BY 1");
-        return $result;
-    }
-
     function getDates()
     {
         $result = $this->simple_query("SELECT DATE( FROM_UNIXTIME( created_at ) ) AS date
@@ -70,6 +62,28 @@ class Tweet extends Model
                                         GROUP BY source
                                         ORDER BY count DESC
                                         LIMIT 0, " . $count);
+        return $result;
+    }
+
+    function getTweetsByTimePeriod($period)
+    {
+        switch ($period) {
+            case 'd':
+                $select = 'DATE(FROM_UNIXTIME(created_at )) AS date';
+                break;
+            case 'h':
+                $select = 'DATE_FORMAT(FROM_UNIXTIME(created_at), "%Y-%m-%d %H:00:00") AS date';
+                break;
+            case 'm':
+                $select = 'DATE_FORMAT(FROM_UNIXTIME(created_at), "%Y-%m-%d %H:%i:00") AS date';
+                break;
+            case 's':
+                $select = 'DATE_FORMAT(FROM_UNIXTIME(created_at), "%Y-%m-%d %H:%i:00") AS date';
+                break;
+        }
+        $result = $this->simple_query("SELECT " . $select . ", COUNT(id) AS count
+                                       FROM tweets
+                                       GROUP BY 1");
         return $result;
     }
 }
