@@ -2,7 +2,9 @@
 function _gettweetcount () {
     $tweets = new Tweet();
     $step = $_GET['step'];
-    $tweetsCount = $tweets->getTweetsByTimePeriod($step);
+    $from = $_GET['from'];
+    $to = $_GET['to'];
+    $tweetsCount = $tweets->getTweetsByTimePeriod($step, $from, $to);
 
     $date = new DateTime();
     $minDate = $date->getTimestamp() * 1000;
@@ -17,8 +19,8 @@ function _gettweetcount () {
     }
 
     print_r(json_encode(array('values' => $values,
-                              'from' => $minDate,
-                              'to' => $maxDate,
-                              'unit' => $step
-                              )));
+        'from' => $minDate,
+        'to' => $maxDate,
+        'unit' => $step
+    )));
 }

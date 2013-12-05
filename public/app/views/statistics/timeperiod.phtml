@@ -8,10 +8,10 @@
     settings = {
         container: $("#chartDiv")[0],
         data: {
-            units:['d', 'h', 'm', 's'],
+            units:['d', 'h', 'm'],
             dataFunction: function(from, to, step, success, fail){
                 jQuery.ajax({
-                    url:'<?php echo BASE_URL ?>statistics/gettweetcount/?step=' + step,
+                    url:'<?php echo BASE_URL ?>statistics/gettweetcount/?step=' + step + '&from=' + from + '&to=' + to,
                     success: success,
                     error: fail});
             }
@@ -19,8 +19,8 @@
         series: [{
             type: "line",
             style:{
-                 fillColor: "#F6F4E7",
-                 lineColor: "#ABC2AB"
+                fillColor: "#F6F4E7",
+                lineColor: "#ABC2AB"
             }
         }]
     };

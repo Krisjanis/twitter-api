@@ -65,7 +65,7 @@ class Tweet extends Model
         return $result;
     }
 
-    function getTweetsByTimePeriod($period)
+    function getTweetsByTimePeriod($period, $from, $to)
     {
         switch ($period) {
             case 'd':
@@ -77,13 +77,12 @@ class Tweet extends Model
             case 'm':
                 $select = 'DATE_FORMAT(FROM_UNIXTIME(created_at), "%Y-%m-%d %H:%i:00") AS date';
                 break;
-            case 's':
-                $select = 'DATE_FORMAT(FROM_UNIXTIME(created_at), "%Y-%m-%d %H:%i:00") AS date';
-                break;
         }
-        $result = $this->simple_query("SELECT " . $select . ", COUNT(id) AS count
-                                       FROM tweets
-                                       GROUP BY 1");
+        $where = ' ';
+        if ($from != 'null' && $to != 'null') {
+            $where = ' WHERE created_at BETWEEN ' . $from / 1000 . ' AND ' . $to / 1000 . ' ';
+        }
+        $result = $this->simple_query("SELECT " . $select . ", COUNT(id) AS count FROM tweets" . $where . "GROUP BY 1");
         return $result;
     }
 }
