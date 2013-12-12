@@ -5,7 +5,7 @@
             <div class="top-words">
                 <span class="uk-text-info"><?php echo date($day['date']) ?></span>
                 <?php foreach (unserialize($day['words']) as $word => $count): ?>
-                    <span class="word count-<?php echo $count ?>"><?php echo $word ?></span>
+                    <span data-uk-tooltip title="<?php echo $count ?>" class="word"><?php echo $word ?></span>
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
