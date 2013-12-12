@@ -18,6 +18,10 @@
     <?php if (isset($venue['stats']['usersCount'])): ?>
         <p><?php echo 'Foursquare users: ' . $venue['stats']['usersCount']; ?></p>
     <?php endif; ?>
+    <?php if (isset($venue['venueId'])): ?>
+        <?php $venueName = (isset($venue['name']) ? $venue['name'] : $venue['latlng']); ?>
+        <p><a href="<?php echo BASE_URL ?>coordinates/venueinfo/?pointId=<?php echo $venue['venueId'] ?>&name=<?php echo $venueName ?>">Statistika par šo vietu</a></p>
+    <?php endif; ?>
     <?php if(isset($venue['id'])): ?>
         <p><a href="https://foursquare.com/v/<?php echo $venue['id'] ?>">foursquare</a></p>
     <?php endif; ?>

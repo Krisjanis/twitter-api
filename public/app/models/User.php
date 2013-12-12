@@ -46,4 +46,16 @@ class User extends Model
 
         return $result;
     }
+
+    function getTopUsersFromVenue($venueId, $limit) {
+        $result = $this->simple_query("SELECT user_id, screen_name, count(screen_name) as count
+                                       FROM has_coordinates
+                                       JOIN users ON user_id = id
+                                       WHERE coordinate_id = " . $venueId . "
+                                       GROUP BY 2
+                                       ORDER BY count DESC
+                                       LIMIT 0," . $limit );
+
+        return $result;
+    }
 }

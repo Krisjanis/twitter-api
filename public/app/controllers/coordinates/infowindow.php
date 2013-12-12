@@ -8,6 +8,8 @@ function _infowindow() {
     if ($requestedData != 'all') {
         echo $venue;
     } else {
+        $venue['latlng'] = $_POST['pointLat'] . ', ' . $_POST['pointLng'];
+        $venue['venueId'] = $_POST['pointId'];
         $view = new View (APP_PATH . 'views/coordinates/infowindow.phtml');
         $view->set('venue', $venue);
         $view->dump();

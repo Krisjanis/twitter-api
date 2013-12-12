@@ -69,6 +69,7 @@
                 url: baseUrl + 'coordinates/infowindow',
                 type: 'POST',
                 data: {
+                    pointId: marker.pointid,
                     pointCount: marker.pointcount,
                     pointLat: marker.pointlat,
                     pointLng: marker.pointlng

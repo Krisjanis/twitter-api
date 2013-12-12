@@ -85,4 +85,15 @@ class Tweet extends Model
         $result = $this->simple_query("SELECT " . $select . ", COUNT(id) AS count FROM tweets" . $where . "GROUP BY 1");
         return $result;
     }
+
+    function getTopTweetsFromVenue($venueId, $limit) {
+        $result = $this->simple_query("SELECT tweet_id, text, retweeted_count, has_coordinates.user_id AS user
+                                       FROM has_coordinates
+                                       JOIN tweets ON tweet_id = id
+                                       WHERE coordinate_id = " . $venueId . "
+                                       ORDER BY retweeted_count DESC
+                                       LIMIT 0, " . $limit);
+
+        return $result;
+    }
 }

@@ -1,0 +1,44 @@
+<div class="content-1">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1"><?php echo $pageTitle ?></h2>
+        <div class="uk-grid">
+            <div class="uk-width-3-10 uk-panel uk-panel-box">
+                <table class="uk-table">
+                    <thead>
+                        <tr>
+                            <th>Tvītu skaits</th>
+                            <th>Lietotājvārds</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($users as $user): ?>
+                            <tr class="<?php echo $user['user_id'] ?>">
+                                <td><?php echo $user['count'] ?></td>
+                                <?php $screenName = $user['screen_name'] ?>
+                                <td><a href="https://twitter.com/<?php echo $screenName ?>"><?php echo $screenName ?></a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="uk-width-6-10 uk-push-1-10 uk-panel uk-panel-box">
+                <table class="uk-table">
+                    <thead>
+                        <tr>
+                            <th>Retvīti</th>
+                            <th>Tvīts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($tweets as $tweet): ?>
+                            <tr class="<?php echo $tweet['user'] ?>">
+                                <td><?php echo $tweet['retweeted_count'] ?></td>
+                                <td><?php echo $tweet['text'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
