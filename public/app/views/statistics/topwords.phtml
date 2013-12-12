@@ -1,0 +1,13 @@
+<div class="content-1">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Biežāk lietotie vārdi</h2>
+        <?php foreach($words as $day): ?>
+            <div class="top-words">
+                <span class="uk-text-info"><?php echo date($day['date']) ?></span>
+                <?php foreach (unserialize($day['words']) as $word => $count): ?>
+                    <span class="word count-<?php echo $count ?>"><?php echo $word ?></span>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
