@@ -1,0 +1,21 @@
+<div class="content-1">
+    <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Izmantotās ierīces</h2>
+        <div id="chartDiv" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        chart = new PieChart({
+            container:$("#chartDiv")[0],
+            data:{rootId: "", dataFunction:dataFunction}
+        });
+    });
+
+    function dataFunction(id, limit, offset, success, fail){
+        jQuery.ajax({
+            url:'<?php echo BASE_URL ?>statistics/getdeviceinfo/?id=' + id + '&limit=' + limit + '&offset=' + offset,
+            success: success,
+            error: fail});
+    }
+</script>
