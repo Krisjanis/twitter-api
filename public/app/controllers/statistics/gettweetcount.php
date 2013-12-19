@@ -20,7 +20,7 @@ function _gettweetcount () {
 
     print_r(json_encode(array('values' => $values,
         'from' => $minDate,
-        'to' => $maxDate,
+        'to' => $maxDate + 1,
         'unit' => $step
     )));
 }

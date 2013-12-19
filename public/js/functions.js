@@ -19,6 +19,11 @@ $(document).ready(function() {
     }
 
     secondaryMenuPosition();
+    wordTop();
+});
+
+$(window).resize(function() {
+    secondaryMenuPosition();
 });
 
 function secondaryMenuPosition() {
@@ -30,6 +35,29 @@ function secondaryMenuPosition() {
     });
 }
 
-$(window).resize(function() {
-    secondaryMenuPosition();
-});
+function wordTop() {
+    var words = new Array(),
+        thisWord,
+        text,
+        priority,
+        minPriority = 14,
+        dayCount = jQuery('.top-words').length,
+        topWords = jQuery('.top-words .word');
+    topWords.each(function() {
+        thisWord = jQuery(this);
+        text = thisWord.text();
+        if (words[text] == undefined) {
+            words[text] = 1;
+        }
+        words[text]++;
+    });
+    topWords.each(function() {
+        thisWord = jQuery(this);
+        priority = Math.ceil((dayCount * 1.5) - (words[thisWord.text()]));
+        if (priority < minPriority) {
+            priority = minPriority;
+        }
+        thisWord.attr('priority', priority);
+        thisWord.css('font-size', priority);
+    });
+}

@@ -60,3 +60,5 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 /* ================================= */
 
 .top-words { margin-bottom:20px; }
+.top-words span.word { line-height:1.2; line-height:1; padding:0 3px; }
+.top-words .uk-text-info { display:block; font-size:19px; }

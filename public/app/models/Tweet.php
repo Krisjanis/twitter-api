@@ -91,7 +91,7 @@ class Tweet extends Model
                                        FROM has_coordinates
                                        JOIN tweets ON tweet_id = id
                                        WHERE coordinate_id = " . $venueId . "
-                                       ORDER BY retweeted_count DESC
+                                       ORDER BY created_at DESC
                                        LIMIT 0, " . $limit);
 
         return $result;
