@@ -51,7 +51,7 @@ class TwitterStream:
 
     def __del__(self):
         self.db.close()
-    
+
     def setup_connection(self):
         """ Create persistant HTTP connection to Streaming API endpoint using cURL.
             """
@@ -68,7 +68,7 @@ class TwitterStream:
                                              'Authorization: %s' % self.get_oauth_header()])
         # self.handle_tweet is the method that are called when new tweets arrive
         self.conn.setopt(pycurl.WRITEFUNCTION, self.handle_tweet)
-    
+
     def get_oauth_header(self):
         """ Create and return OAuth header.
             """
@@ -79,9 +79,9 @@ class TwitterStream:
                                                                              urllib.urlencode(POST_PARAMS)))
         req.sign_request(oauth.SignatureMethod_HMAC_SHA1(), self.oauth_consumer, self.oauth_token)
         return req.to_header()['Authorization'].encode('utf-8')
-    
+
     def start(self):
-        """ Start listbļaening to Streaming endpoint. Handle exceptions according to Twitter's recommendations.
+        """ Start listening to Streaming endpoint. Handle exceptions according to Twitter's recommendations.
             """
         backoff_network_error = 0.25
         backoff_http_error = 5
@@ -110,7 +110,7 @@ class TwitterStream:
                 print 'Waiting %s seconds' % backoff_http_error
                 time.sleep(backoff_http_error)
                 backoff_http_error = min(backoff_http_error * 2, 320)
-    
+
     def handle_tweet(self, data):
         """ This method is called when data is received through Streaming endpoint.
             """
@@ -136,171 +136,123 @@ class TwitterStream:
     def save_tweet_db(self, message):
         """ This method saves tweets into database.
             """
+        try:
+            # Get current timestamp
+            time = datetime.datetime.now()
+            timestamp = calendar.timegm(time.utctimetuple())
 
-        # Get current timestamp
-        time = datetime.datetime.now()
-        timestamp = calendar.timegm(time.utctimetuple())
-
-        if message.get('retweeted_status') != None:
-            # Save retweet
-            try:
+            if message.get('retweeted_status') != None:
+                # Save retweet
                 self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (" + str(message.get('retweeted_status').get('id')) + ", " + str(message.get('user').get('id')) + ", " + str(timestamp) + ")")
-                self.db.commit()
-            except:
-                self.db.rollback()
 
-             # Update original tweet
-            try:
+                 # Update original tweet
                 self.cur.execute("UPDATE `tweets` SET `favorite_count` = " + str(message.get('retweeted_status').get('favorite_count')) + ", `favorite_count` = " + str(message.get('retweeted_status').get('retweet_count')) + " WHERE `id` = " + str(message.get('retweeted_status').get('id')))
-                self.db.commit()
-            except:
-                self.db.rollback()
-        else:
-            # Save tweet
-            # Determine if reply to screen name
-            inReplyToScreenName = "'" + message.get('in_reply_to_screen_name') + "'" if message.get('in_reply_to_screen_name') else 'NULL'
-            # Determine if reply to status id
-            inReplyToStatusIdStr = message.get('in_reply_to_status_id_str') if message.get('in_reply_to_status_id_str') else 'NULL'
-            # Determine if reply to user id
-            inReplyToUserIdStr = message.get('in_reply_to_user_id_str') if message.get('in_reply_to_user_id_str') else 'NULL'
-            # Determine if truncated
-            truncated = 1 if message.get('truncated') else 0
-            # Determine if there are no urls
-            if message.get('entities').get('urls') == []:
-                urls = 'NULL'
             else:
-                urls = "'" + json.dumps(message.get('entities').get('urls'), ensure_ascii=False) + "'"
-            try:
-                self.cur.execute("INSERT INTO `tweets`(`id`, `user_id`, `text`, `urls`, `created_at`, `favorite_count`, `filter_level`, `in_reply_to_screen_name`, `in_reply_to_status_id`, `in_reply_to_user_id_str`, `lang`, `retweeted_count`, `source`, `truncated`) VALUES (" + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ", '" + message.get('text') + "', " + urls + ", " + str(timestamp) + ", '" + str(message.get('user').get('favourites_count')) + "', '" + message.get('filter_level') + "', " + inReplyToScreenName + ", " + inReplyToStatusIdStr + ", " + inReplyToUserIdStr + ", '" + message.get('lang') + "', " + str(message.get('retweet_count')) + ", '" + message.get('source') + "', " + str(truncated) + ")")
-                self.db.commit()
-            except:
-                self.db.rollback()
-
-            # Check if coordinates set in tweet and already exist in system
-            if message.get('coordinates') != None:
-                coord = message.get('coordinates').get('coordinates')
-                coordx = coord[1]
-                coordy = coord[0]
-                self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = '" + str(coordx) + "," + str(coordy) + "'")
-                existingCoord = self.cur.fetchone()
-                if existingCoord != None:
-                    # Update existing coordinate count
-                    count = existingCoord[3] + 1
-                    id = existingCoord[0]
-                    try:
-                        self.cur.execute("UPDATE `coordinates` SET `count` = " + str(count) + " WHERE `id` = " + str(id))
-                        self.db.commit()
-                    except:
-                        self.db.rollback()
+                # Save tweet
+                # Determine if reply to screen name
+                inReplyToScreenName = "'" + message.get('in_reply_to_screen_name') + "'" if message.get('in_reply_to_screen_name') else 'NULL'
+                # Determine if reply to status id
+                inReplyToStatusIdStr = message.get('in_reply_to_status_id_str') if message.get('in_reply_to_status_id_str') else 'NULL'
+                # Determine if reply to user id
+                inReplyToUserIdStr = message.get('in_reply_to_user_id_str') if message.get('in_reply_to_user_id_str') else 'NULL'
+                # Determine if truncated
+                truncated = 1 if message.get('truncated') else 0
+                # Determine if there are no urls
+                if message.get('entities').get('urls') == []:
+                    urls = 'NULL'
                 else:
-                    # Create new coordinate
-                    try:
-                        self.cur.execute("INSERT INTO `coordinates`(`coordinates`, `type`, `count`) VALUES ('" + str(coordx) + "," + str(coordy) + "', '" + message.get('coordinates').get('type') + "', 1)")
-                        self.db.commit()
-                    except:
-                        self.db.rollback()
+                    urls = "'" + json.dumps(message.get('entities').get('urls'), ensure_ascii=False) + "'"
+                self.cur.execute("INSERT INTO `tweets`(`id`, `user_id`, `text`, `urls`, `created_at`, `favorite_count`, `filter_level`, `in_reply_to_screen_name`, `in_reply_to_status_id`, `in_reply_to_user_id_str`, `lang`, `retweeted_count`, `source`, `truncated`) VALUES (" + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ", '" + message.get('text') + "', " + urls + ", " + str(timestamp) + ", '" + str(message.get('user').get('favourites_count')) + "', '" + message.get('filter_level') + "', " + inReplyToScreenName + ", " + inReplyToStatusIdStr + ", " + inReplyToUserIdStr + ", '" + message.get('lang') + "', " + str(message.get('retweet_count')) + ", '" + message.get('source') + "', " + str(truncated) + ")")
 
+                # Check if coordinates set in tweet and already exist in system
+                if message.get('coordinates') != None:
+                    coord = message.get('coordinates').get('coordinates')
+                    coordx = coord[1]
+                    coordy = coord[0]
                     self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = '" + str(coordx) + "," + str(coordy) + "'")
                     existingCoord = self.cur.fetchone()
-
-                # Create coordinate and tweet relation
-                try:
-                    self.cur.execute("INSERT INTO `has_coordinates`(`coordinate_id`, `tweet_id`, `user_id`) VALUES (" + str(existingCoord[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
-                    self.db.commit()
-                except:
-                    self.db.rollback()
-
-            # Check if hashtags set in tweet and already exist in system
-            if message.get('entities').get('hashtags') != []:
-                for hashtag in message.get('entities').get('hashtags'):
-                    self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = '" + hashtag.get('text') + "'")
-                    existingHashtag = self.cur.fetchone()
-                    if existingHashtag != None:
-                        # Hashtag exists create relation
-                        try:
-                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (" + str(existingHashtag[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
-                            self.db.commit()
-                        except:
-                            self.db.rollback()
+                    if existingCoord != None:
+                        # Update existing coordinate count
+                        count = existingCoord[3] + 1
+                        id = existingCoord[0]
+                        self.cur.execute("UPDATE `coordinates` SET `count` = " + str(count) + " WHERE `id` = " + str(id))
                     else:
-                        # Create hashtag and create relation
-                        try:
-                            self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES ('" + str(hashtag.get('text')) + "')")
-                            self.db.commit()
-                        except:
-                            self.db.rollback()
+                        # Create new coordinate
+                        self.cur.execute("INSERT INTO `coordinates`(`coordinates`, `type`, `count`) VALUES ('" + str(coordx) + "," + str(coordy) + "', '" + message.get('coordinates').get('type') + "', 1)")
 
+                        self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = '" + str(coordx) + "," + str(coordy) + "'")
+                        existingCoord = self.cur.fetchone()
+
+                    # Create coordinate and tweet relation
+                    self.cur.execute("INSERT INTO `has_coordinates`(`coordinate_id`, `tweet_id`, `user_id`) VALUES (" + str(existingCoord[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
+
+                # Check if hashtags set in tweet and already exist in system
+                if message.get('entities').get('hashtags') != []:
+                    for hashtag in message.get('entities').get('hashtags'):
                         self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = '" + hashtag.get('text') + "'")
-                        newHashtag = self.cur.fetchone()
+                        existingHashtag = self.cur.fetchone()
+                        if existingHashtag != None:
+                            # Hashtag exists create relation
+                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (" + str(existingHashtag[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
+                        else:
+                            # Create hashtag and create relation
+                            self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES ('" + str(hashtag.get('text')) + "')")
 
-                        try:
+                            self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = '" + hashtag.get('text') + "'")
+                            newHashtag = self.cur.fetchone()
+
                             self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (" + str(newHashtag[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
-                            self.db.commit()
-                        except:
-                            self.db.rollback()
 
-            # Check if users mentioned in tweet
-            if message.get('entities').get('user_mentions') != []:
-                for mention in message.get('entities').get('user_mentions'):
-                    try:
+                # Check if users mentioned in tweet
+                if message.get('entities').get('user_mentions') != []:
+                    for mention in message.get('entities').get('user_mentions'):
                         self.cur.execute("INSERT INTO `user_mentions`(`tweet_id`, `user_id`, `mentioned_at`) VALUES (" + str(message.get('id')) + ", " + str(mention.get('id')) + ", " + str(timestamp) + ")")
-                        self.db.commit()
-                    except:
-                        self.db.rollback()
 
-        # Determine if location is set
-        location = "'" + message.get('user').get('location') + "'" if message.get('user').get('location') else 'NULL'
-        # Determine if time zone is set
-        timeZone = "'" + message.get('user').get('time_zone') + "'" if message.get('user').get('time_zone') else 'NULL'
-        # Determine if geo is enabled
-        geoEnabled = 1 if message.get('user').get('geo_enabled') else 0
-        # Determine if user account is protected
-        protected = 1 if message.get('user').get('protected') else 0
-        # Determine if users default profile
-        defaultProfile = 1 if message.get('user').get('default_profile') else 0
-        # Determine if user is translator
-        isTranslator = 1 if message.get('user').get('is_translator') else 0
-        # Determine if user is verified
-        verified = 1 if message.get('user').get('verified') else 0
-        # Determine if contributors enabled
-        contributorsEnabled = 1 if message.get('user').get('contributors_enabled') else 0
+            # Determine if location is set
+            location = "'" + message.get('user').get('location') + "'" if message.get('user').get('location') else 'NULL'
+            # Determine if time zone is set
+            timeZone = "'" + message.get('user').get('time_zone') + "'" if message.get('user').get('time_zone') else 'NULL'
+            # Determine if geo is enabled
+            geoEnabled = 1 if message.get('user').get('geo_enabled') else 0
+            # Determine if user account is protected
+            protected = 1 if message.get('user').get('protected') else 0
+            # Determine if users default profile
+            defaultProfile = 1 if message.get('user').get('default_profile') else 0
+            # Determine if user is translator
+            isTranslator = 1 if message.get('user').get('is_translator') else 0
+            # Determine if user is verified
+            verified = 1 if message.get('user').get('verified') else 0
+            # Determine if contributors enabled
+            contributorsEnabled = 1 if message.get('user').get('contributors_enabled') else 0
 
-        # Determine if using background image
-        useBackgroundImage = 1 if message.get('user').get('profile_use_background_image') else 0
-        # Determine if default profile image
-        defaultProfileImage = 1 if message.get('user').get('default_profile_image') else 0
-        # Determine if background tile
-        backgroundTile = 1 if message.get('user').get('profile_background_tile') else 0
+            # Determine if using background image
+            useBackgroundImage = 1 if message.get('user').get('profile_use_background_image') else 0
+            # Determine if default profile image
+            defaultProfileImage = 1 if message.get('user').get('default_profile_image') else 0
+            # Determine if background tile
+            backgroundTile = 1 if message.get('user').get('profile_background_tile') else 0
 
-        # Check if user already in system
-        self.cur.execute("SELECT `id` FROM `users` WHERE `id` = " + str(message.get('user').get('id')))
-        existingUser = self.cur.fetchone()
-        if existingUser != None:
-            # Update existing user fields
-            try:
+            # Check if user already in system
+            self.cur.execute("SELECT `id` FROM `users` WHERE `id` = " + str(message.get('user').get('id')))
+            existingUser = self.cur.fetchone()
+            if existingUser != None:
+                # Update existing user fields
                 self.cur.execute("UPDATE `users` SET `followers_count` = " + str(message.get('user').get('followers_count')) + ", `listed_count` = " + str(message.get('user').get('listed_count')) + ", `statuses_count` = " + str(message.get('user').get('statuses_count')) + ", `friends_count` = " + str(message.get('user').get('friends_count')) + ", `location` = " + location + ", `geo_enabled` = " + str(geoEnabled) + ", `name` = " + json.dumps(message.get('user').get('name'), ensure_ascii=False) + ", `lang` = '" + str(message.get('user').get('lang')) + "', `favourites_count` = " + str(message.get('user').get('favourites_count')) + ", `screen_name` = " + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False) + ", `created_at` = " + str(timestamp) + ", `protected` = " + str(protected) + ", `url` = " + json.dumps(message.get('user').get('url'), ensure_ascii=False) + ", `contributors_enabled` = " + str(contributorsEnabled) + ", `time_zone` = " + timeZone + ", `default_profile` = " + str(defaultProfile) + ", `is_translator` = " + str(isTranslator) + ", `description` = " + json.dumps(message.get('user').get('description'), ensure_ascii=False) + ", `verified` = " + str(verified) + " WHERE `id` = " + str(message.get('user').get('id')))
-                self.db.commit()
-            except:
-                self.db.rollback()
 
-            try:
                 self.cur.execute("UPDATE `user_profile` SET `use_background_image` = '" + str(useBackgroundImage) + "', `default_profile_image` = '" + str(defaultProfileImage) + "', `image_url_https` = '" + str(message.get('user').get('profile_image_url_https')) + "', `sidebar_fill_color` = '" + str(message.get('user').get('profile_sidebar_fill_color')) + "', `text_color` = '" + str(message.get('user').get('profile_text_color')) + "', `sidebar_border_color` = '" + str(message.get('user').get('profile_sidebar_border_color')) + "', `background_color` = '" + str(message.get('user').get('profile_background_color')) + "', `background_image_url_https` = '" + str(message.get('user').get('profile_background_image_url_https')) + "', `link_color` = '" + str(message.get('user').get('profile_link_color')) + "', `image_url` = '" + str(message.get('user').get('profile_image_url')) + "', `banner_url` = '" + str(message.get('user').get('profile_banner_url')) + "', `background_image_url` = '" + str(message.get('user').get('profile_background_image_url')) + "', `background_tile` = '" + str(backgroundTile) + "' WHERE `user_id` = " + str(message.get('user').get('id')))
-                self.db.commit()
-            except:
-                self.db.rollback()
-        else:
-            # Create new user in system
-            try:
+            else:
+                # Create new user in system
                 self.cur.execute("INSERT INTO `users` (`id`, `followers_count`, `listed_count`, `statuses_count`, `friends_count`, `location`, `geo_enabled`, `name`, `lang`, `favourites_count`, `screen_name`, `created_at`, `protected`, `url`, `contributors_enabled`, `time_zone`, `default_profile`, `is_translator`, `description`, `verified`) VALUES (" + str(message.get('user').get('id')) + ", " + str(message.get('user').get('followers_count')) + ", " + str(message.get('user').get('listed_count')) + ", " + str(message.get('user').get('statuses_count')) + ", " + str(message.get('user').get('friends_count')) + ", " + location + ", " + str(geoEnabled) + ", " + json.dumps(message.get('user').get('name'), ensure_ascii=False) + ", '" + str(message.get('user').get('lang')) + "', " + str(message.get('user').get('favourites_count')) + ", " + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False) + ", " + str(timestamp) + ", " + str(protected) + ", " + json.dumps(message.get('user').get('url'), ensure_ascii=False) + ", " + str(contributorsEnabled) + ", " + timeZone + ", " + str(defaultProfile) + ", " + str(isTranslator) + ", " + json.dumps(message.get('user').get('description'), ensure_ascii=False) + ", " + str(verified) + ")")
-                self.db.commit()
-            except:
-                self.db.rollback()
 
-            try:
                 self.cur.execute("INSERT INTO `user_profile` (`user_id`, `use_background_image`, `default_profile_image`, `image_url_https`, `sidebar_fill_color`, `text_color`, `sidebar_border_color`, `background_color`, `background_image_url_https`, `link_color`, `image_url`, `banner_url`, `background_image_url`, `background_tile`) VALUES (" + str(message.get('user').get('id')) + ", " + str(useBackgroundImage) + ", " + str(defaultProfileImage) + ", '" + str(message.get('user').get('profile_image_url_https')) + "', '" + str(message.get('user').get('profile_sidebar_fill_color')) + "', '" + str(message.get('user').get('profile_text_color')) + "', '" + str(message.get('user').get('profile_sidebar_border_color')) + "', '" + str(message.get('user').get('profile_background_color')) + "', '" + str(message.get('user').get('profile_background_image_url_https')) + "', '" + str(message.get('user').get('profile_link_color')) + "', '" + str(message.get('user').get('profile_image_url')) + "', '" + str(message.get('user').get('profile_banner_url')) + "', '" + str(message.get('user').get('profile_background_image_url')) + "', " + str(backgroundTile) + ")")
-                self.db.commit()
-            except:
-                self.db.rollback()
+
+            # Commit changes to database
+            self.db.commit()
+
+        except MySQLdb.Error, e:
+            # Error while saving tweet
+            self.db.rollback()
+            print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
 
     def save_tweet_csv(self, message):
         # Create directory and files for saving
