@@ -13,7 +13,8 @@ error_reporting(E_ALL);
 //===============================================
 // Madatory KISSMVC Settings (please configure)
 //===============================================
-define('WEB_FOLDER','/public/');
+require('config.php');
+define('WEB_FOLDER',$CONFIG['web_folder']);
 define('BASE_URL','http://'.$_SERVER['HTTP_HOST'].WEB_FOLDER);
 define('APP_PATH','app/');
 define('CSS_PATH',BASE_URL.'css/');
@@ -61,7 +62,7 @@ function custom_error($msg='') {
 function getdbh() {
   if (!isset($GLOBALS['dbh']))
     try {
-      require('config.php');
+	require('config.php');
       //$GLOBALS['dbh'] = new PDO('sqlite:'.APP_PATH.'db/kissmvc.sqlite');
         $options = array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
