@@ -146,7 +146,7 @@ class TwitterStream:
                 self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (" + str(message.get('retweeted_status').get('id')) + ", " + str(message.get('user').get('id')) + ", " + str(timestamp) + ")")
 
                  # Update original tweet
-                self.cur.execute("UPDATE `tweets` SET `favorite_count` = " + str(message.get('retweeted_status').get('favorite_count')) + ", `favorite_count` = " + str(message.get('retweeted_status').get('retweet_count')) + " WHERE `id` = " + str(message.get('retweeted_status').get('id')))
+                self.cur.execute("UPDATE `tweets` SET `favorite_count` = " + str(message.get('retweeted_status').get('favorite_count')) + ", `retweeted_count` = " + str(message.get('retweeted_status').get('retweet_count')) + " WHERE `id` = '" + str(message.get('retweeted_status').get('id'))) + "'"
             else:
                 # Save tweet
                 # Determine if reply to screen name
