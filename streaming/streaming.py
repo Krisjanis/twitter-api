@@ -143,14 +143,14 @@ class TwitterStream:
 
             if message.get('retweeted_status') != None:
                 # Save retweet
-                self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (" + str(message.get('retweeted_status').get('id')) + ", " + str(message.get('user').get('id')) + ", " + str(timestamp) + ")")
+                self.cur.execute("INSERT INTO `retweets`(`tweet_id`, `user_id`, `created_at`) VALUES (%s, %s, %s)", (str(message.get('retweeted_status').get('id')), str(message.get('user').get('id')), str(timestamp)))
 
-                 # Update original tweet
-                self.cur.execute("UPDATE `tweets` SET `favorite_count` = " + str(message.get('retweeted_status').get('favorite_count')) + ", `retweeted_count` = " + str(message.get('retweeted_status').get('retweet_count')) + " WHERE `id` = '" + str(message.get('retweeted_status').get('id')) + "'")
+                # Update original tweet
+                self.cur.execute("UPDATE `tweets` SET `favorite_count` = %s, `retweeted_count` = %s WHERE `id` = %s", (str(message.get('retweeted_status').get('favorite_count')), str(message.get('retweeted_status').get('retweet_count')), str(message.get('retweeted_status').get('id'))))
             else:
                 # Save tweet
                 # Determine if reply to screen name
-                inReplyToScreenName = "'" + message.get('in_reply_to_screen_name') + "'" if message.get('in_reply_to_screen_name') else 'NULL'
+                inReplyToScreenName = message.get('in_reply_to_screen_name') if message.get('in_reply_to_screen_name') else 'NULL'
                 # Determine if reply to status id
                 inReplyToStatusIdStr = message.get('in_reply_to_status_id_str') if message.get('in_reply_to_status_id_str') else 'NULL'
                 # Determine if reply to user id
@@ -161,57 +161,57 @@ class TwitterStream:
                 if message.get('entities').get('urls') == []:
                     urls = 'NULL'
                 else:
-                    urls = "'" + json.dumps(message.get('entities').get('urls'), ensure_ascii=False) + "'"
-                self.cur.execute("INSERT INTO `tweets`(`id`, `user_id`, `text`, `urls`, `created_at`, `favorite_count`, `filter_level`, `in_reply_to_screen_name`, `in_reply_to_status_id`, `in_reply_to_user_id_str`, `lang`, `retweeted_count`, `source`, `truncated`) VALUES (" + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ", '" + message.get('text') + "', " + urls + ", " + str(timestamp) + ", '" + str(message.get('user').get('favourites_count')) + "', '" + message.get('filter_level') + "', " + inReplyToScreenName + ", " + inReplyToStatusIdStr + ", " + inReplyToUserIdStr + ", '" + message.get('lang') + "', " + str(message.get('retweet_count')) + ", '" + message.get('source') + "', " + str(truncated) + ")")
+                    urls = json.dumps(message.get('entities').get('urls'), ensure_ascii=False)
+                self.cur.execute("INSERT INTO `tweets`(`id`, `user_id`, `text`, `urls`, `created_at`, `favorite_count`, `filter_level`, `in_reply_to_screen_name`, `in_reply_to_status_id`, `in_reply_to_user_id_str`, `lang`, `retweeted_count`, `source`, `truncated`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(message.get('id')), str(message.get('user').get('id')), message.get('text'), urls, str(timestamp), str(message.get('user').get('favourites_count')), message.get('filter_level'), inReplyToScreenName, inReplyToStatusIdStr, inReplyToUserIdStr, message.get('lang'), str(message.get('retweet_count')), message.get('source'), str(truncated)))
 
                 # Check if coordinates set in tweet and already exist in system
                 if message.get('coordinates') != None:
                     coord = message.get('coordinates').get('coordinates')
                     coordx = coord[1]
                     coordy = coord[0]
-                    self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = '" + str(coordx) + "," + str(coordy) + "'")
+                    self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = %s", str(coordx) + "," + str(coordy))
                     existingCoord = self.cur.fetchone()
                     if existingCoord != None:
                         # Update existing coordinate count
                         count = existingCoord[3] + 1
                         id = existingCoord[0]
-                        self.cur.execute("UPDATE `coordinates` SET `count` = " + str(count) + " WHERE `id` = " + str(id))
+                        self.cur.execute("UPDATE `coordinates` SET `count` = %s WHERE `id` = %s", (str(count), str(id)))
                     else:
                         # Create new coordinate
-                        self.cur.execute("INSERT INTO `coordinates`(`coordinates`, `type`, `count`) VALUES ('" + str(coordx) + "," + str(coordy) + "', '" + message.get('coordinates').get('type') + "', 1)")
+                        self.cur.execute("INSERT INTO `coordinates`(`coordinates`, `type`, `count`) VALUES (%s, %s, 1)", (str(coordx) + "," + str(coordy), message.get('coordinates').get('type')))
 
-                        self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = '" + str(coordx) + "," + str(coordy) + "'")
+                        self.cur.execute("SELECT * FROM `coordinates` WHERE `coordinates` = %s", str(coordx) + "," + str(coordy))
                         existingCoord = self.cur.fetchone()
 
                     # Create coordinate and tweet relation
-                    self.cur.execute("INSERT INTO `has_coordinates`(`coordinate_id`, `tweet_id`, `user_id`) VALUES (" + str(existingCoord[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
+                    self.cur.execute("INSERT INTO `has_coordinates`(`coordinate_id`, `tweet_id`, `user_id`) VALUES (%s, %s, %s)", (str(existingCoord[0]), str(message.get('id')), str(message.get('user').get('id'))))
 
                 # Check if hashtags set in tweet and already exist in system
                 if message.get('entities').get('hashtags') != []:
                     for hashtag in message.get('entities').get('hashtags'):
-                        self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = '" + hashtag.get('text') + "'")
+                        self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = %s", hashtag.get('text'))
                         existingHashtag = self.cur.fetchone()
                         if existingHashtag != None:
                             # Hashtag exists create relation
-                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (" + str(existingHashtag[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
+                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (%s, %s, %s)", (str(existingHashtag[0]), str(message.get('id')), str(message.get('user').get('id'))))
                         else:
                             # Create hashtag and create relation
-                            self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES ('" + hashtag.get('text') + "')")
+                            self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES %s", hashtag.get('text'))
 
-                            self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = '" + hashtag.get('text') + "'")
+                            self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = %s", hashtag.get('text'))
                             newHashtag = self.cur.fetchone()
 
-                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (" + str(newHashtag[0]) + ", " + str(message.get('id')) + ", " + str(message.get('user').get('id')) + ")")
+                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (%s, %s, %s)", (str(newHashtag[0]), str(message.get('id')), str(message.get('user').get('id'))))
 
                 # Check if users mentioned in tweet
                 if message.get('entities').get('user_mentions') != []:
                     for mention in message.get('entities').get('user_mentions'):
-                        self.cur.execute("INSERT INTO `user_mentions`(`tweet_id`, `user_id`, `mentioned_at`) VALUES (" + str(message.get('id')) + ", " + str(mention.get('id')) + ", " + str(timestamp) + ")")
+                        self.cur.execute("INSERT INTO `user_mentions`(`tweet_id`, `user_id`, `mentioned_at`) VALUES (%s, %s, %s)", (str(message.get('id')), str(mention.get('id')), str(timestamp)))
 
             # Determine if location is set
-            location = "'" + message.get('user').get('location') + "'" if message.get('user').get('location') else 'NULL'
+            location = message.get('user').get('location') if message.get('user').get('location') else 'NULL'
             # Determine if time zone is set
-            timeZone = "'" + message.get('user').get('time_zone') + "'" if message.get('user').get('time_zone') else 'NULL'
+            timeZone = message.get('user').get('time_zone') if message.get('user').get('time_zone') else 'NULL'
             # Determine if geo is enabled
             geoEnabled = 1 if message.get('user').get('geo_enabled') else 0
             # Determine if user account is protected
@@ -233,18 +233,18 @@ class TwitterStream:
             backgroundTile = 1 if message.get('user').get('profile_background_tile') else 0
 
             # Check if user already in system
-            self.cur.execute("SELECT `id` FROM `users` WHERE `id` = " + str(message.get('user').get('id')))
+            self.cur.execute("SELECT `id` FROM `users` WHERE `id` = %s", str(message.get('user').get('id')))
             existingUser = self.cur.fetchone()
             if existingUser != None:
                 # Update existing user fields
-                self.cur.execute("UPDATE `users` SET `followers_count` = " + str(message.get('user').get('followers_count')) + ", `listed_count` = " + str(message.get('user').get('listed_count')) + ", `statuses_count` = " + str(message.get('user').get('statuses_count')) + ", `friends_count` = " + str(message.get('user').get('friends_count')) + ", `location` = " + location + ", `geo_enabled` = " + str(geoEnabled) + ", `name` = " + json.dumps(message.get('user').get('name'), ensure_ascii=False) + ", `lang` = '" + str(message.get('user').get('lang')) + "', `favourites_count` = " + str(message.get('user').get('favourites_count')) + ", `screen_name` = " + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False) + ", `created_at` = " + str(timestamp) + ", `protected` = " + str(protected) + ", `url` = " + json.dumps(message.get('user').get('url'), ensure_ascii=False) + ", `contributors_enabled` = " + str(contributorsEnabled) + ", `time_zone` = " + timeZone + ", `default_profile` = " + str(defaultProfile) + ", `is_translator` = " + str(isTranslator) + ", `description` = " + json.dumps(message.get('user').get('description'), ensure_ascii=False) + ", `verified` = " + str(verified) + " WHERE `id` = " + str(message.get('user').get('id')))
+                self.cur.execute("UPDATE `users` SET `followers_count` = %s, `listed_count` = %s, `statuses_count` = %s, `friends_count` = %s, `location` = %s, `geo_enabled` = %s, `name` = %s, `lang` = %s, `favourites_count` = %s, `screen_name` = %s, `created_at` = %s, `protected` = %s, `url` = %s, `contributors_enabled` = %s, `time_zone` = %s, `default_profile` = %s, `is_translator` = %s, `description` = %s, `verified` = %s WHERE `id` = %s", (str(message.get('user').get('followers_count')), str(message.get('user').get('listed_count')), str(message.get('user').get('statuses_count')), str(message.get('user').get('friends_count')), location, str(geoEnabled), json.dumps(message.get('user').get('name'), ensure_ascii=False), str(message.get('user').get('lang')), str(message.get('user').get('favourites_count')), json.dumps(message.get('user').get('screen_name'), ensure_ascii=False), str(timestamp), str(protected), json.dumps(message.get('user').get('url'), ensure_ascii=False), str(contributorsEnabled), timeZone, str(defaultProfile), str(isTranslator), json.dumps(message.get('user').get('description'), ensure_ascii=False), str(verified), str(message.get('user').get('id'))))
 
-                self.cur.execute("UPDATE `user_profile` SET `use_background_image` = '" + str(useBackgroundImage) + "', `default_profile_image` = '" + str(defaultProfileImage) + "', `image_url_https` = '" + str(message.get('user').get('profile_image_url_https')) + "', `sidebar_fill_color` = '" + str(message.get('user').get('profile_sidebar_fill_color')) + "', `text_color` = '" + str(message.get('user').get('profile_text_color')) + "', `sidebar_border_color` = '" + str(message.get('user').get('profile_sidebar_border_color')) + "', `background_color` = '" + str(message.get('user').get('profile_background_color')) + "', `background_image_url_https` = '" + str(message.get('user').get('profile_background_image_url_https')) + "', `link_color` = '" + str(message.get('user').get('profile_link_color')) + "', `image_url` = '" + str(message.get('user').get('profile_image_url')) + "', `banner_url` = '" + str(message.get('user').get('profile_banner_url')) + "', `background_image_url` = '" + str(message.get('user').get('profile_background_image_url')) + "', `background_tile` = '" + str(backgroundTile) + "' WHERE `user_id` = " + str(message.get('user').get('id')))
+                self.cur.execute("UPDATE `user_profile` SET `use_background_image` = %s, `default_profile_image` = %s, `image_url_https` = %s, `sidebar_fill_color` = %s, `text_color` = %s, `sidebar_border_color` = %s, `background_color` = %s, `background_image_url_https` = %s, `link_color` = %s, `image_url` = %s, `banner_url` = %s, `background_image_url` = %s, `background_tile` = %s WHERE `user_id` = %s", (str(useBackgroundImage), str(defaultProfileImage), str(message.get('user').get('profile_image_url_https')), str(message.get('user').get('profile_sidebar_fill_color')), str(message.get('user').get('profile_text_color')), str(message.get('user').get('profile_sidebar_border_color')), str(message.get('user').get('profile_background_color')), str(message.get('user').get('profile_background_image_url_https')), str(message.get('user').get('profile_link_color')), str(message.get('user').get('profile_image_url')), str(message.get('user').get('profile_banner_url')), str(message.get('user').get('profile_background_image_url')), str(backgroundTile), str(message.get('user').get('id'))))
             else:
                 # Create new user in system
-                self.cur.execute("INSERT INTO `users` (`id`, `followers_count`, `listed_count`, `statuses_count`, `friends_count`, `location`, `geo_enabled`, `name`, `lang`, `favourites_count`, `screen_name`, `created_at`, `protected`, `url`, `contributors_enabled`, `time_zone`, `default_profile`, `is_translator`, `description`, `verified`) VALUES (" + str(message.get('user').get('id')) + ", " + str(message.get('user').get('followers_count')) + ", " + str(message.get('user').get('listed_count')) + ", " + str(message.get('user').get('statuses_count')) + ", " + str(message.get('user').get('friends_count')) + ", " + location + ", " + str(geoEnabled) + ", " + json.dumps(message.get('user').get('name'), ensure_ascii=False) + ", '" + str(message.get('user').get('lang')) + "', " + str(message.get('user').get('favourites_count')) + ", " + json.dumps(message.get('user').get('screen_name'), ensure_ascii=False) + ", " + str(timestamp) + ", " + str(protected) + ", " + json.dumps(message.get('user').get('url'), ensure_ascii=False) + ", " + str(contributorsEnabled) + ", " + timeZone + ", " + str(defaultProfile) + ", " + str(isTranslator) + ", " + json.dumps(message.get('user').get('description'), ensure_ascii=False) + ", " + str(verified) + ")")
+                self.cur.execute("INSERT INTO `users` (`id`, `followers_count`, `listed_count`, `statuses_count`, `friends_count`, `location`, `geo_enabled`, `name`, `lang`, `favourites_count`, `screen_name`, `created_at`, `protected`, `url`, `contributors_enabled`, `time_zone`, `default_profile`, `is_translator`, `description`, `verified`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(message.get('user').get('id')), str(message.get('user').get('followers_count')), str(message.get('user').get('listed_count')), str(message.get('user').get('statuses_count')), str(message.get('user').get('friends_count')), location, str(geoEnabled), json.dumps(message.get('user').get('name'), ensure_ascii=False), str(message.get('user').get('lang')), str(message.get('user').get('favourites_count')), json.dumps(message.get('user').get('screen_name'), ensure_ascii=False), str(timestamp), str(protected), json.dumps(message.get('user').get('url'), ensure_ascii=False), str(contributorsEnabled), timeZone, str(defaultProfile), str(isTranslator), json.dumps(message.get('user').get('description'), ensure_ascii=False), str(verified)))
 
-                self.cur.execute("INSERT INTO `user_profile` (`user_id`, `use_background_image`, `default_profile_image`, `image_url_https`, `sidebar_fill_color`, `text_color`, `sidebar_border_color`, `background_color`, `background_image_url_https`, `link_color`, `image_url`, `banner_url`, `background_image_url`, `background_tile`) VALUES (" + str(message.get('user').get('id')) + ", " + str(useBackgroundImage) + ", " + str(defaultProfileImage) + ", '" + str(message.get('user').get('profile_image_url_https')) + "', '" + str(message.get('user').get('profile_sidebar_fill_color')) + "', '" + str(message.get('user').get('profile_text_color')) + "', '" + str(message.get('user').get('profile_sidebar_border_color')) + "', '" + str(message.get('user').get('profile_background_color')) + "', '" + str(message.get('user').get('profile_background_image_url_https')) + "', '" + str(message.get('user').get('profile_link_color')) + "', '" + str(message.get('user').get('profile_image_url')) + "', '" + str(message.get('user').get('profile_banner_url')) + "', '" + str(message.get('user').get('profile_background_image_url')) + "', " + str(backgroundTile) + ")")
+                self.cur.execute("INSERT INTO `user_profile` (`user_id`, `use_background_image`, `default_profile_image`, `image_url_https`, `sidebar_fill_color`, `text_color`, `sidebar_border_color`, `background_color`, `background_image_url_https`, `link_color`, `image_url`, `banner_url`, `background_image_url`, `background_tile`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(message.get('user').get('id')), str(useBackgroundImage), str(defaultProfileImage), str(message.get('user').get('profile_image_url_https')), str(message.get('user').get('profile_sidebar_fill_color')), str(message.get('user').get('profile_text_color')), str(message.get('user').get('profile_sidebar_border_color')), str(message.get('user').get('profile_background_color')), str(message.get('user').get('profile_background_image_url_https')), str(message.get('user').get('profile_link_color')), str(message.get('user').get('profile_image_url')), str(message.get('user').get('profile_banner_url')), str(message.get('user').get('profile_background_image_url')), str(backgroundTile)))
 
             # Commit changes to database
             self.db.commit()
