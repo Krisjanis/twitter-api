@@ -13,7 +13,7 @@ import MySQLdb
 import csv
 import datetime
 import calendar
-import sys
+
 # Import config variables
 config =  os.path.abspath(os.path.dirname(__file__)) + '/config.py'
 import config
