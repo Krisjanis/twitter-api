@@ -150,16 +150,16 @@ class TwitterStream:
             else:
                 # Save tweet
                 # Determine if reply to screen name
-                inReplyToScreenName = message.get('in_reply_to_screen_name') if message.get('in_reply_to_screen_name') else 'NULL'
+                inReplyToScreenName = message.get('in_reply_to_screen_name') if message.get('in_reply_to_screen_name') else None
                 # Determine if reply to status id
-                inReplyToStatusIdStr = message.get('in_reply_to_status_id_str') if message.get('in_reply_to_status_id_str') else 'NULL'
+                inReplyToStatusIdStr = message.get('in_reply_to_status_id_str') if message.get('in_reply_to_status_id_str') else None
                 # Determine if reply to user id
-                inReplyToUserIdStr = message.get('in_reply_to_user_id_str') if message.get('in_reply_to_user_id_str') else 'NULL'
+                inReplyToUserIdStr = message.get('in_reply_to_user_id_str') if message.get('in_reply_to_user_id_str') else None
                 # Determine if truncated
                 truncated = 1 if message.get('truncated') else 0
                 # Determine if there are no urls
                 if message.get('entities').get('urls') == []:
-                    urls = 'NULL'
+                    urls = None
                 else:
                     urls = json.dumps(message.get('entities').get('urls'), ensure_ascii=False)
                 self.cur.execute("INSERT INTO `tweets`(`id`, `user_id`, `text`, `urls`, `created_at`, `favorite_count`, `filter_level`, `in_reply_to_screen_name`, `in_reply_to_status_id`, `in_reply_to_user_id_str`, `lang`, `retweeted_count`, `source`, `truncated`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (str(message.get('id')), str(message.get('user').get('id')), message.get('text'), urls, str(timestamp), str(message.get('user').get('favourites_count')), message.get('filter_level'), inReplyToScreenName, inReplyToStatusIdStr, inReplyToUserIdStr, message.get('lang'), str(message.get('retweet_count')), message.get('source'), str(truncated)))
@@ -209,9 +209,9 @@ class TwitterStream:
                         self.cur.execute("INSERT INTO `user_mentions`(`tweet_id`, `user_id`, `mentioned_at`) VALUES (%s, %s, %s)", (str(message.get('id')), str(mention.get('id')), str(timestamp)))
 
             # Determine if location is set
-            location = message.get('user').get('location') if message.get('user').get('location') else 'NULL'
+            location = message.get('user').get('location') if message.get('user').get('location') else None
             # Determine if time zone is set
-            timeZone = message.get('user').get('time_zone') if message.get('user').get('time_zone') else 'NULL'
+            timeZone = message.get('user').get('time_zone') if message.get('user').get('time_zone') else None
             # Determine if geo is enabled
             geoEnabled = 1 if message.get('user').get('geo_enabled') else 0
             # Determine if user account is protected
