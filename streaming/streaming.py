@@ -196,7 +196,7 @@ class TwitterStream:
                             self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (%s, %s, %s)", (str(existingHashtag[0]), str(message.get('id')), str(message.get('user').get('id'))))
                         else:
                             # Create hashtag and create relation
-                            self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES %s", hashtag.get('text'))
+                            self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES (%s)", hashtag.get('text'))
 
                             self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = %s", hashtag.get('text'))
                             newHashtag = self.cur.fetchone()
