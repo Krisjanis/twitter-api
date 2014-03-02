@@ -253,8 +253,10 @@ class TwitterStream:
             # Error while saving tweet
             self.db.rollback()
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
+            # log tweet and error
+            self.save_tweet_csv(message, "MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
 
-    def save_tweet_csv(self, message):
+    def save_tweet_csv(self, message, error_message):
         # Create directory and files for saving
         explode = message.get('created_at').split(' ')
         year = explode[5]
@@ -269,9 +271,10 @@ class TwitterStream:
 
         # Write header if file empty
         if os.stat(SERVER_DATA_ROOT + year + '/' + month + '/' + day + '.csv').st_size == 0:
-            file.write('contributors,coordinates,created_at,entities_symbols,entities_user_mentions,entities_hashtags,entities_urls,favorite_count,favorited,filter_level,geo,id_str,in_reply_to_screen_name,in_reply_to_status_id_str,in_reply_to_user_id_str,lang,place,retweet_count,retweeted,retweeted_status,source,text,truncated,user_follow_request_sent,user_profile_use_background_image,user_default_profile_image,user_id,user_verified,user_profile_image_url_https,user_profile_sidebar_fill_color,user_profile_text_color,user_followers_count,user_profile_sidebar_border_color,user_profile_background_color,user_listed_count,user_profile_background_image_url_https,user_utc_offset,user_statuses_count,user_description,user_friends_count,user_location,user_profile_link_color,user_profile_image_url,user_following,user_geo_enabled,user_profile_banner_url,user_profile_background_image_url,user_name,user_lang,user_profile_background_tile,user_favourites_count,user_screen_name,user_notifications,user_url,user_created_at,user_contributors_enabled,user_time_zone,user_protected,user_default_profile,user_is_translator\n')
+            file.write('error_message,contributors,coordinates,created_at,entities_symbols,entities_user_mentions,entities_hashtags,entities_urls,favorite_count,favorited,filter_level,geo,id_str,in_reply_to_screen_name,in_reply_to_status_id_str,in_reply_to_user_id_str,lang,place,retweet_count,retweeted,retweeted_status,source,text,truncated,user_follow_request_sent,user_profile_use_background_image,user_default_profile_image,user_id,user_verified,user_profile_image_url_https,user_profile_sidebar_fill_color,user_profile_text_color,user_followers_count,user_profile_sidebar_border_color,user_profile_background_color,user_listed_count,user_profile_background_image_url_https,user_utc_offset,user_statuses_count,user_description,user_friends_count,user_location,user_profile_link_color,user_profile_image_url,user_following,user_geo_enabled,user_profile_banner_url,user_profile_background_image_url,user_name,user_lang,user_profile_background_tile,user_favourites_count,user_screen_name,user_notifications,user_url,user_created_at,user_contributors_enabled,user_time_zone,user_protected,user_default_profile,user_is_translator\n')
 
         # Save data
+        file.write(error_message + ', ')
         file.write('"' + json.dumps(message.get('contributors'), ensure_ascii=False).replace('"', '""') + '"')
         file.write(',"' + json.dumps(message.get('coordinates'), ensure_ascii=False).replace('"', '""') + '"')
         file.write(',' + message.get('created_at'))
