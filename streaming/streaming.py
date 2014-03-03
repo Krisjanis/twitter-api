@@ -138,7 +138,6 @@ class TwitterStream:
         """ This method saves tweets into database.
             """
         try:
-            print 'tweet'
             # Get local timestamp from twitter time
             time = datetime.datetime.strptime(message.get('created_at'),'%a %b %d %H:%M:%S +0000 %Y')
             utc_created_at = timezone('UTC').localize(time)
