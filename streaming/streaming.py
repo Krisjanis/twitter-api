@@ -13,6 +13,7 @@ import MySQLdb
 import csv
 import datetime
 import calendar
+from pytz import timezone
 
 # Import config variables
 config =  os.path.abspath(os.path.dirname(__file__)) + '/config.py'
@@ -137,9 +138,12 @@ class TwitterStream:
         """ This method saves tweets into database.
             """
         try:
-            # Get current timestamp
-            time = datetime.datetime.now()
-            timestamp = calendar.timegm(time.utctimetuple())
+            print 'tweet'
+            # Get local timestamp from twitter time
+            time = datetime.datetime.strptime(message.get('created_at'),'%a %b %d %H:%M:%S +0000 %Y')
+            utc_created_at = timezone('UTC').localize(time)
+            localTime = utc_created_at.astimezone(timezone('Europe/Riga'))
+            timestamp = int(localTime.strftime("%s"))
 
             if message.get('retweeted_status') != None:
                 # Save retweet
