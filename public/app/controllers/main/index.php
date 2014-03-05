@@ -3,10 +3,12 @@ function _index () {
     $view = new View (APP_PATH . 'views/template.phtml');
     $content = new View (APP_PATH . 'views/general.phtml');
 
+    $tweetscount = new Tweetcount();
+    $existingTweetCount = $tweetscount->getTotalTweetCount();
+    $tweetCountByDay = $tweetscount->getTweetCountByDay();
+    $dayTweets = $tweetscount->getDayTweetCount();
+    
     $tweets = new Tweet();
-    $existingTweetCount = $tweets->getTotalTweetCount();
-    $tweetCountByDay = $tweets->getTweetCountByDay();
-    $dayTweets = $tweets->getDayTweetCount();
     $content->set('existingTweetCount', $existingTweetCount);
     $content->set('tweetCountByDay', $tweetCountByDay);
     $content->set('maxTweets', $dayTweets);
