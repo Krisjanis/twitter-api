@@ -40,6 +40,7 @@ function secondaryMenuPosition() {
 }
 
 function switchTopWordsArrow() {
+    jQuery('.top-words').last().addClass('active');
     jQuery('.top-words-wrapper .prev').click(function() {
         switchTop('prev', 'next');
     });
