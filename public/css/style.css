@@ -59,6 +59,11 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 #map-canvas .loading-gif { margin:0; }
 /* ================================= */
 
-.top-words { margin-bottom:20px; }
+.top-words { margin-bottom:20px; display:none; }
+.top-words.active { display:block; }
 .top-words span.word { line-height:1.2; line-height:1; padding:0 3px; }
 .top-words .uk-text-info { display:block; font-size:19px; }
+.uk-button.prev { float:left; }
+.uk-button.next { float:right; }
+
+.clear:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

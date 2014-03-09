@@ -11,4 +11,9 @@ class Words extends Model
         return $result;
     }
 
+    function updateWords()
+    {
+        
+    }
+
 }
