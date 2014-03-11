@@ -17,9 +17,8 @@ function _infowindow() {
 }
 
 function _getClientData() {
-    $clientId = 'LBDQ3PC2AGJ4GO1O0MJRWRASRMEWEUVW125IWX3D4QOM2ZPK';
-    $clientSecret = 'YBCL0CYYFC4FMAZ3JZJ2WPHRCCG2V52YLADKMTZPUEJAGOW2';
-    return array($clientId, $clientSecret);
+    require('config.php');
+    return array($CONFIG['clientId'], $CONFIG['clientSecret']);
 }
 
 function _getFoursquareData($pointLat, $pointLng, $requestedData) {

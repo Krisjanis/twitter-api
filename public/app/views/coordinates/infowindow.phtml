@@ -20,7 +20,7 @@
     <?php endif; ?>
     <?php if (isset($venue['venueId'])): ?>
         <?php $venueName = (isset($venue['name']) ? $venue['name'] : $venue['latlng']); ?>
-        <p><a href="<?php echo BASE_URL ?>coordinates/venueinfo/?pointId=<?php echo $venue['venueId'] ?>&name=<?php echo $venueName ?>">Statistika par šo vietu</a></p>
+        <p><a href="<?php echo BASE_URL ?>coordinates/venueinfo/?pointid=<?php echo $venue['venueId'] ?>&name=<?php echo urlencode($venueName) ?>&users=10&tweets=10">Statistika par šo vietu</a></p>
     <?php endif; ?>
     <?php if(isset($venue['id'])): ?>
         <p><a href="https://foursquare.com/v/<?php echo $venue['id'] ?>">foursquare</a></p>

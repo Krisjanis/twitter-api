@@ -1,8 +1,22 @@
 $(document).ready(function() {
-    if ($('.secondary-menu').length) {
-        $('.top-cordinates').each(function() {
+    getTopPlaceNames();
+    secondaryMenuPosition();
+    switchTopWordsArrow();
+});
+
+$(window).resize(function() {
+    secondaryMenuPosition();
+});
+
+$(document).keydown(function(e){
+    switchTopWordsKey(e);
+});
+
+function getTopPlaceNames() {
+    if (jQuery('.secondary-menu').length) {
+        jQuery('.top-cordinates').each(function() {
             var thisPoint = $(this);
-            $.ajax({
+            jQuery.ajax({
                 url: thisPoint.attr('name'),
                 type: 'POST',
                 data: {
@@ -17,18 +31,7 @@ $(document).ready(function() {
             });
         });
     }
-
-    secondaryMenuPosition();
-    switchTopWordsArrow();
-});
-
-$(window).resize(function() {
-    secondaryMenuPosition();
-});
-
-$(document).keydown(function(e){
-    switchTopWordsKey(e);
-});
+}
 
 function secondaryMenuPosition() {
     var nav = jQuery('nav .uk-container.uk-container-center'),
@@ -74,4 +77,34 @@ function switchTop(state, other) {
     if (eval('!stateActive.' + state + '().length')) {
         stateButton.attr('disabled', 'disabled');
     }
+}
+
+function loadVenueData(container, param, object) {
+    var limit = 10,
+        button = jQuery(container),
+        url = button.attr('data-load-link'),
+        from = button.attr('data-count'),
+        maxData = button.attr('data-max-count'),
+        table = jQuery('table.' + object + ' tbody tr');
+    var newUrl = url + '&' + param + '=' + from + '&' + object + '=' + limit;
+    jQuery.ajax({
+        url: newUrl,
+        type: 'POST',
+        success: function(data) {
+            newData = jQuery(data).find('table.' + object + ' tbody tr');
+            if (newData.length) {
+                newData.insertAfter(table.last());
+            } else {
+                button.attr('disabled', 'disabled');
+            }
+            button.attr('data-count', parseInt(from) + limit);
+            if (maxData <= (parseInt(from) + limit) || newData.length < limit) {
+                button.attr('disabled', 'disabled');
+            }
+        }
+    });
+}
+
+function scrollToTop() {
+    jQuery('html, body').animate({ scrollTop:0 }, 200);
 }

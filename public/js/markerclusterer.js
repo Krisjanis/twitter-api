@@ -360,6 +360,12 @@ MarkerClusterer.prototype.getMaxZoom = function() {
 MarkerClusterer.prototype.calculator_ = function(markers, numStyles) {
   var index = 0;
   var count = markers.length;
+  /* Custom count value as cluster text */
+  count = 0;
+  jQuery.each(markers, function() {
+      count += parseInt(this.pointcount);
+  });
+  /* ================================== */
   var dv = count;
   while (dv !== 0) {
     dv = parseInt(dv / 10, 10);
@@ -1005,8 +1011,8 @@ Cluster.prototype.updateIcon = function() {
 
   if (this.markers_.length < this.minClusterSize_) {
     // Min cluster size not yet reached.
-    this.clusterIcon_.hide();
-    return;
+    //this.clusterIcon_.hide(); // Removed for count displaying on markers
+    //return;
   }
 
   var numStyles = this.markerClusterer_.getStyles().length;

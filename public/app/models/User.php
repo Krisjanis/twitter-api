@@ -47,15 +47,21 @@ class User extends Model
         return $result;
     }
 
-    function getTopUsersFromVenue($venueId, $limit) {
-        $result = $this->simple_query("SELECT user_id, screen_name, count(screen_name) as count
+    function getTopUsersFromVenue($venueId, $limit = 10, $from) {
+        $result = $this->simple_query("SELECT has_coordinates.user_id, screen_name, count(screen_name) as count, image_url
                                        FROM has_coordinates
                                        JOIN users ON user_id = id
+                                       JOIN user_profile ON has_coordinates.user_id = user_profile.user_id
                                        WHERE coordinate_id = " . $venueId . "
                                        GROUP BY 2
                                        ORDER BY count DESC
-                                       LIMIT 0," . $limit );
+                                       LIMIT " . $from . "," . $limit );
 
+        return $result;
+    }
+
+    function getVenueUsersCount($venueId) {
+        $result = $this->simple_query("SELECT COUNT(DISTINCT user_id) as count FROM has_coordinates WHERE coordinate_id = " . $venueId);
         return $result;
     }
 }

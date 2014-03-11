@@ -86,14 +86,20 @@ class Tweet extends Model
         return $result;
     }
 
-    function getTopTweetsFromVenue($venueId, $limit) {
-        $result = $this->simple_query("SELECT tweet_id, text, retweeted_count, has_coordinates.user_id AS user
+    function getTopTweetsFromVenue($venueId, $limit = 10, $from) {
+        $result = $this->simple_query("SELECT tweet_id, text, date(from_unixtime(tweets.created_at)) as created_at, has_coordinates.user_id AS user, screen_name
                                        FROM has_coordinates
                                        JOIN tweets ON tweet_id = id
+                                       JOIN users ON tweets.user_id = users.id
                                        WHERE coordinate_id = " . $venueId . "
                                        ORDER BY created_at DESC
-                                       LIMIT 0, " . $limit);
+                                       LIMIT " . $from . ", " . $limit);
 
+        return $result;
+    }
+
+    function getVenueTweetsCount($venueId) {
+        $result = $this->simple_query("SELECT count FROM coordinates WHERE id = " . $venueId);
         return $result;
     }
 

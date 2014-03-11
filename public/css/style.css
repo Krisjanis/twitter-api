@@ -43,6 +43,7 @@ h1,
 h2,
 h3 { text-align:center; font-family:'bebas_neueregular'; }
 .uk-h1 { font-size:50px; padding-bottom:10px; }
+.uk-button.to-top { float:right; }
 
 /* Map ============================= */
 .top-cordinates { cursor:pointer; padding-left:5px; display:inline !important; }
@@ -59,11 +60,20 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 #map-canvas .loading-gif { margin:0; }
 /* ================================= */
 
+/* Top words */
 .top-words { margin-bottom:20px; display:none; }
 .top-words.active { display:block; }
 .top-words span.word { line-height:1.2; line-height:1; padding:0 3px; }
 .top-words .uk-text-info { display:block; font-size:19px; }
 .uk-button.prev { float:left; }
 .uk-button.next { float:right; }
+
+/* Venue info page */
+.venue-info { margin-left:0 !important; }
+.venue-info .users a:hover { text-decoration:none; }
+.venue-info .users a:hover span { text-decoration:underline; }
+.venue-info .users .count { vertical-align:middle; }
+.venue-info .tweets td span { display:block; }
+.venue-info .uk-button { margin-top:10px; }
 
 .clear:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

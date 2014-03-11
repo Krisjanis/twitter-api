@@ -39,7 +39,8 @@
                      pointid: data[2],
                      pointcount: data[3],
                      pointlat: data[0],
-                     pointlng: data[1]
+                     pointlng: data[1],
+                     labelContent: "$425K"
                    }
         }
 
@@ -105,30 +106,30 @@
 </script>
 <div id="map-canvas" ></div>
 <div class="uk-container uk-container-center secondary-menu">
-        <ul class="uk-navbar map-menu">
-            <ul class="uk-navbar-nav" id="map-menu">
-                <li class="uk-parent" data-uk-dropdown="{justify:'#map-menu'}">
-                    <a class="" href="<?php echo BASE_URL . 'coordinates/' ?>">Top 15</a>
-                    <div class="uk-dropdown">
-                        <ul class="uk-nav uk-nav-navbar">
-                            <?php for ($i = 1; $i <= $maxTopVenues; $i ++): ?>
-                                <?php $nameUrl = BASE_URL . 'coordinates/infowindow/?data=name'; ?>
-                                <?php $lat = $coordinates[$i][0]; ?>
-                                <?php $lng = $coordinates[$i][1]; ?>
-                                <li>
-                                    <span class="uk-badge uk-badge-notification"><?php echo $i; ?></span>
-                                    <a class="top-cordinates" id="marker<?php echo $coordinates[$i][2] ?>" name="<?php echo $nameUrl ?>" lat="<?php echo $lat ?>" lng="<?php echo $lng ?>">
-                                        <?php echo $lat . ', ' . $lng; ?>
-                                    </a>
-                                </li>
-                            <?php endfor; ?>
-                        </ul>
-                    </div>
-                </li>
-                <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=100">Top 100</a></li>
-                <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=1000">Top 1000</a></li>
-                <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=10000">Top 10000</a></li>
-                <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=all">Visas vietas</a></li>
-            </ul>
+    <ul class="uk-navbar map-menu">
+        <ul class="uk-navbar-nav" id="map-menu">
+            <li class="uk-parent" data-uk-dropdown="{justify:'#map-menu'}">
+                <a class="" href="<?php echo BASE_URL . 'coordinates/' ?>">Top 15</a>
+                <div class="uk-dropdown">
+                    <ul class="uk-nav uk-nav-navbar">
+                        <?php for ($i = 1; $i <= $maxTopVenues; $i ++): ?>
+                            <?php $nameUrl = BASE_URL . 'coordinates/infowindow/?data=name'; ?>
+                            <?php $lat = $coordinates[$i][0]; ?>
+                            <?php $lng = $coordinates[$i][1]; ?>
+                            <li>
+                                <span class="uk-badge uk-badge-notification"><?php echo $i; ?></span>
+                                <a class="top-cordinates" id="marker<?php echo $coordinates[$i][2] ?>" name="<?php echo $nameUrl ?>" lat="<?php echo $lat ?>" lng="<?php echo $lng ?>">
+                                    <?php echo $lat . ', ' . $lng; ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </div>
+            </li>
+            <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=100">Top 100</a></li>
+            <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=1000">Top 1000</a></li>
+            <li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=10000">Top 10000</a></li>
+            <?php /*<li><a class="" href="<?php echo BASE_URL . 'coordinates/' ?>?venues=all">Visas vietas</a></li>*/?>
         </ul>
+    </ul>
 </div>
