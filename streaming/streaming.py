@@ -132,7 +132,7 @@ class TwitterStream:
                 #self.save_tweet_csv(message)
 
                 # Save tweet in database
-                self.save_tweet_db(test_tweet)
+                self.save_tweet_db(message)
 
     def save_tweet_db(self, message):
         """ This method saves tweets into database.
