@@ -132,7 +132,7 @@ class TwitterStream:
                 #self.save_tweet_csv(message)
 
                 # Save tweet in database
-                self.save_tweet_db(message)
+                self.save_tweet_db(test_tweet)
 
     def save_tweet_db(self, message):
         """ This method saves tweets into database.
@@ -191,25 +191,46 @@ class TwitterStream:
 
                 # Check if hashtags set in tweet and already exist in system
                 if message.get('entities').get('hashtags') != []:
+                    processed_hashtags = []
+                    has_hashtags_data = []
                     for hashtag in message.get('entities').get('hashtags'):
                         self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = %s", hashtag.get('text'))
                         existingHashtag = self.cur.fetchone()
                         if existingHashtag != None:
-                            # Hashtag exists create relation
-                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (%s, %s, %s)", (str(existingHashtag[0]), str(message.get('id')), str(message.get('user').get('id'))))
+                            hashtag_id = str(existingHashtag[0])
                         else:
-                            # Create hashtag and create relation
+                            # Create hashtag
                             self.cur.execute("INSERT INTO `hashtags`(`hashtag`) VALUES (%s)", hashtag.get('text'))
 
                             self.cur.execute("SELECT * FROM `hashtags` WHERE `hashtag` = %s", hashtag.get('text'))
                             newHashtag = self.cur.fetchone()
+                            hashtag_id = str(newHashtag[0])
 
-                            self.cur.execute("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`) VALUES (%s, %s, %s)", (str(newHashtag[0]), str(message.get('id')), str(message.get('user').get('id'))))
+                        if hashtag.get('text') in processed_hashtags:
+                            hashtag_index = processed_hashtags.index(hashtag.get('text'))
+                            #Increase occurences
+                            has_hashtags_data[hashtag_index][3] += 1
+                        else:
+                            processed_hashtags.append(hashtag.get('text'))
+                            has_hashtags_data.append([hashtag_id, str(message.get('id')), str(message.get('user').get('id')), 1])
+
+                    #Create relations for all hashtags
+                    self.cur.executemany("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`, `occurrences`) VALUES (%s, %s, %s, %s)", has_hashtags_data)
 
                 # Check if users mentioned in tweet
                 if message.get('entities').get('user_mentions') != []:
+                    processed_mentions = []
+                    user_mentions_data = []
                     for mention in message.get('entities').get('user_mentions'):
-                        self.cur.execute("INSERT INTO `user_mentions`(`tweet_id`, `user_id`, `mentioned_at`) VALUES (%s, %s, %s)", (str(message.get('id')), str(mention.get('id')), str(timestamp)))
+                        if mention.get('id') in processed_mentions:
+                            mention_index = processed_mentions.index(mention.get('id'))
+                            #Increase occurences
+                            user_mentions_data[mention_index][3] += 1
+                        else:
+                            processed_mentions.append(mention.get('id'))
+                            user_mentions_data.append([str(message.get('id')), str(mention.get('id')), str(timestamp), 1])
+
+                    self.cur.executemany("INSERT INTO `user_mentions`(`tweet_id`, `user_id`, `mentioned_at`, `occurrences`) VALUES (%s, %s, %s, %s)", user_mentions_data)
 
             # Determine if location is set
             location = message.get('user').get('location') if message.get('user').get('location') else None
