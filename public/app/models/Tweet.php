@@ -102,17 +102,4 @@ class Tweet extends Model
         $result = $this->simple_query("SELECT count FROM coordinates WHERE id = " . $venueId);
         return $result;
     }
-
-    function getCount($date) {
-        $result = $this->simple_query("SELECT DATE(FROM_UNIXTIME(created_at)) AS date, HOUR(FROM_UNIXTIME(created_at)) AS hour, COUNT(id) AS count
-                                       FROM tweets
-                                       WHERE 'count' IS NOT NULL 
-                                       AND DATE(FROM_UNIXTIME(created_at)) = '" . $date . "'
-                                       GROUP BY 1, 2");
-        return $result;
-    }
-
-    function insertTweetCount($date, $count) {
-        $this->simple_query("INSERT INTO tweets_count VALUES (" . $date . ", " . $count . ")");
-    }
 }
