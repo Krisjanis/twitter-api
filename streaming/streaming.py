@@ -293,6 +293,7 @@ class TwitterStream:
             file.write('\t' + self.cur._last_executed )
             file.write('\t' + json.dumps(message))
             file.write('\n')
+            file.close()
 
     def save_tweet_csv(self, message):
         # Create directory and files for saving
