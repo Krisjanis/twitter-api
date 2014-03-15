@@ -9,14 +9,14 @@ ini_set('memory_limit', '128M');
 function updateWeekMentionsCount($currentdate) {
     $dbConnect = new database;
     $dbh = $dbConnect->getdbh();
-    $stmt = $dbh->query("SELECT user_id, screen_name, DATE(FROM_UNIXTIME(mentioned_at)) AS date, COUNT(occurrences) AS count
+    $stmt = $dbh->query("SELECT user_id, screen_name, COUNT(occurrences) AS count
                          FROM user_mentions
                          JOIN users ON user_id = id
                          WHERE DATE(FROM_UNIXTIME(mentioned_at))
                          BETWEEN '" . date('Y-m-d', strtotime($currentdate . '-1 week + 1 day')) . "' AND '" . $currentdate . "'
-                         GROUP BY 1, 3");
+                         GROUP BY 1");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    var_dump($stmt);
+
     foreach ($data as $row) {
         $user = $dbh->query("SELECT * FROM statistics_user_mentions WHERE user_id = '" . $row['user_id'] . "'");
         $userData = $user->fetchAll(PDO::FETCH_ASSOC);
