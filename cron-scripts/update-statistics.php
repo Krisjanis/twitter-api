@@ -3,7 +3,7 @@ require(dirname(__FILE__) . 'db-connect.php');
 
 /**
  * Save tweet count per hour
- * @param type $currentdate
+ * @param date $currentdate
  */
 function saveTweetsCount($currentdate) {
     $dbh = getdbh();
@@ -26,8 +26,7 @@ function saveTweetsCount($currentdate) {
 
 /**
  * Save top 100 word count per day
- * @param type $currentdate
- * @return type
+ * @param date $currentdate
  */
 function saveWordsCount($currentdate) {
     $dbh = getdbh();

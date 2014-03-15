@@ -3,7 +3,7 @@ require(dirname(__FILE__) . '/db-connect.php');
 
 /**
  * Update user mentions count per day
- * @param type $currentdate
+ * @param date $currentdate
  */
 function updateDayMentionsCount($currentdate) {
     $dbConnect = new database;

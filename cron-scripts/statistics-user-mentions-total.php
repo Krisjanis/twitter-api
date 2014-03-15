@@ -1,10 +1,10 @@
 <?php
-require(dirname(__FILE__) . 'db-connect.php');
+require(dirname(__FILE__) . '/db-connect.php');
 ini_set('memory_limit', '64M');
 
 /**
  * Update user mentions total count
- * @param type $currentdate
+ * @param date $currentdate
  */
 function updateTotalMentionsCount($currentdate) {
     $dbConnect = new database;
