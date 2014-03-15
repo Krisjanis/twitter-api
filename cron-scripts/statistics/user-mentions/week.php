@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/db-connect.php');
+require(dirname(__FILE__) . '/../../db-connect.php');
 ini_set('memory_limit', '128M');
 
 /**

@@ -1,5 +1,5 @@
 <?php
-require(dirname(__FILE__) . '/db-connect.php');
+require(dirname(__FILE__) . '/../../db-connect.php');
 
 /**
  * Update user mentions count per day

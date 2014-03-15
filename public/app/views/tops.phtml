@@ -4,19 +4,19 @@
         <table class="uk-table uk-table-hover">
             <?php $counter = 1; ?>
             <thead>
-            <tr>
-                <th>Vieta</th>
-                <th>Lietotājs</th>
-                <th>Skaits</th>
-            </tr>
+                <tr>
+                    <th>Vieta</th>
+                    <th>Lietotājs</th>
+                    <th>Skaits</th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
-                <td class="uk-width-4-10"><?php echo $user["screen_name"] ?></td>
-                <td class="uk-width-5-10"><?php echo $user["count"] ?></td>
-            </tr>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                        <td class="uk-width-4-10"><?php echo $user["screen_name"] ?></td>
+                        <td class="uk-width-5-10"><?php echo $user["count"] ?></td>
+                    </tr>
                 <?php endforeach; $counter = 1;?>
             </tbody>
         </table>
@@ -29,20 +29,20 @@
         <h2 class="uk-h1">Hashtagi, kas izmantoti visvairāk</h2>
         <table class="uk-table uk-width-1-2 uk-table-hover">
             <thead>
-            <tr>
-                <th>Vieta</th>
-                <th>Hashtag</th>
-                <th>Skaits</th>
-            </tr>
+                <tr>
+                    <th>Vieta</th>
+                    <th>Hashtag</th>
+                    <th>Skaits</th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach ($hashtags as $hashtag): ?>
-                <tr>
-                    <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
-                    <td class="uk-width-4-10"><?php echo $hashtag["hashtag"] ?></td>
-                    <td class="uk-width-5-10"><?php echo $hashtag["count"] ?></td>
-                </tr>
-            <?php endforeach; $counter = 1;?>
+                <?php foreach ($hashtags as $hashtag): ?>
+                    <tr>
+                        <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                        <td class="uk-width-4-10"><?php echo $hashtag["hashtag"] ?></td>
+                        <td class="uk-width-5-10"><?php echo $hashtag["count"] ?></td>
+                    </tr>
+                <?php endforeach; $counter = 1;?>
             </tbody>
         </table>
     </div>
@@ -53,19 +53,19 @@
         <h2 class="uk-h1">Populārākie retvīti</h2>
         <table class="uk-table uk-width-1-2 uk-table-hover">
             <thead>
-            <tr>
-                <th>Vieta</th>
-                <th>Ziņa</th>
-                <th>Skaits</th>
-            </tr>
+                <tr>
+                    <th>Vieta</th>
+                    <th>Ziņa</th>
+                    <th>Skaits</th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach ($top20retweets as $retweet): ?>
-            <tr>
-                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
-                <td class="uk-width-4-10"><?php echo $retweet["text"] ?></td>
-                <td class="uk-width-5-10"><?php echo $retweet["count"] ?></td>
-            </tr>
+                <?php foreach ($retweets as $retweet): ?>
+                    <tr>
+                        <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                        <td class="uk-width-4-10"><?php echo $retweet["text"] ?></td>
+                        <td class="uk-width-5-10"><?php echo $retweet["count"] ?></td>
+                    </tr>
                 <?php endforeach; $counter = 1; ?>
             </tbody>
         </table>
@@ -77,19 +77,19 @@
         <h2 class="uk-h1">Tvītošanas veidi</h2>
         <table class="uk-table uk-width-1-2 uk-table-hover">
             <thead>
-            <tr>
-                <th>Vieta</th>
-                <th>Nosaukums</th>
-                <th>Skaits</th>
-            </tr>
+                <tr>
+                    <th>Vieta</th>
+                    <th>Nosaukums</th>
+                    <th>Skaits</th>
+                </tr>
             </thead>
             <tbody>
-            <?php foreach ($sources as $source): ?>
-            <tr>
-                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
-                <td class="uk-width-4-10"><?php echo $source["source"]; ?></td>
-                <td class="uk-width-5-10"><?php echo $source["count"]; ?></td>
-            </tr>
+                <?php foreach ($sources as $source): ?>
+                    <tr>
+                        <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                        <td class="uk-width-4-10"><?php echo $source["source"]; ?></td>
+                        <td class="uk-width-5-10"><?php echo $source["count"]; ?></td>
+                    </tr>
                 <?php endforeach; $counter = 1; ?>
             </tbody>
         </table>
