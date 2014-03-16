@@ -32,7 +32,7 @@ function saveTweetsCount($currentdate) {
 function saveWordsCount($currentdate) {
     $database = new database;
     $dbh = $database->getdbh();
-    $stmt = $dbh->query("SELECT text, DATE(FROM_UNIXTIME(created_at)) AS date 
+    $stmt = $dbh->query("SELECT text, DATE(FROM_UNIXTIME(created_at)) AS date
                          FROM tweets WHERE DATE(FROM_UNIXTIME(created_at)) = '" . $currentdate . "'");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -48,7 +48,7 @@ function saveWordsCount($currentdate) {
         foreach ($words_string as $word) {
             if (mb_strlen($word, "UTF-8") > 3) {
                 $word = mb_convert_case($word, MB_CASE_LOWER, "UTF-8");
-                if ($word != 'http' || $word != 'https') {
+                if ($word != 'http' && $word != 'https') {
                     $words[$word] = (isset($words[$word])) ? $words[$word] + 1 : 1;
                 }
             }
