@@ -2,6 +2,7 @@ $(document).ready(function() {
     getTopPlaceNames();
     secondaryMenuPosition();
     switchTopWordsArrow();
+    loadTops();
 });
 
 $(window).load(function() {
@@ -118,10 +119,11 @@ function scrollToTop() {
 function loadTops() {
     var baseUrl = jQuery('.top-wrapper').attr('data-base-url');
     if (jQuery('.top-wrapper').length) {
-        jQuery('.data-table').each(function() {
+        jQuery('.data-table').click(function() {
             var container = jQuery(this),
                 url = container.attr('data-next-url');
-            if (url) {
+            if (url && !container.hasClass('disabled')) {
+                container.addClass('disabled');
                 jQuery.ajax({
                     url: baseUrl + url,
                     type: 'POST',

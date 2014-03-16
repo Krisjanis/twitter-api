@@ -62,6 +62,8 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 
 /* Tops ============================ */
 .top-wrapper .uk-h1 { margin:0; padding:0; font-size:40px; }
+.top-wrapper .data-table { cursor:pointer; }
+.top-wrapper .data-table.disabled { cursor:auto; }
 /* ================================= */
 
 /* Top words */
