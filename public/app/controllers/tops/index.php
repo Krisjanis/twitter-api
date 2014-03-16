@@ -1,12 +1,12 @@
 <?php
 function _index () {
     $view = new View (APP_PATH . 'views/template.phtml');
-    $content = new View (APP_PATH . 'views/tops.phtml');
+    $content = new View (APP_PATH . 'views/tops/index.phtml');
 
-    $content->set('users', _getTopMentions(0, 20));
+    //$content->set('users', _getTopMentions(0, 20));
     $content->set('hashtags', _getTopHashatgs(20));
     $content->set('retweets', _getTopRetweets(20));
-    $content->set('sources', _getTopSource(0, 20));
+    //$content->set('sources', _getTopSource(0, 20));
 
     $pageTitle = "Topi";
     $view->set('pageTitle', $pageTitle);

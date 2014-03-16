@@ -60,6 +60,11 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 #map-canvas .loading-gif { margin:0; }
 /* ================================= */
 
+/* Tops ============================ */
+.top-wrapper .uk-h1 { margin:0; padding:0; }
+.top-wrapper .uk-panel { margin-top:20px; }
+/* ================================= */
+
 /* Top words */
 .top-words { margin-bottom:20px; display:none; }
 .top-words.active { display:block; }

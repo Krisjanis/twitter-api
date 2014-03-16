@@ -4,6 +4,10 @@ $(document).ready(function() {
     switchTopWordsArrow();
 });
 
+$(window).load(function() {
+    loadTops();
+});
+
 $(window).resize(function() {
     secondaryMenuPosition();
 });
@@ -107,4 +111,25 @@ function loadVenueData(container, param, object) {
 
 function scrollToTop() {
     jQuery('html, body').animate({ scrollTop:0 }, 200);
+}
+
+
+
+function loadTops() {
+    var baseUrl = jQuery('.top-wrapper').attr('data-base-url');
+    if (jQuery('.top-wrapper').length) {
+        jQuery('.data-table').each(function() {
+            var container = jQuery(this),
+                url = container.attr('data-next-url');
+            if (url) {
+                jQuery.ajax({
+                    url: baseUrl + url,
+                    type: 'POST',
+                    success: function(data) {
+                        jQuery(data).insertAfter(container.find('.title'));
+                    }
+                });
+            }
+        });
+    }
 }

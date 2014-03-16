@@ -1,12 +1,13 @@
 <?php
-require(dirname(__FILE__) . 'db-connect.php');
+require(dirname(__FILE__) . '/db-connect.php');
 
 /**
  * Save tweet count per hour
  * @param date $currentdate
  */
 function saveTweetsCount($currentdate) {
-    $dbh = getdbh();
+    $database = new database;
+    $dbh = $database->getdbh();
     $stmt = $dbh->query("
                 SELECT DATE(FROM_UNIXTIME(created_at)) AS date, HOUR(FROM_UNIXTIME(created_at)) AS hour, COUNT(id) AS count
                 FROM tweets
@@ -29,7 +30,8 @@ function saveTweetsCount($currentdate) {
  * @param date $currentdate
  */
 function saveWordsCount($currentdate) {
-    $dbh = getdbh();
+    $database = new database;
+    $dbh = $database->getdbh();
     $stmt = $dbh->query("SELECT text, DATE(FROM_UNIXTIME(created_at)) AS date 
                          FROM tweets WHERE DATE(FROM_UNIXTIME(created_at)) = '" . $currentdate . "'");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);

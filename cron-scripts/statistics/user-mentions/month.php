@@ -13,7 +13,7 @@ function updateMonthMentionsCount($currentdate) {
                          FROM user_mentions
                          JOIN users ON user_id = id
                          WHERE DATE(FROM_UNIXTIME(mentioned_at))
-                         BETWEEN '" . date('Y-m-d', strtotime($currentdate . '-1 month')) . "' AND '" . $currentdate . "'
+                         BETWEEN '" . date('Y-m-d', strtotime($currentdate . '-1 month +1 day')) . "' AND '" . $currentdate . "'
                          GROUP BY 1");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

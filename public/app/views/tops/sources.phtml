@@ -1,0 +1,18 @@
+<table class="hidden uk-table uk-width-1-2 uk-table-hover">
+    <thead>
+        <tr>
+            <th>Vieta</th>
+            <th>Nosaukums</th>
+            <th>Skaits</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $counter = 1; foreach ($sources as $source): ?>
+            <tr>
+                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                <td class="uk-width-4-10"><?php echo $source["source"]; ?></td>
+                <td class="uk-width-5-10"><?php echo $source["count"]; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

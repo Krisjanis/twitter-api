@@ -1,0 +1,59 @@
+<div class="content-1 top-wrapper" data-base-url="<?php echo BASE_URL ?>">
+    <div class="uk-container uk-container-center">
+        <div class="uk-panel uk-panel-box data-table" data-next-url="tops/mentions">
+            <h2 class="uk-h1 title">Lietotāji, kas pieminēti visvairāk</h2>
+        </div>
+
+        <?php if (isset($hashtags)): ?>
+            <div class="uk-panel uk-panel-box">
+                <h2 class="uk-h1 title">Hashtagi, kas izmantoti visvairāk</h2>
+                <table class="hidden uk-table uk-width-1-2 uk-table-hover">
+                    <thead>
+                        <tr>
+                            <th>Vieta</th>
+                            <th>Hashtag</th>
+                            <th>Skaits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $counter = 1; foreach ($hashtags as $hashtag): ?>
+                            <tr>
+                                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                                <td class="uk-width-4-10"><?php echo $hashtag["hashtag"] ?></td>
+                                <td class="uk-width-5-10"><?php echo $hashtag["count"] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (isset($retweets)): ?>
+            <div class="uk-panel uk-panel-box">
+                <h2 class="uk-h1 title">Populārākie retvīti</h2>
+                <table class="hidden uk-table uk-width-1-2 uk-table-hover">
+                    <thead>
+                        <tr>
+                            <th>Vieta</th>
+                            <th>Ziņa</th>
+                            <th>Skaits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $counter = 1; foreach ($retweets as $retweet): ?>
+                            <tr>
+                                <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
+                                <td class="uk-width-4-10"><?php echo $retweet["text"] ?></td>
+                                <td class="uk-width-5-10"><?php echo $retweet["count"] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+
+        <div class="uk-panel uk-panel-box data-table" data-next-url="tops/sources">
+            <h2 class="uk-h1 title">Tvītošanas veidi</h2>
+        </div>
+    </div>
+</div>
