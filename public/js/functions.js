@@ -117,7 +117,8 @@ function scrollToTop() {
 
 
 function loadTops() {
-    var baseUrl = jQuery('.top-wrapper').attr('data-base-url');
+    var baseUrl = jQuery('.top-wrapper').attr('data-base-url'),
+        imgPath = jQuery('.top-wrapper').attr('data-img-path');
     if (jQuery('.top-wrapper').length) {
         jQuery('.data-table').click(function() {
             var container = jQuery(this),
@@ -127,7 +128,11 @@ function loadTops() {
                 jQuery.ajax({
                     url: baseUrl + url,
                     type: 'POST',
+                    beforeSend: function() {
+                        jQuery('<img class="loader" src="' + imgPath + 'loader.gif"/>').insertAfter(container.find('.title'));
+                    },
                     success: function(data) {
+                        container.find('.loader').remove();
                         jQuery(data).insertAfter(container.find('.title'));
                     }
                 });

@@ -63,6 +63,7 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 /* Tops ============================ */
 .top-wrapper .uk-h1 { margin:0; padding:0; font-size:40px; }
 .top-wrapper .data-table { cursor:pointer; }
+.top-wrapper .data-table .loader { margin:10px auto; width:32px; height:32px; display:block; }
 .top-wrapper .data-table.disabled { cursor:auto; }
 /* ================================= */
 
@@ -75,7 +76,6 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 .uk-button.next { float:right; }
 
 /* Venue info page */
-.venue-info { margin-left:0 !important; }
 .venue-info .users a:hover { text-decoration:none; }
 .venue-info .users a:hover span { text-decoration:underline; }
 .venue-info .users .count { vertical-align:middle; }
