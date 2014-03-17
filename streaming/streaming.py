@@ -206,14 +206,15 @@ class TwitterStream:
                             newHashtag = self.cur.fetchone()
                             hashtag_id = str(newHashtag[0])
 
-                        if hashtag.get('text') in processed_hashtags:
-                            hashtag_index = processed_hashtags.index(hashtag.get('text'))
+                        if hashtag_id in processed_hashtags:
+                            hashtag_index = processed_hashtags.index(hashtag_id)
                             #Increase occurences
                             has_hashtags_data[hashtag_index][3] += 1
                         else:
-                            processed_hashtags.append(hashtag.get('text'))
+                            processed_hashtags.append(hashtag_id)
                             has_hashtags_data.append([hashtag_id, str(message.get('id')), str(message.get('user').get('id')), 1])
 
+                    print has_hashtags_data
                     #Create relations for all hashtags
                     self.cur.executemany("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`, `occurrences`) VALUES (%s, %s, %s, %s)", has_hashtags_data)
 
