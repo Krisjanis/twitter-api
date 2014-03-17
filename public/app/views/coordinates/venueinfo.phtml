@@ -45,6 +45,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $linker = new linker; ?>
                             <?php $count = 0; foreach ($tweets as $tweet): ?>
                                 <tr class="<?php echo $tweet['user'] ?>">
                                     <td>
@@ -53,7 +54,7 @@
                                             <?php echo $tweet['screen_name'] ?></a>
                                         </span>
                                     </td>
-                                    <td><?php echo $tweet['text'] ?></td>
+                                    <td><?php echo $linker->replaceUrl($tweet['text']) ?></td>
                                 </tr>
                                 <?php $count++; ?>
                             <?php endforeach; ?>

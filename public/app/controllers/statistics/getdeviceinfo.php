@@ -8,10 +8,10 @@ function _getdeviceinfo () {
 
     $values = array();
     foreach($devices as $data) {
-        $value = array('name' => $data['source'],'value' => $data['count']);
+        $value = array('name' => strip_tags($data['source']),
+                       'value' => $data['count']);
         array_push($values, $value);
     }
 
-    print_r(json_encode(array('values' => $values,
-                        )));
+    print_r(json_encode(array('values' => $values)));
 }

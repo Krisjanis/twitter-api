@@ -7,10 +7,11 @@
         </tr>
     </thead>
     <tbody>
+        <?php $linker = new linker; ?>
         <?php $counter = 1; foreach ($retweets as $retweet): ?>
             <tr>
                 <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
-                <td class="uk-width-7-10"><?php echo $retweet["text"] ?></td>
+                <td class="uk-width-7-10"><?php echo $linker->replaceUrl($retweet["text"]) ?></td>
                 <td class="uk-width-2-10"><?php echo $retweet["count"] ?></td>
             </tr>
         <?php endforeach; ?>
