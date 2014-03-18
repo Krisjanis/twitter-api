@@ -277,24 +277,11 @@ class TwitterStream:
         except MySQLdb.Error, e:
             # Error while saving tweet
             self.db.rollback()
+            # Log mysql error, executed query and tweet data
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-            # Log mysql error, query and tweet data
-            # Create files for saving
-            explode = message.get('created_at').split(' ')
-            year = explode[5]
-            month = explode[1]
-            day = explode[2]
+            print self.cur._last_executed
+            print "Tweet: %s, User: %s" % (message.get('text'), message.get('user').get('screen_name'))
 
-            file = codecs.open(SERVER_DATA_ROOT + 'mysql_errors/' + year + '_' + month + '_' + day + '.csv', 'a', encoding='utf-8')
-            # Write header if file empty
-            if os.stat(SERVER_DATA_ROOT + 'mysql_errors/' + year + '_' + month + '_' + day + '.csv').st_size == 0:
-                file.write('error_message\tquery\tmessage\n')
-
-            file.write("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
-            file.write('\t' + self.cur._last_executed )
-            file.write('\t' + json.dumps(message))
-            file.write('\n')
-            file.close()
 
     def save_tweet_csv(self, message):
         # Create directory and files for saving
