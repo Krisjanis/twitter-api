@@ -214,7 +214,6 @@ class TwitterStream:
                             processed_hashtags.append(hashtag_id)
                             has_hashtags_data.append([hashtag_id, str(message.get('id')), str(message.get('user').get('id')), 1])
 
-                    print has_hashtags_data
                     #Create relations for all hashtags
                     self.cur.executemany("INSERT INTO `has_hashtags`(`hashtag_id`, `tweet_id`, `user_id`, `occurrences`) VALUES (%s, %s, %s, %s)", has_hashtags_data)
 
