@@ -5,10 +5,6 @@ $(document).ready(function() {
     loadTops();
 });
 
-$(window).load(function() {
-    loadTops();
-});
-
 $(window).resize(function() {
     secondaryMenuPosition();
 });
@@ -117,25 +113,42 @@ function scrollToTop() {
 
 
 function loadTops() {
-    var baseUrl = jQuery('.top-wrapper').attr('data-base-url'),
-        imgPath = jQuery('.top-wrapper').attr('data-img-path');
+    var wrapper = jQuery('.top-wrapper'),
+        baseUrl = wrapper.attr('data-base-url'),
+        imgPath = wrapper.attr('data-img-path');
     if (jQuery('.top-wrapper').length) {
-        jQuery('.data-table').click(function() {
-            var container = jQuery(this),
-                url = container.attr('data-next-url');
-            if (url && !container.hasClass('disabled')) {
-                container.addClass('disabled');
+        jQuery('.data-table button').click(function() {
+            var button = jQuery(this),
+                period = button.attr('data-period');
+                model = button.parent().attr('data-model'),
+                container = jQuery('.data-table.' + model);
+            if (!button.hasClass('disabled')) {
+                button.addClass('disabled');
                 jQuery.ajax({
-                    url: baseUrl + url,
-                    type: 'POST',
-                    beforeSend: function() {
-                        jQuery('<img class="loader" src="' + imgPath + 'loader.gif"/>').insertAfter(container.find('.title'));
-                    },
-                    success: function(data) {
-                        container.find('.loader').remove();
-                        jQuery(data).insertAfter(container.find('.title'));
-                    }
-                });
+                        url: baseUrl + 'tops/' + model + '/0/20/' + period,
+                        type: 'POST',
+                        beforeSend: function() {
+                            if (!container.hasClass('opened')) {
+                                //jQuery('<img class="loader" src="' + imgPath + 'loader.gif"/>').insertAfter(container.find('.title'));
+                                container.append('<img class="loader" src="' + imgPath + 'loader.gif"/>');
+                            } else {
+                                container.find('table').animate({ opacity: 0.5 });
+                            }
+                        },
+                        success: function(data) {
+                            var content = jQuery(data);
+                            container.find('.loader').remove();
+                            container.find('table').hide();
+                            container.find('table').animate({ opacity: 1 });
+                            content.addClass(period);
+                            container.append(content);
+                            container.addClass('opened');
+                        }
+                    });
+            } else {
+                container.find('table').hide();
+                container.find('table.' + period).show();
+                
             }
         });
     }

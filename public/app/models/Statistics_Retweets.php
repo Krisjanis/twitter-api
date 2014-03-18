@@ -2,17 +2,31 @@
 class Statistics_Retweets extends Model
 {
     /**
-     * Get all time top retweeted tweets
+     * Get top retweeted tweets
      * @param int $from
      * @param int $to
      * @return array
      */
-    function getTopRetweetsTotal($from = 0, $to = 20)
+    function getTopRetweets($from = 0, $to = 20, $period = 'day')
     {
-        $result = $this->simple_query("SELECT total_count AS count, text
+        switch ($period) {
+            case 'day':
+                $data = 'yesterday_count';
+                break;
+            case 'week':
+                $data = 'last_week_count';
+                break;
+            case 'month':
+                $data = 'last_month_count';
+                break;
+            case 'total':
+                $data = 'total_count';
+                break;
+        }
+        $result = $this->simple_query("SELECT " . $data . " AS count, text
                                        FROM statistics_retweets
                                        JOIN tweets ON tweet_id = id
-                                       ORDER BY total_count DESC
+                                       ORDER BY " . $data . " DESC
                                        LIMIT " . $from . ", " . $to);
         return $result;
     }
