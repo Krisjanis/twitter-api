@@ -279,7 +279,6 @@ class TwitterStream:
             # Log mysql error, executed query and tweet data
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
             print self.cur._last_executed
-            print "Tweet: %s, User: %s" % (message.get('text'), message.get('user').get('screen_name'))
 
 
     def save_tweet_csv(self, message):
