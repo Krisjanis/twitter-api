@@ -55,7 +55,7 @@ h3 { text-align:center; font-family:'bebas_neueregular'; }
 .btn:hover,
 .btn:focus,
 .btn:active,
-.btn.active { background-color:#3BA9D3; }
+.btn.active { background-color:#3BA9D3; outline:0; }
 .btn:disabled { opacity:0.5; }
 
 .sort-buttons span { text-transform:uppercase; font-family:'bebas_neueregular'; font-size:16px; line-height:31px; padding-right:5px; }
