@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title><?php echo $GLOBALS['sitename'];?><?php if (isset($pageTitle)) echo ' | ' . $pageTitle; ?></title>
+        <title><?php if (isset($pageTitle)) echo $pageTitle . ' | '; ?><?php echo $GLOBALS['sitename'];?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -18,9 +18,10 @@
         <script src="<?php echo BASE_URL ?>piechart/piechart.js"></script>
     </head>
     <body>
-        <div class="wrapper">
+        <div class="wrapper <?php echo isset($customClass) ? $customClass : '' ?>">
 
             <!-- HEADER -->
+            <noscript><i class="uk-icon-warning-sign"></i> Nu Tu gan iebrauci auzās, Tev nestrādā javascript, tāpēc arī mūsu lapa nestrādās <i class="uk-icon-frown"></i></noscript>
             <nav class="uk-navbar uk-navbar-attached">
                 <div class="uk-container uk-container-center">
                     <a href="<?php echo BASE_URL ?>" class="uk-navbar-brand uk-float-left">Letiņš Tvītiņš</a>
@@ -34,10 +35,17 @@
             </nav>
 
             <!-- CONTENT -->
-            <?php echo $content ?>
+            <div class="content">
+                <?php echo $content ?>
+            </div>
 
             <!-- FOOTER -->
-            <div class="uk-container uk-container-center footer">
+            <div class="footer">
+                <div class="uk-container uk-container-center">
+                    <span>Letiņš @ 2014</span><br />
+                    <span class="footer-item">Lepni darbojas uz Ubuntu <i class="uk-icon-linux"></i></span>
+                    <a class="footer-item last" href="https://github.com/Krisjanis/twitter-api"><i class="uk-icon-code-fork"></i> Sadur ar dakšiņu mūs Githubā <i class="uk-icon-github"></i></a>
+                </div>
             </div>
 
         </div>

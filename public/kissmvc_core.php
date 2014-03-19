@@ -83,7 +83,14 @@ abstract class KISS_Controller {
   //Override this function for your own custom 404 page
   function request_not_found($msg='') {
     header("HTTP/1.0 404 Not Found");
-    die('<html><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>'.$msg.'<p>The requested URL was not found on this server.</p><p>Please go <a href="javascript: history.back(1)">back</a> and try again.</p><hr /><p>Powered By: <a href="http://kissmvc.com">KISSMVC</a></p></body></html>');
+      $view = new View (APP_PATH . 'views/template.phtml');
+      $content = new View (APP_PATH . 'views/404.phtml');
+      $content->set('msg', $msg);
+      $view->set('pageTitle', '404 kļūda');
+      $view->set('customClass', 'page-404');
+      $view->set('content', $content->fetch());
+      $view->dump();
+      die;
   }
 }
 
