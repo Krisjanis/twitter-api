@@ -122,33 +122,39 @@ function loadTops() {
                 period = button.attr('data-period');
                 model = button.parent().attr('data-model'),
                 container = jQuery('.data-table.' + model);
-            if (!button.hasClass('disabled')) {
-                button.addClass('disabled');
-                jQuery.ajax({
-                        url: baseUrl + 'tops/' + model + '/0/20/' + period,
-                        type: 'POST',
-                        beforeSend: function() {
-                            if (!container.hasClass('opened')) {
-                                //jQuery('<img class="loader" src="' + imgPath + 'loader.gif"/>').insertAfter(container.find('.title'));
-                                container.append('<img class="loader" src="' + imgPath + 'loader.gif"/>');
-                            } else {
-                                container.find('table').animate({ opacity: 0.5 });
+            if (!container.hasClass('disabled') && button.attr('disabled') == undefined) {
+                wrapper.find('button').attr('disabled', 'disabled');
+                if (!button.hasClass('loaded')) {
+                    container.addClass('disabled');
+                    container.find('button').removeClass('active');
+                    button.addClass('active');
+                    button.addClass('loaded');
+                    jQuery.ajax({
+                            url: baseUrl + 'tops/' + model + '/0/20/' + period,
+                            type: 'POST',
+                            beforeSend: function() {
+                                if (!container.hasClass('opened')) {
+                                    container.append('<img class="loader" src="' + imgPath + 'loader.gif"/>');
+                                } else {
+                                    container.find('table').animate({ opacity: 0.5 });
+                                }
+                            },
+                            success: function(data) {
+                                var content = jQuery(data);
+                                content.addClass(period);
+                                container.find('.loader').remove();
+                                container.find('table').hide();
+                                container.find('table').animate({ opacity: 1 });
+                                container.append(content);
+                                container.addClass('opened');
+                                container.removeClass('disabled');
+                                wrapper.find('button').removeAttr('disabled');
                             }
-                        },
-                        success: function(data) {
-                            var content = jQuery(data);
-                            container.find('.loader').remove();
-                            container.find('table').hide();
-                            container.find('table').animate({ opacity: 1 });
-                            content.addClass(period);
-                            container.append(content);
-                            container.addClass('opened');
-                        }
-                    });
-            } else {
-                container.find('table').hide();
-                container.find('table.' + period).show();
-                
+                        });
+                } else {
+                    container.find('table').hide();
+                    container.find('table.' + period).show();
+                }
             }
         });
     }
