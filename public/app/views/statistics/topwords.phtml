@@ -3,7 +3,6 @@
         <h2 class="uk-h1">Biežāk lietotie vārdi</h2>
         <div class="clear top-words-wrapper">
             <div>
-                <?php //var_dump($usedWords); ?>
                 <?php foreach($words as $day): ?>
                     <div class="top-words uk-panel-box">
                         <?php $top = 1 ?>
@@ -12,6 +11,7 @@
                             <span top="<?php echo $top ?>" data-uk-tooltip title="<?php echo $count ?>" class="word<?php if (in_array($word, $usedWords)) { echo ' used'; } ?>"><?php echo $word ?></span>
                             <?php $top++ ?>
                         <?php endforeach; ?>
+                    <div class="count"></div>
                     </div>
                 <?php endforeach; ?>
             </div>

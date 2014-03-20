@@ -3,6 +3,7 @@ $(document).ready(function() {
     secondaryMenuPosition();
     switchTopWordsArrow();
     loadTops();
+    countUsedWords();
 });
 
 $(window).resize(function() {
@@ -158,4 +159,11 @@ function loadTops() {
             }
         });
     }
+}
+
+function countUsedWords() {
+    jQuery('.top-words.uk-panel-box').each(function() {
+        var count = jQuery(this).find('.word.used').length;
+        jQuery(this).find('div.count').html(count + '/100');
+    });
 }

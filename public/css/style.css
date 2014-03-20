@@ -101,6 +101,7 @@ noscript { display:block; background-color:#EDC951; text-align:center; width:100
 .top-words .uk-text-info { display:block; font-size:19px; margin:0 0 6px 2px; }
 .btn.prev { float:left; }
 .btn.next { float:right; }
+.top-words div.count { text-align:right; font-weight:bold; }
 
 /* Venue info page */
 .venue-info .users a,
