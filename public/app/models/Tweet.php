@@ -55,16 +55,6 @@ class Tweet extends Model
         return $result;
     }
 
-    function getSource($count)
-    {
-        $result = $this->simple_query("SELECT source, count( id ) AS count
-                                        FROM tweets
-                                        GROUP BY source
-                                        ORDER BY count DESC
-                                        LIMIT 0, " . $count);
-        return $result;
-    }
-
     function getTweetsByTimePeriod($period, $from, $to)
     {
         switch ($period) {

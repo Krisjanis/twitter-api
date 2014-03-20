@@ -39,6 +39,29 @@ class Statistics_Tweetcount extends Model
     }
 
     /**
+     * Get last week tweet count
+     * @return int
+     */
+    function getTweetCountByTwoWeeks()
+    {
+        //$to = date('Y-m-d', strtotime(date('Y-m-d') . '-1 day'));
+        $to = '2014-02-24';
+        $from = date('Y-m-d', strtotime($to . '-1 week +1 day'));
+        $toOld = date('Y-m-d', strtotime($from . '-1 day'));
+        $fromOld = date('Y-m-d', strtotime($toOld . '-1 week +1 day'));
+        $new = $this->select("DATE(FROM_UNIXTIME(time)) AS date, SUM(count) as count_new", "DATE(FROM_UNIXTIME(time)) BETWEEN '" . $from . "' AND '" . $to . "' GROUP BY 1");
+        $old = $this->select("DATE(FROM_UNIXTIME(time)) AS date, SUM(count) as count_old", "DATE(FROM_UNIXTIME(time)) BETWEEN '" . $fromOld . "' AND '" . $toOld . "' GROUP BY 1");
+        foreach ($old as $old_key => $old_day) {
+            foreach ($new as $new_key => $new_day) {
+                if ($old_key == $new_key) {
+                    array_push($new[$new_key], $old_day['count_old']);
+                }
+            }
+        }
+        return $new;
+    }
+
+    /**
      * Get day with max tweet count
      * @return array
      */

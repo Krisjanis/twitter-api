@@ -1011,8 +1011,8 @@ Cluster.prototype.updateIcon = function() {
 
   if (this.markers_.length < this.minClusterSize_) {
     // Min cluster size not yet reached.
-    //this.clusterIcon_.hide(); // Removed for count displaying on markers
-    //return;
+    this.clusterIcon_.hide();
+    return;
   }
 
   var numStyles = this.markerClusterer_.getStyles().length;

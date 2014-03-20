@@ -17,6 +17,55 @@
 
 <div class="content-2">
     <div class="uk-container uk-container-center">
+        <h2 class="uk-h1">Pēdējo nedēļu aktivitāte</h2>
+        <script type="text/javascript">
+            $(function() {
+                $("#chartContainerWeek").dxChart({
+                    dataSource: [
+                        <?php foreach ($tweetCountByTwoWeeks as $key => $day): ?>
+                        {day: "<?php echo date('D', strtotime($day['date'])) ?>", count: <?php echo $day['count_new'] ?>, count_previous: <?php echo $day[0] ?>},
+                        <?php endforeach; ?>
+
+                    ],
+                    commonSeriesSettings: {
+                        type: 'spline',
+                        argumentField: 'day',
+                        width: 5,
+                        hoverStyle: {
+                            width: 7
+                        }
+                    },
+                    commonAxisSettings: {
+                        grid: {
+                            visible: true
+                        }
+                    },
+                    series: [
+                        { valueField: 'count', name: 'Šī nedēļā', color: '#0779A6' },
+                        { valueField: 'count_previous', name: 'Iepriekšējā nedēļa', color: '#3BA9D3' }
+                    ],
+                    tooltip:{
+                        enabled: true
+                    },
+                    legend: {
+                        verticalAlignment: 'bottom',
+                        horizontalAlignment: 'center'
+                    },
+                    commonPaneSettings: {
+                        border:{
+                            visible: true,
+                            bottom: false
+                        }
+                    }
+                });
+            });
+        </script>
+        <div id="chartContainerWeek" style="width: 100%; height: 440px;"></div>
+    </div>
+</div>
+
+<div class="content-1">
+    <div class="uk-container uk-container-center">
         <h2 class="uk-h1">Lietotāju aktivitāte no sistēmas sākuma</h2>
         <script type="text/javascript">
             $(function() {

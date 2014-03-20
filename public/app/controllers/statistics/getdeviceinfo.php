@@ -1,10 +1,10 @@
 <?php
 function _getdeviceinfo () {
-    $tweets = new Tweet();
     $id = $_GET['id'];
     $limit = $_GET['limit'];
     $offset = $_GET['offset'];
-    $devices = $tweets->getSource(50);
+    $sources = new Statistics_Source();
+    $devices = $sources->getTopSources(0, 50, 'total');
 
     $values = array();
     foreach($devices as $data) {

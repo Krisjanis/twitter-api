@@ -123,8 +123,8 @@ function loadTops() {
                 model = button.parent().attr('data-model'),
                 container = jQuery('.data-table.' + model);
             if (!container.hasClass('disabled') && button.attr('disabled') == undefined) {
-                wrapper.find('button').attr('disabled', 'disabled');
                 if (!button.hasClass('loaded')) {
+                    wrapper.find('button').attr('disabled', 'disabled');
                     container.addClass('disabled');
                     container.find('button').removeClass('active');
                     button.addClass('active');

@@ -16,6 +16,7 @@ function _setVariables($content) {
     $content->set('lastMonthTweetCount', $statistics['last_month']);
     $content->set('existingTweetCount', $statistics['total']);
     $content->set('tweetCountByDay', $statistics['by_day']);
+    $content->set('tweetCountByTwoWeeks', $statistics['two_weeks']);
     $content->set('maxTweets', $statistics['top_day']);
 
     $content->set('existingUserCount', _getUserStatistics());
@@ -26,12 +27,14 @@ function _getTweetStatistics() {
     $lastMonthTweetCount = $tweets->getLastMonthTweetCount();
     $totalTweetCount = $tweets->getTotalTweetCount();
     $tweetCountByDay = $tweets->getTweetCountByDay();
+    $tweetCountByTwoWeeks = $tweets->getTweetCountByTwoWeeks();
     $dayTweets = $tweets->getTopDay();
 
     return array(
         'last_month' => $lastMonthTweetCount,
         'total' => $totalTweetCount,
         'by_day' => $tweetCountByDay,
+        'two_weeks' => $tweetCountByTwoWeeks,
         'top_day' => $dayTweets
     );
 }

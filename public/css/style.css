@@ -42,7 +42,7 @@ a:hover { color:#3BA9D3; transition:color 0.5s; }
 
 .statistic { clear:left; text-align:center; font-family:'bebas_neueregular'; font-size:25px; line-height:25px; }
 
-.highlight-badge { background-color:#0779A6; color:#fafafa; padding:0 4px; box-shadow:0 1px 0 0 #121857, inset 0 0 1px 0 #09DCD4; border-radius:4px; }
+.highlight-badge { background-color:#0779A6; color:#fafafa; padding:2px 4px 0; box-shadow:0 1px 0 0 #121857, inset 0 0 1px 0 #09DCD4; border-radius:4px; }
 
 h1,
 h2,
@@ -90,18 +90,22 @@ noscript { display:block; background-color:#EDC951; text-align:center; width:100
 /* Tops ============================ */
 .top-wrapper .uk-h1 { margin:0; padding:0; font-size:40px; text-align:left; }
 .top-wrapper .data-table .loader { margin:10px auto; width:32px; height:32px; display:block; }
+.uk-thumbnail span.sources { display:block; background-color:#e8e8e8; padding:0 35px; }
 /* ================================= */
 
 /* Top words */
 .top-words { margin-bottom:20px; display:none; }
 .top-words.active { display:block; }
-.top-words span.word { line-height:1.2; line-height:1; padding:0 3px; }
-.top-words .uk-text-info { display:block; font-size:19px; }
-.uk-button.prev { float:left; }
-.uk-button.next { float:right; }
+.top-words span.word { line-height:1.2; line-height:1; padding:0 3px; font-size:24px; color:#444; }
+.top-words span.word.used { font-size:14px; color:#777; }
+.top-words .uk-text-info { display:block; font-size:19px; margin:0 0 6px 2px; }
+.btn.prev { float:left; }
+.btn.next { float:right; }
 
 /* Venue info page */
+.venue-info .users a,
 .venue-info .users a:hover { text-decoration:none; }
+.venue-info .users a span,
 .venue-info .users a:hover span { text-decoration:underline; }
 .venue-info .users .count { vertical-align:middle; }
 .venue-info .tweets td span { display:block; }
