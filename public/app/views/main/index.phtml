@@ -23,7 +23,9 @@
                 $("#chartContainerWeek").dxChart({
                     dataSource: [
                         <?php foreach ($tweetCountByTwoWeeks as $key => $day): ?>
-                        {day: "<?php echo date('D', strtotime($day['date'])) ?>", count: <?php echo $day['count_new'] ?>, count_previous: <?php echo $day[0] ?>},
+                        { day: "<?php echo date('D', strtotime($day['date'])) ?>",
+                          count: <?php echo $day['count_new'] ?>,
+                          count_previous: <?php isset($day[0]) ? $count = $day[0] : $count = 0; echo $count; ?> },
                         <?php endforeach; ?>
 
                     ],
