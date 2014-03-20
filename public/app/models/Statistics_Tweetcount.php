@@ -44,8 +44,7 @@ class Statistics_Tweetcount extends Model
      */
     function getTweetCountByTwoWeeks()
     {
-        //$to = date('Y-m-d', strtotime(date('Y-m-d') . '-1 day'));
-        $to = '2014-02-24';
+        $to = date('Y-m-d', strtotime(date('Y-m-d') . '-1 day'));
         $from = date('Y-m-d', strtotime($to . '-1 week +1 day'));
         $toOld = date('Y-m-d', strtotime($from . '-1 day'));
         $fromOld = date('Y-m-d', strtotime($toOld . '-1 week +1 day'));
