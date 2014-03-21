@@ -1078,10 +1078,21 @@ ClusterIcon.prototype.triggerClusterClick = function() {
  */
 ClusterIcon.prototype.onAdd = function() {
   this.div_ = document.createElement('DIV');
+  this.div_.className = 'marker-text';
   if (this.visible_) {
     var pos = this.getPosFromLatLng_(this.center_);
     this.div_.style.cssText = this.createCss(pos);
     this.div_.innerHTML = this.sums_.text;
+  } else {
+    var map = this;
+    this.cluster_.markers_.forEach(function(marker) {
+        pos = map.getProjection().fromLatLngToDivPixel(marker.position);
+        pos.x -= parseInt(marker.pointlat / 2, 10) - 11;
+        pos.y -= parseInt(marker.pointlng / 2, 10) + 5;
+        map.div_.style.cssText = map.createCss(pos);
+        map.div_.innerHTML = marker.pointcount;
+        //console.log(marker.icon.size);
+    });
   }
 
   var panes = this.getPanes();
@@ -1221,7 +1232,9 @@ ClusterIcon.prototype.setCenter = function(center) {
  */
 ClusterIcon.prototype.createCss = function(pos) {
   var style = [];
-  style.push('background-image:url(' + this.url_ + ');');
+  if (this.url_) {
+    style.push('background-image:url(' + this.url_ + ');');
+  }
   var backgroundPosition = this.backgroundPosition_ ? this.backgroundPosition_ : '0 0';
   style.push('background-position:' + backgroundPosition + ';');
 

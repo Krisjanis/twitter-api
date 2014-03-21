@@ -85,6 +85,7 @@ noscript { display:block; background-color:#EDC951; text-align:center; width:100
 #map-canvas p, #map-canvas a { line-height:10px; }
 #map-canvas img { margin-right:10px; }
 #map-canvas .loading-gif { margin:0; }
+#map-canvas .marker-text { width:32px; line-height:32px; height:32px; }
 /* ================================= */
 
 /* Tops ============================ */
