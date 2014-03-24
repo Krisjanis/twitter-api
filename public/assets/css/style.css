@@ -41,7 +41,7 @@ a:hover { color:#3BA9D3; transition:color 0.5s; }
 
 .statistic { clear:left; text-align:center; font-family:'bebas_neueregular'; font-size:25px; line-height:25px; }
 
-.highlight-badge { background-color:#0779A6; color:#fafafa; padding:2px 4px 0; box-shadow:0 1px 0 0 #121857, inset 0 0 1px 0 #09DCD4; border-radius:4px; }
+.highlight-badge { background-color:#0779A6; color:#fafafa; padding:2px 4px 0; box-shadow:0 1px 0 0 #121857, inset 0 0 1px 0 #09DCD4; border-radius:4px; border:1px solid #121857; }
 
 h1,
 h2,

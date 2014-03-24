@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <?php echo Asset::css('uikit.css') ?>
         <?php echo Asset::css('style.css') ?>
-        <?php echo Asset::js('jQuery-1.9.1.min.js') ?>
+        <?php echo Asset::js('jquery-1.9.1.min.js') ?>
         <?php echo Asset::js('charts/knockout-2.2.1.js') ?>
         <?php echo Asset::js('charts/globalize.min.js') ?>
         <?php echo Asset::js('charts/dx.chartjs.js') ?>
