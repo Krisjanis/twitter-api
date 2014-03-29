@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <?php echo Asset::css('uikit.css') ?>
         <?php echo Asset::css('style.css') ?>
+        <?php echo Asset::css('admin.css') ?>
         <?php echo Asset::js('jquery-1.9.1.min.js') ?>
         <?php echo Asset::js('charts/knockout-2.2.1.js') ?>
         <?php echo Asset::js('charts/globalize.min.js') ?>
@@ -18,9 +19,12 @@
             <noscript><i class="uk-icon-warning-sign"></i> Nu Tu gan iebrauci auzās, Tev nestrādā javascript, tāpēc arī mūsu lapa nestrādās <i class="uk-icon-frown"></i></noscript>
             <nav class="uk-navbar uk-navbar-attached">
                 <div class="uk-container uk-container-center">
-                    <?php echo Html::anchor('index', 'Letiņš tvīto', array('class' => 'uk-navbar-brand uk-float-left')) ?>
+                    <ul class="main-nav uk-float-left">
+                        <li><?php echo Html::anchor('admin', 'Panelis', array('class' => 'nav-item')) ?></li>
+                        <li><?php echo Html::anchor('', 'Vietne', array('class' => 'nav-item')) ?></li>
+                    </ul>
                     <ul class="main-nav uk-float-right">
-                        <li><?php echo Html::anchor('index', 'Sākums', array('class' => 'nav-item')) ?></li>
+                        <li><?php echo Html::anchor('welcome', 'Sākums', array('class' => 'nav-item')) ?></li>
                         <li><?php echo Html::anchor('coordinates', 'Vietas', array('class' => 'nav-item')) ?></li>
                         <li><?php echo Html::anchor('tops', 'Topi', array('class' => 'nav-item')) ?></li>
                         <li><?php echo Html::anchor('statistics', 'Statistika', array('class' => 'nav-item')) ?></li>

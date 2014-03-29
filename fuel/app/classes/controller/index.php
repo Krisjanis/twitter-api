@@ -19,7 +19,7 @@ class Controller_Index extends Controller_Public
         $data['maxTweets'] = Model_Statistics_Tweet::getMaxTweets();
         $data['tweetCountByTwoWeeks'] = Model_Statistics_Tweet::getTweetCountByTwoWeeks();
         $data['tweetCountByDay'] = Model_Statistics_Tweet::getTweetCountByDay();
-        $this->template->content = View::forge('welcome/index', $data);
+        $this->template->content = View::forge('index/index', $data);
     }
 
     /**
@@ -31,7 +31,7 @@ class Controller_Index extends Controller_Public
     public function action_404()
     {
         $this->template->customClass = 'page-404';
-        $this->template->content = View::forge('welcome/404');
+        $this->template->content = View::forge('index/404');
     }
 
 }

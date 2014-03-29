@@ -13,10 +13,10 @@ class Controller_EsVaruSaderetKaTuNedomajiKaAdminaPieejaIrSeit extends Controlle
 
         if (Input::post())
         {
+            var_dump(Input::post());
             if (Auth::login())
             {
-            	die('die ir labs');
-                //Response::redirect('admin/index');
+                Response::redirect('admin/index');
             }
             else
             {
@@ -24,7 +24,7 @@ class Controller_EsVaruSaderetKaTuNedomajiKaAdminaPieejaIrSeit extends Controlle
                 $data['login_error'] = 'Wrong username/password combo. Try again';
             }
         }
-
-        echo View::forge('admin/login', $data);
+        $this->template->customClass = 'login';
+        $this->template->content = View::forge('admin/login', $data);
     }
 }
