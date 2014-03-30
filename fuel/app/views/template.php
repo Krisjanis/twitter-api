@@ -18,9 +18,9 @@
             <noscript><i class="uk-icon-warning-sign"></i> Nu Tu gan iebrauci auzās, Tev nestrādā javascript, tāpēc arī mūsu lapa nestrādās <i class="uk-icon-frown"></i></noscript>
             <nav class="uk-navbar uk-navbar-attached">
                 <div class="uk-container uk-container-center">
-                    <?php echo Html::anchor('index', 'Letiņš tvīto', array('class' => 'uk-navbar-brand uk-float-left')) ?>
+                    <?php echo Html::anchor('/', 'Letiņš tvīto', array('class' => 'uk-navbar-brand uk-float-left')) ?>
                     <ul class="main-nav uk-float-right">
-                        <li><?php echo Html::anchor('index', 'Sākums', array('class' => 'nav-item')) ?></li>
+                        <li><?php echo Html::anchor('/', 'Sākums', array('class' => 'nav-item')) ?></li>
                         <li><?php echo Html::anchor('coordinates', 'Vietas', array('class' => 'nav-item')) ?></li>
                         <li><?php echo Html::anchor('tops', 'Topi', array('class' => 'nav-item')) ?></li>
                         <li><?php echo Html::anchor('statistics', 'Statistika', array('class' => 'nav-item')) ?></li>
@@ -30,6 +30,23 @@
             <!-- CONTENT -->
             <?php if (isset($content)): ?>
                 <div class="content">
+                    <?php if ($error = Session::get_flash('error')): ?>
+                        <div class="uk-container uk-container-center">
+                            <div class="uk-alert uk-alert-danger"><?php echo $error ?></div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($success = Session::get_flash('success')): ?>
+                        <div class="uk-container uk-container-center">
+                            <div class="uk-alert uk-alert-success"><?php echo $success ?></div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($notices = Session::get_flash('notice')): ?>
+                        <div class="uk-container uk-container-center">
+                            <?php foreach($notices as $notice): ?>
+                                <div class="uk-alert"><?php echo $notice ?></div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                     <?php echo $content ?>
                 </div>
             <?php endif; ?>

@@ -15,7 +15,7 @@ class Controller_Admin extends Controller_Public
         parent::before();
 
         // Check if has access
-        if (!Auth::has_access('admin.index')) {
+        if (!\Auth::has_access('admin.index')) {
             $this->template->customClass = 'page-404';
             $this->template->content = View::forge('index/404');
             echo $this->template->render();
@@ -26,11 +26,27 @@ class Controller_Admin extends Controller_Public
         $this->template = View::forge('admin/template');
     }
 
+    public function action_logout()
+    {
+        die('logout');
+        $this->logout();
+    }
+
     /**
      * Admin panel
      */
     public function action_index()
     {
         // show shit
+    }
+
+    /**
+     * Logout admin
+     */
+    protected function logout()
+    {
+        \Auth::logout();
+        $this->setSuccessMsg('Jūs esat izgājis no sistēmas');
+        \Response::redirect('/');
     }
 }

@@ -11,20 +11,19 @@ class Controller_EsVaruSaderetKaTuNedomajiKaAdminaPieejaIrSeit extends Controlle
     {
         $data = array();
 
-        if (Input::post())
+        if (\Input::post())
         {
-            var_dump(Input::post());
-            if (Auth::login())
+            if (\Auth::login())
             {
-                Response::redirect('admin/index');
+                \Response::redirect('admin/index');
             }
             else
             {
-                $data['username'] = Input::post('username');
-                $data['login_error'] = 'Wrong username/password combo. Try again';
+                $data['username'] = \Input::post('username');
+                $this->setErrorMsg('Nepareiza parole un/vai lietotājvārds');
             }
         }
         $this->template->customClass = 'login';
-        $this->template->content = View::forge('admin/login', $data);
+        $this->template->content = \View::forge('admin/login', $data);
     }
 }
