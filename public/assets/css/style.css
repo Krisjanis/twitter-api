@@ -147,7 +147,8 @@ h3,
 .statistic,
 .btn,
 .sort-buttons span,
-.wrapper.login .label-box label { font-family:'bebas_neueregular'; }
+.wrapper.login .label-box label,
+.wrapper .uk-navbar .nav-username { font-family:'bebas_neueregular'; }
 ::-webkit-input-placeholder { font-family:'bebas_neueregular'; }
 ::-moz-placeholder { font-family:'bebas_neueregular'; }
 :-ms-input-placeholder { font-family:'bebas_neueregular'; }

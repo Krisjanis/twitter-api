@@ -28,7 +28,6 @@ class Controller_Admin extends Controller_Public
 
     public function action_logout()
     {
-        die('logout');
         $this->logout();
     }
 

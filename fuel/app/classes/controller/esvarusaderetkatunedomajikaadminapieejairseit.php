@@ -15,7 +15,7 @@ class Controller_EsVaruSaderetKaTuNedomajiKaAdminaPieejaIrSeit extends Controlle
         {
             if (\Auth::login())
             {
-                \Response::redirect('admin/index');
+                \Response::redirect('admin');
             }
             else
             {

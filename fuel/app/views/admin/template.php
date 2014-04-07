@@ -21,14 +21,11 @@
                 <div class="uk-container uk-container-center">
                     <ul class="main-nav uk-float-left">
                         <li><?php echo Html::anchor('admin', 'Panelis', array('class' => 'nav-item')) ?></li>
-                        <li><?php echo Html::anchor('/', 'Vietne', array('class' => 'nav-item')) ?></li>
+                        <li><?php echo Html::anchor('/', 'Vietne', array('class' => 'nav-item last')) ?></li>
                     </ul>
                     <ul class="main-nav uk-float-right">
-                        <li><?php echo Html::anchor('/', 'Sākums', array('class' => 'nav-item')) ?></li>
-                        <li><?php echo Html::anchor('coordinates', 'Vietas', array('class' => 'nav-item')) ?></li>
-                        <li><?php echo Html::anchor('tops', 'Topi', array('class' => 'nav-item')) ?></li>
-                        <li><?php echo Html::anchor('statistics', 'Statistika', array('class' => 'nav-item')) ?></li>
-                        <li><?php echo Html::anchor('admin/logout', 'Iziet', array('class' => 'nav-item')) ?></li>
+                        <li><?php echo Html::anchor('admin/logout', 'Iziet', array('class' => 'nav-item last')) ?></li>
+                        <li><span class="nav-username"><?php echo \Auth::get('username') ?></span></li>
                     </ul>
                 </div>
             </nav>

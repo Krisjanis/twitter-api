@@ -1,0 +1,5 @@
+/* Global ========================== */
+.wrapper .uk-navbar a.nav-item { margin:6px 0 6px 4px; padding:0 10px 0 0; line-height:16px; border-right:2px solid #515151; }
+.wrapper .uk-navbar a.nav-item.last { border:none; }
+.wrapper .uk-navbar .nav-username { line-height:28px; font-size:17px; font-style:italic; }
+/* ================================= */
