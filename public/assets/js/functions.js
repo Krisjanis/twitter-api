@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    getTopPlaceNames();
+    //getTopPlaceNames();
     secondaryMenuPosition();
     switchTopWordsArrow();
     loadTops();

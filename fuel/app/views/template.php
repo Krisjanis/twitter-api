@@ -11,6 +11,8 @@
         <?php echo Asset::js('charts/globalize.min.js') ?>
         <?php echo Asset::js('charts/dx.chartjs.js') ?>
         <?php echo Asset::js('functions.js') ?>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <?php echo Asset::js('markerclusterer.js') ?>
     </head>
     <body>
         <div class="wrapper <?php echo isset($customClass) ? $customClass : '' ?>">

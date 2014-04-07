@@ -1,0 +1,134 @@
+<?php $displayVenues = count($coordinates); ?>
+<script>
+    function initialize() {
+        var coordinates = <?php echo json_encode($coordinates); ?>,
+            mapOptions = {
+                zoom: 7,
+                center: new google.maps.LatLng(coordinates[1][0], coordinates[1][1]),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            },
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
+            imagePath = '<?php echo Config::get('base_url') . 'assets/img/' ?>',
+            baseUrl = '<?php echo Config::get('base_url') ?>',
+            icon = {
+                url: imagePath + 'marker.png',
+                anchor: new google.maps.Point(16, 16)
+            },
+            infowindow = new google.maps.InfoWindow({ maxWidth:300 }),
+            markers = [],
+            mcOptions = { maxZoom: 21,
+                          styles: [{ height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 },
+                                   { height: 32, url: imagePath + 'marker.png', width: 32 }]
+                        };
+
+        /* Create all markers */
+        <?php for ($i = 1; $i <= $displayVenues; $i++): ?>
+            <?php $id = $coordinates[$i][2]; ?>
+            marker<?php echo $id; ?> = new google.maps.Marker(getMarkerData(coordinates[<?php echo $i; ?>]));
+            addMarker(marker<?php echo $id; ?>)
+        <?php endfor; ?>
+
+        /* Get marker data */
+        function getMarkerData(data) {
+            return { position: new google.maps.LatLng(data[0], data[1]),
+                     map: map,
+                     icon: icon,
+                     pointid: data[2],
+                     pointcount: data[3],
+                     pointlat: data[0],
+                     pointlng: data[1]
+                   };
+        }
+
+        /* Add marker listener and push into markers array */
+        function addMarker(marker) {
+            addMarkerListener(marker);
+            markers.push(marker);
+        }
+
+        /* Show infowindow if click on names from menu */
+        jQuery('.secondary-menu a.top-cordinates').click(function () {
+            var markerId = jQuery(this).attr('id');
+            console.log(12);
+            getInfoWindow(eval(markerId));
+        });
+
+        /* Creats listener that shows infowindow if click on marker */
+        function addMarkerListener(marker) {
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.close();
+                getInfoWindow(marker);
+            });
+        }
+
+        /* Returns infowindow content for given marker */
+        function getInfoWindow(marker) {
+            jQuery.ajax({
+                url: baseUrl + 'coordinates/infowindow/',
+                type: 'POST',
+                data: {
+                    pointId: marker.pointid,
+                    pointCount: marker.pointcount,
+                    pointLat: marker.pointlat,
+                    pointLng: marker.pointlng
+                },
+                beforeSend: function() {
+                    map.setCenter(marker.position);
+                    infowindow.setContent('<img class="loading-gif" src="' + imagePath + 'loader.gif"/>');
+                    infowindow.open(map, marker);
+                },
+                success: function(data) {
+                    if (map.getZoom() < 16) {
+                        map.setZoom(16);
+                    }
+                    infowindow.setContent(data);
+                    infowindow.open(map, marker);
+                }
+            });
+        }
+
+        /* On page load shows all markers in window */
+        function showAllMarkers() {
+            var bounds = new google.maps.LatLngBounds();
+            for (var i = 0, LtLgLen = markers.length; i < LtLgLen; i++) {
+              bounds.extend (markers[i].position);
+            }
+            map.fitBounds(bounds);
+        }
+
+        showAllMarkers();
+        new MarkerClusterer(map, markers, mcOptions);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<div id="map-canvas" ></div>
+<div class="uk-container uk-container-center secondary-menu">
+    <ul class="uk-navbar map-menu">
+        <ul class="uk-navbar-nav" id="map-menu">
+            <li class="uk-parent" data-uk-dropdown="{justify:'#map-menu'}">
+                <?php echo Html::anchor('coordinates', 'Top 15') ?>
+                <div class="uk-dropdown">
+                    <ul class="uk-nav uk-nav-navbar">
+                        <?php for ($i = 1; $i <= $maxTopVenues; $i ++): ?>
+                            <?php $nameUrl = Uri::create('coordinates/infowindow/?data=name'); ?>
+                            <?php $lat = $coordinates[$i][0]; ?>
+                            <?php $lng = $coordinates[$i][1]; ?>
+                            <li>
+                                <span class="uk-badge uk-badge-notification"><?php echo $i; ?></span>
+                                <a class="top-cordinates" id="marker<?php echo $coordinates[$i][2] ?>" name="<?php echo $nameUrl ?>" lat="<?php echo $lat ?>" lng="<?php echo $lng ?>">
+                                    <?php echo $lat . ', ' . $lng; ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </div>
+            </li>
+            <li><?php echo Html::anchor('coordinates/index/100', 'Top 100') ?></li>
+            <li><?php echo Html::anchor('coordinates/index/1000', 'Top 1000') ?></li>
+            <li><?php echo Html::anchor('coordinates/index/10000', 'Top 10000') ?></li>
+        </ul>
+    </ul>
+</div>
