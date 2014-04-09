@@ -61,7 +61,8 @@ class Controller_Coordinates extends Controller_Public
      */
     protected function getFoursquareClientData()
     {
-        return array(Config::get('client_id'), Config::get('client_secret'));
+        $data = Config::get('foursquare_client');
+        return array($data['id'], $data['secret']);
     }
 
     /**
