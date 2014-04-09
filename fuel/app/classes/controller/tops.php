@@ -18,9 +18,33 @@ class Controller_Tops extends Controller_Public
         $this->template->content = View::forge('tops/index', $data);
     }
 
-    public function action_ajaxGetMentions()
+    /**
+     * Get top user mentions
+     *
+     * @param int $from
+     * @param int $to
+     * @param string $period
+     * @return string
+     */
+    public function action_ajaxGetMentions($from = 0, $to = 20, $period = 'day')
     {
-        return 'test';
+        $view = \View::forge('tops/mentions');
+        $view->set('users', \Model_Statistics_Mention::getTopMentions($from, $to, $period));
+        return $view->render();
+    }
+
+    /**
+     * Get top hashtags
+     *
+     * @param int $from
+     * @param int $to
+     * @return string
+     */
+    public function action_ajaxGetHashTags($from = 0, $to = 20)
+    {
+        $view = \View::forge('tops/hashtags');
+        $view->set('hashtags', \Model_HasHashtag::getTopHashtags($to));
+        return $view->render();
     }
 
     /**

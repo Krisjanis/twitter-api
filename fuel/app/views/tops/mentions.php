@@ -1,0 +1,23 @@
+<table class="uk-table uk-table-hover">
+    <thead>
+        <tr>
+            <th>Vieta</th>
+            <th>Lietotājs</th>
+            <th>Skaits</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $i = 1; foreach ($users as $user): ?>
+            <tr>
+                <td class="uk-width-1-10"><?php echo $i++; ?>.</td>
+                <td class="uk-width-7-10">
+                    <a href="https://twitter.com/<?php echo $user["screen_name"] ?>">
+                        <?php echo $user["screen_name"] ?>
+                    </a>
+                </td>
+                <td class="uk-width-2-10"><?php echo $user["count"] ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
