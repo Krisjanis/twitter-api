@@ -22,4 +22,16 @@ class Controller_Tops extends Controller_Public
     {
         return 'test';
     }
+
+    /**
+     * Render top sources table
+     * @param int $from
+     * @param int $to
+     * @param string $period
+     */
+    public function action_ajaxGetSources($from, $to, $period)
+    {
+        $data['sources'] = Model_Statistics_Source::getTopSources($from, $to, $period);
+        return render('tops/sources', $data, false);
+    }
 }

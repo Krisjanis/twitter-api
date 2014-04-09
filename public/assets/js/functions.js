@@ -131,7 +131,7 @@ function loadTops() {
                     button.addClass('active');
                     button.addClass('loaded');
                     jQuery.ajax({
-                            url: baseUrl + 'tops/ajaxGet' + model + '/0/20/' + period,
+                            url: baseUrl + 'tops/ajaxget' + model + '/0/20/' + period,
                             type: 'POST',
                             beforeSend: function() {
                                 if (!container.hasClass('opened')) {
