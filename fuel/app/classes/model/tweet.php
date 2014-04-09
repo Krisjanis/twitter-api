@@ -33,7 +33,7 @@ class Model_Tweet extends Model
      * @param $from tweet top offset
      * @return Model_Tweet
      */
-    public static function getTopTweetsFromVenue($venueId, $limit = 10, $from) {
+    public static function getTopTweetsFromVenue($venueId, $limit = 10, $from = 0) {
         return parent::find('all', array(
             'order_by' => array('created_at' => 'desc'),
             'related' => array(
@@ -44,5 +44,17 @@ class Model_Tweet extends Model
             'rows_limit' => $limit,
             'rows_offset' => $from,
         ));
+    }
+
+    /**
+     * Get venue tweets count
+     * @param int $venueId
+     * @return int
+     */
+    public static function getVenueTweetsCount($venueId) {
+        $query = parent::query()->related('has_coordinates', array(
+            'where' => array(array('coordinate_id', '=', $venueId))
+        ));
+        return $query->count();
     }
 }

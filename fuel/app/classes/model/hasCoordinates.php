@@ -25,4 +25,16 @@ class Model_HasCoordinates extends Model
             'key_to' => 'id',
         )
     );
+
+    /**
+     * Get venue users count
+     * @param int $venueId
+     * @return int
+     */
+    public static function getVenueUsersCount($venueId) {
+        $count = DB::query('SELECT COUNT(DISTINCT user_id) as count FROM has_coordinates WHERE coordinate_id = ' . $venueId)
+                 ->execute()
+                 ->get('count');
+        return $count;
+    }
 }

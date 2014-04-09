@@ -13,6 +13,7 @@
         <?php echo Asset::js('functions.js') ?>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <?php echo Asset::js('markerclusterer.js') ?>
+        <?php echo Asset::js('uikit.min.js') ?>
     </head>
     <body>
         <div class="wrapper <?php echo isset($customClass) ? $customClass : '' ?>">

@@ -24,7 +24,7 @@ class Controller_Coordinates extends Controller_Public
         }
         $venue = $this->getFoursquareVenueData(Input::post('pointLat'), Input::post('pointLng'), $requestedData);
         if ($requestedData != 'all') {
-            echo $venue;
+            return $venue;
         } else {
             $venue['latlng'] = Input::post('pointLat') . ', ' . Input::post('pointLng');
             $venue['venueId'] = Input::post('pointId');
@@ -46,7 +46,11 @@ class Controller_Coordinates extends Controller_Public
         $usersFrom = (Input::get('usersfrom') != null) ? Input::get('usersfrom') : 0;
         $tweetsFrom = (Input::get('tweetsfrom') != null) ? Input::get('tweetsfrom') : 0;
         if (isset($venueId)) {
+            $data['venueName'] = $venueName;
+            $data['users'] = $this->getUsers($venueId, $topUserCount, $usersFrom);
             $data['tweets'] = $this->getTweets($venueId, $topTweetCount, $tweetsFrom);
+            $data['usersCount'] = $this->getUsersCount($venueId);
+            $data['tweetsCount'] = $this->getTweetsCount($venueId);
             $this->template->content = View::forge('coordinates/venue', $data);
         }
     }
@@ -85,7 +89,7 @@ class Controller_Coordinates extends Controller_Public
         if (isset($json['response']['venues'][0])) {
             $venue = $json['response']['venues'][0];
             if ($requestedData != 'all') {
-                echo $venue[$requestedData];
+                return $venue[$requestedData];
             } else {
                 return $venue;
             }
@@ -94,12 +98,44 @@ class Controller_Coordinates extends Controller_Public
         }
     }
 
+    /**
+     * Get top users from venue
+     * @param int $venueId
+     * @param int $topUserCount
+     * @param int $from
+     * @return Model_User_Account
+     */
     protected function getUsers($venueId, $topUserCount, $from) {
         return Model_User_Account::getTopUsersFromVenue($venueId, $topUserCount, $from);
     }
 
+    /**
+     * Get top tweets from venue
+     * @param int $venueId
+     * @param int $topTweetCount
+     * @param int $from
+     * @return Model_Tweet
+     */
     protected function getTweets($venueId, $topTweetCount, $from) {
         return Model_Tweet::getTopTweetsFromVenue($venueId, $topTweetCount, $from);
+    }
+
+    /**
+     * Get total count of venue users
+     * @param int $venueId
+     * @return int
+     */
+    protected function getUsersCount($venueId) {
+        return Model_HasCoordinates::getVenueUsersCount($venueId);
+    }
+
+    /**
+     * Get total count of venue tweets
+     * @param int $venueId
+     * @return int
+     */
+    protected function getTweetsCount($venueId) {
+        return Model_Tweet::getVenueTweetsCount($venueId);
     }
 
 }

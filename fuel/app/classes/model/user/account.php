@@ -23,4 +23,22 @@ class Model_User_Account extends Model
             'key_to' => 'user_id',
         )
     );
+
+    /**
+     * Get top users from venue
+     * @param int $venueId
+     * @param int $limit
+     * @param int $from
+     * @return Model_User_Account
+     */
+    public static function getTopUsersFromVenue($venueId, $limit = 10, $from = 0) {
+        return DB::query("SELECT has_coordinates.user_id, screen_name, COUNT( screen_name ) AS count, image_url
+                          FROM users
+                          JOIN has_coordinates ON id = user_id
+                          JOIN user_profile ON has_coordinates.user_id = user_profile.user_id
+                          WHERE coordinate_id = " . $venueId . "
+                          GROUP BY 2
+                          ORDER BY count DESC
+                          LIMIT " . $from . " , " . $limit)->execute()->as_array();
+    }
 }
