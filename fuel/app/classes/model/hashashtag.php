@@ -32,7 +32,7 @@ class Model_HasHashtag extends Model
                 ->from('has_hashtags')
                 ->join('hashtags')
                 ->on('hashtag_id', '=', 'id')
-                //->group_by(1)
+                ->group_by('hashtag_id')
                 ->order_by('count', 'desc')
                 ->limit($limit)
                 ->execute();
