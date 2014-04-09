@@ -90,15 +90,9 @@ class Model_Statistics_Tweet extends Model
 
     public static function getTweetCountByDay()
     {
-        //$result = $this->select("DATE(FROM_UNIXTIME(time)) AS date, SUM(count) as count", "'count' IS NOT NULL GROUP BY 1");
-        $data = DB::select(DB::expr('DATE(FROM_UNIXTIME(time)) AS date'), DB::expr('SUM(count) as count'))
+        return DB::select(DB::expr('DATE(FROM_UNIXTIME(time)) AS date'), DB::expr('SUM(count) as count'))
                 ->from('tweets_count')
                 ->group_by('date')
-                ->execute();
-        $result = array();
-        foreach ($data as $row) {
-            array_push($result, $row);
-        }
-        return $result;
+                ->execute()->as_array();
     }
 }
