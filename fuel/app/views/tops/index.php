@@ -1,4 +1,4 @@
-<div class="content-1 top-wrapper" data-base-url="<?php echo $baseUrl ?>" data-img-path="<?php echo $baseUrl . 'assets/img/' ?>">
+<div class="content-1 top-wrapper" data-base-url="<?php echo $baseUrl ?>" data-img-path="<?php echo $baseUrl . 'public/assets/img/' ?>">
     <div class="uk-container uk-container-center">
         <div class="uk-grid">
             <div class="uk-width-1-2">

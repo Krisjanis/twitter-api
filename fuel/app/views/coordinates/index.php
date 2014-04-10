@@ -8,7 +8,7 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             },
             map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions),
-            imagePath = '<?php echo Config::get('base_url') . 'assets/img/' ?>',
+            imagePath = '<?php echo Config::get('base_url') . 'public/assets/img/' ?>',
             baseUrl = '<?php echo Config::get('base_url') ?>',
             icon = {
                 url: imagePath + 'marker.png',
