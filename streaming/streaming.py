@@ -206,12 +206,12 @@ class TwitterStream:
                             newHashtag = self.cur.fetchone()
                             hashtag_id = str(newHashtag[0])
 
-                        if hashtag.get('text') in processed_hashtags:
-                            hashtag_index = processed_hashtags.index(hashtag.get('text'))
+                        if hashtag_id in processed_hashtags:
+                            hashtag_index = processed_hashtags.index(hashtag_id)
                             #Increase occurences
                             has_hashtags_data[hashtag_index][3] += 1
                         else:
-                            processed_hashtags.append(hashtag.get('text'))
+                            processed_hashtags.append(hashtag_id)
                             has_hashtags_data.append([hashtag_id, str(message.get('id')), str(message.get('user').get('id')), 1])
 
                     #Create relations for all hashtags
@@ -276,24 +276,10 @@ class TwitterStream:
         except MySQLdb.Error, e:
             # Error while saving tweet
             self.db.rollback()
+            # Log mysql error, executed query and tweet data
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-            # Log mysql error, query and tweet data
-            # Create files for saving
-            explode = message.get('created_at').split(' ')
-            year = explode[5]
-            month = explode[1]
-            day = explode[2]
+            print self.cur._last_executed
 
-            file = codecs.open(SERVER_DATA_ROOT + 'mysql_errors/' + year + '_' + month + '_' + day + '.csv', 'a', encoding='utf-8')
-            # Write header if file empty
-            if os.stat(SERVER_DATA_ROOT + 'mysql_errors/' + year + '_' + month + '_' + day + '.csv').st_size == 0:
-                file.write('error_message\tquery\tmessage\n')
-
-            file.write("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
-            file.write('\t' + self.cur._last_executed )
-            file.write('\t' + json.dumps(message))
-            file.write('\n')
-            file.close()
 
     def save_tweet_csv(self, message):
         # Create directory and files for saving
