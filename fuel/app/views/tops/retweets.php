@@ -7,12 +7,13 @@
         </tr>
     </thead>
     <tbody>
-    <?php $counter = 1; foreach ($retweets as $retweet): ?>
-        <tr>
-            <td class="uk-width-1-10"><?php echo $counter; $counter++; ?>.</td>
-            <td class="uk-width-7-10"><?php echo $retweet["text"] ?></td>
-            <td class="uk-width-2-10"><?php echo $retweet["count"] ?></td>
-        </tr>
-    <?php endforeach; ?>
+        <?php $linker = new Helper\Linker; ?>
+        <?php $i = 1; foreach ($retweets as $retweet): ?>
+            <tr>
+                <td class="uk-width-1-10"><?php echo $i; $i++; ?>.</td>
+                <td class="uk-width-7-10"><?php echo $linker->_getFormatText($retweet["text"]) ?></td>
+                <td class="uk-width-2-10"><?php echo $retweet["count"] ?></td>
+            </tr>
+        <?php endforeach; ?>
     </tbody>
 </table>

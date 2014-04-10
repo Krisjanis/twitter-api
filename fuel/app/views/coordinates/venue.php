@@ -7,26 +7,25 @@
                 <div class="uk-panel uk-panel-box">
                     <table class="uk-table users">
                         <thead>
-                        <tr>
-                            <th>Tvītu skaits</th>
-                            <th>Lietotājs</th>
-                        </tr>
+                            <tr>
+                                <th>Tvītu skaits</th>
+                                <th>Lietotājs</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php $count = 0;
-                        foreach ($users as $user): ?>
-                            <tr class="<?php echo $user['user_id'] ?>">
-                                <td class="count"><?php echo $user['count'] ?></td>
-                                <?php $screenName = $user['screen_name'] ?>
-                                <td>
-                                    <a href="https://twitter.com/<?php echo $screenName ?>">
-                                        <img src="<?php echo $user['image_url'] ?>"/>
-                                        <span><?php echo $screenName ?></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php $count++; ?>
-                        <?php endforeach; ?>
+                            <?php $count = 0; foreach ($users as $user): ?>
+                                <tr class="<?php echo $user['user_id'] ?>">
+                                    <td class="count"><?php echo $user['count'] ?></td>
+                                    <?php $screenName = $user['screen_name'] ?>
+                                    <td>
+                                        <a href="https://twitter.com/<?php echo $screenName ?>">
+                                            <img src="<?php echo $user['image_url'] ?>"/>
+                                            <span><?php echo $screenName ?></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php $count++; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                     <button class="uk-button" type="button" onclick="loadVenueData(this, 'usersfrom', 'users')"
@@ -47,18 +46,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <?php $count = 0; foreach ($tweets as $tweet): ?>
-                            <tr class="<?php echo $tweet['has_coordinates']['user_id'] ?>">
-                                <td>
-                                    <span><?php echo date('d.m.Y', $tweet['created_at']) ?></span>
-                                    <span><a href="https://twitter.com/<?php echo $tweet['user']['screen_name'] ?>">
-                                            <?php echo $tweet['user']['screen_name'] ?></a>
-                                    </span>
-                                </td>
-                                <td><?php echo $tweet['has_coordinates']['user_id'] ?> <?php echo $tweet['text'] ?></td>
-                            </tr>
-                            <?php $count++; ?>
-                        <?php endforeach; ?>
+                            <?php $linker = new Helper\Linker; ?>
+                            <?php $count = 0; foreach ($tweets as $tweet): ?>
+                                <tr class="<?php echo $tweet['has_coordinates']['user_id'] ?>">
+                                    <td>
+                                        <span><?php echo date('d.m.Y', $tweet['created_at']) ?></span>
+                                        <span><a href="https://twitter.com/<?php echo $tweet['user']['screen_name'] ?>">
+                                                <?php echo $tweet['user']['screen_name'] ?></a>
+                                        </span>
+                                    </td>
+                                    <td><?php echo $linker->_getFormatText($tweet['text']) ?></td>
+                                </tr>
+                                <?php $count++; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                     <button class="uk-button" type="button" onclick="loadVenueData(this, 'tweetsfrom', 'tweets')"
