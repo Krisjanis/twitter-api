@@ -137,7 +137,7 @@ class TwitterStream:
                 #self.save_tweet_csv(message)
 
                 # Save tweet in database
-                self.save_tweet_db(message)
+                #self.save_tweet_db(message)
 
                 # Save tweet in NoSQL
                 self.save_tweet_nosql(message)
