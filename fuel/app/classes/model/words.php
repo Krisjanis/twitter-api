@@ -15,8 +15,8 @@ class Model_Words extends Model
      * Get top words from all days
      * @return Model_Words
      */
-    public static function getWords()
+    public static function getWords($limit = 40)
     {
-        return parent::find('all');
+        return parent::find('all', array('limit' => $limit));
     }
 }
