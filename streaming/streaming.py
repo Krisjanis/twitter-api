@@ -14,6 +14,8 @@ import csv
 import datetime
 import calendar
 from pytz import timezone
+import pymongo
+from pymongo import MongoClient
 
 # Import config variables
 config =  os.path.abspath(os.path.dirname(__file__)) + '/config.py'
@@ -48,10 +50,13 @@ class TwitterStream:
         self.buffer = ''
         self.setup_connection()
         self.db = MySQLdb.connect(host = DB_HOST, port = DB_PORT, user = DB_USER, passwd = DB_PASSWORD, db = DB_TABLE, charset = 'utf8')
+        self.no_client = MongoClient('localhost', 27017)
+        self.no_db = self.no_client.twitter
         self.cur = self.db.cursor()
 
     def __del__(self):
         self.db.close()
+        self.no_client.close()
 
     def setup_connection(self):
         """ Create persistant HTTP connection to Streaming API endpoint using cURL.
@@ -132,11 +137,15 @@ class TwitterStream:
                 #self.save_tweet_csv(message)
 
                 # Save tweet in database
-                self.save_tweet_db(message)
+                #self.save_tweet_db(message)
+
+                # Save tweet in NoSQL
+                self.save_tweet_nosql(message)
 
     def save_tweet_db(self, message):
         """ This method saves tweets into database.
             """
+
         try:
             # Get local timestamp from twitter time
             time = datetime.datetime.strptime(message.get('created_at'),'%a %b %d %H:%M:%S +0000 %Y')
@@ -279,6 +288,22 @@ class TwitterStream:
             # Log mysql error, executed query and tweet data
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
             print self.cur._last_executed
+
+
+    def save_tweet_nosql(self, message):
+        """ This method saves tweets into database.
+            """
+
+        try:
+            # Save DB system ID as twitter id
+            message['_id'] = message.get('id')
+            del message['id']
+            self.no_db.tweets.save(message)
+
+        except pymongo.errors:
+            # Saving error
+            print "saving tweet error:"
+            pprint.pprint(pymongo.errors)
 
 
     def save_tweet_csv(self, message):
