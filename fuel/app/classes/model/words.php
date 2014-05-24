@@ -17,6 +17,10 @@ class Model_Words extends Model
      */
     public static function getWords($limit = 40)
     {
-        return parent::find('all', array('limit' => $limit));
+        $data = parent::find('all', array(
+            'order_by' => array('date' => 'desc'),
+            'limit' => $limit
+        ));
+        return array_reverse($data);
     }
 }
