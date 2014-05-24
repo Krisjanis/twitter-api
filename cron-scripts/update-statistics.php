@@ -22,13 +22,12 @@ function saveTweetsCount($currentdate) {
  * @return array
  */
 function getTweetsCount($currentdate) {
-
     $database = new mongoDatabase;
     $mongo = $database->getMongoDb();
 
     $keys = new MongoCode('function(doc) {
                     var date = new Date(doc.created_at);
-                    var dateKey = (date.getFullYear() + 1) + "-" + date.getMonth() + "-" + date.getDate() + "-" + date.getHours();
+                    var dateKey = (date.getFullYear()) + "-" + date.getMonth() + "-" + date.getDate() + "-" + date.getHours();
                     return { "date": dateKey };
                 }');
     $initial =  array('count' => 0);
