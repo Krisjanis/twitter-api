@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 MongoCursor::$timeout = -1;
 require(dirname(__FILE__) . '/db-connect.php');
 require(dirname(__FILE__) . '/mongo-connect.php');
@@ -46,21 +47,17 @@ function getTweetsCount($currentdate) {
  * @param date $currentdate
  */
 function saveWordsCount($currentdate) {
-    $database = new database;
-    $dbh = $database->getdbh();
-    $stmt = $dbh->query("SELECT text, DATE(FROM_UNIXTIME(created_at)) AS date
-                         FROM tweets WHERE DATE(FROM_UNIXTIME(created_at)) = '" . $currentdate . "'");
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $data = getTweetText($currentdate);
 
     $tweets = array();
     foreach ($data as $row) {
-        $tweets[] = $row;
+        $tweets[] = $row['text'];
     }
 
     $min_times_present = 10;
     $words = array();
     foreach ($tweets as $str) {
-        $words_string = preg_split("/\P{L}+/u", $str['text'], 0, PREG_SPLIT_NO_EMPTY);
+        $words_string = preg_split("/\P{L}+/u", $str, 0, PREG_SPLIT_NO_EMPTY);
         foreach ($words_string as $word) {
             if (mb_strlen($word, "UTF-8") > 3) {
                 $word = mb_convert_case($word, MB_CASE_LOWER, "UTF-8");
@@ -74,8 +71,32 @@ function saveWordsCount($currentdate) {
         return ($value >= $min_times_present);
     });
     arsort($result_arr, SORT_NUMERIC);
+
+    $database = new database;
+    $dbh = $database->getdbh();
     $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . serialize(array_slice($result_arr, 0, 100)) . "')");
+    echo "INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . serialize(array_slice($result_arr, 0, 100)) . "')";
 }
 
-//saveWordsCount(date('M d', strtotime(date('M d') . '-1 day')));
+/**
+ * Get tweet text
+ * @param string $currentdate
+ * @return MongoCursor
+ */
+function getTweetText($currentdate) {
+    $database = new mongoDatabase;
+    $mongo = $database->getMongoDb();
+
+    $query = array(
+        'created_at' => array( '$regex' => '.*' . $currentdate . ' *' ),
+        'retweeted_status' => array( '$exists' => false )
+    );
+    $fields = array('text' => true);
+
+    $result = $mongo->tweets->find($query, $fields);
+
+    return $result;
+}
+
+saveWordsCount(date('M d', strtotime(date('M d') . '-1 day')));
 saveTweetsCount(date('M d', strtotime(date('M d') . '-1 day')));
