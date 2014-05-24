@@ -78,5 +78,5 @@ function saveWordsCount($currentdate) {
     $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . serialize(array_slice($result_arr, 0, 100)) . "')");
 }
 
-saveWordsCount(date('Y-m-d', strtotime(date('M m') . '-1 day')));
-//saveTweetsCount(date('M d', strtotime(date('M d') . '-1 day')));
+//saveWordsCount(date('M d', strtotime(date('M d') . '-1 day')));
+saveTweetsCount(date('M d', strtotime(date('M d') . '-1 day')));
