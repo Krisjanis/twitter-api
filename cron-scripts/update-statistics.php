@@ -27,7 +27,7 @@ function getTweetsCount($currentdate) {
 
     $keys = new MongoCode('function(doc) {
                     var date = new Date(doc.created_at);
-                    var dateKey = (date.getFullYear()) + "-" + date.getMonth() + "-" + date.getDate() + "-" + date.getHours();
+                    var dateKey = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getHours();
                     return { "date": dateKey };
                 }');
     $initial =  array('count' => 0);

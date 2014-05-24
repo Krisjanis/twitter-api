@@ -10,10 +10,13 @@ class Model_Statistics_Tweet extends Model
      */
     public static function getLastMonthTweetCount()
     {
+        $to = date('Y-m-d', strtotime(date('Y-m-d') . '-1 day'));
+        $from = date('Y-m-d', strtotime($to . '-1 month +1 day'));
         return DB::select(DB::expr('SUM(count) as count'))
-                ->from('tweets_count')
-                ->execute()
-                ->get('count');
+            ->from('tweets_count')
+            ->where(DB::expr('DATE(FROM_UNIXTIME(time))'), 'between', array($from, $to))
+            ->execute()
+            ->get('count');
     }
 
     /**
@@ -22,13 +25,10 @@ class Model_Statistics_Tweet extends Model
      */
     public static function getTotalTweetCount()
     {
-        $to = date('Y-m-d', strtotime(date('Y-m-d') . '-1 day'));
-        $from = date('Y-m-d', strtotime($to . '-1 month +1 day'));
         return DB::select(DB::expr('SUM(count) as count'))
-                ->from('tweets_count')
-                ->where(DB::expr('DATE(FROM_UNIXTIME(time))'), 'between', array($from, $to))
-                ->execute()
-                ->get('count');
+            ->from('tweets_count')
+            ->execute()
+            ->get('count');
     }
 
     /**

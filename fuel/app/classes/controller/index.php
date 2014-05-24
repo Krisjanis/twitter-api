@@ -20,7 +20,6 @@ class Controller_Index extends Controller_Public
         $data['tweetCountByTwoWeeks'] = Model_Statistics_Tweet::getTweetCountByTwoWeeks();
         $data['tweetCountByDay'] = Model_Statistics_Tweet::getTweetCountByDay();
         $data['totalUsersCount'] = Model_User_Account::count();
-        $data['totalTweetCount'] = $this->getTotalTweetsCount($data['tweetCountByDay']);
         $this->template->content = View::forge('index/index', $data);
     }
 
@@ -35,21 +34,4 @@ class Controller_Index extends Controller_Public
         $this->template->customClass = 'page-404';
         $this->template->content = View::forge('index/404');
     }
-
-    /**
-     * Get total tweets count
-     *
-     * @param array $days
-     * @return int
-     */
-    public function getTotalTweetsCount($days = null) {
-        if (!empty($days)) {
-            $count = 0;
-            foreach ($days as $day) {
-                $count += $day['count'];
-            }
-            return $count;
-        }
-    }
-
 }

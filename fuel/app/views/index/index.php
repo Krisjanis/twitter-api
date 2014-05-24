@@ -10,24 +10,24 @@
         </p>
         <p class="statistic">
             Sistēma ir atradusi
-            <span class="highlight-badge"><?php echo isset($totalUsersCount) ? $totalUsersCount : '' ?></span>
+            <span class="highlight-badge"><?php echo isset($totalUsersCount) ? $totalUsersCount : '0' ?></span>
             latviešu
             <span class="highlight-badge">lietotājus</span>
         </p>
         <p class="statistic">
             Pēdējā mēnesī sistēma ir savākusi
-            <span class="highlight-badge"><?php echo isset($lastMonthTweetCount) ? $lastMonthTweetCount : '' ?></span>
+            <span class="highlight-badge"><?php echo isset($lastMonthTweetCount) ? $lastMonthTweetCount : '0' ?></span>
             unikālu <span class="highlight-badge">tvītu</span>
         </p>
         <p class="statistic">
             Kopā savākti
-            <span class="highlight-badge"><?php echo isset($totalTweetCount) ? $totalTweetCount : '' ?></span>
+            <span class="highlight-badge"><?php echo isset($totalTweetCount) ? $totalTweetCount : '0' ?></span>
             unikālu tvītu
         </p>
         <p class="statistic">
             Visaktīvākā diena ir bijusi
-            <span class="highlight-badge"><?php echo isset($maxTweets['date']) ? $maxTweets['date'] : '' ?></span>
-            ar <span class="highlight-badge"><?php echo isset($maxTweets['count']) ? $maxTweets['count'] : '' ?></span>
+            <span class="highlight-badge"><?php echo isset($maxTweets['date']) ? $maxTweets['date'] : '0' ?></span>
+            ar <span class="highlight-badge"><?php echo isset($maxTweets['count']) ? $maxTweets['count'] : '0' ?></span>
             tvītiem
         </p>
         <p class="statistic">
