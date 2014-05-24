@@ -1,28 +1,45 @@
 <?php
 require(dirname(__FILE__) . '/db-connect.php');
+require(dirname(__FILE__) . '/mongo-connect.php');
 
 /**
  * Save tweet count per hour
  * @param date $currentdate
  */
 function saveTweetsCount($currentdate) {
+    $count = getTweetsCount($currentdate);
     $database = new database;
     $dbh = $database->getdbh();
-    $stmt = $dbh->query("
-                SELECT DATE(FROM_UNIXTIME(created_at)) AS date, HOUR(FROM_UNIXTIME(created_at)) AS hour, COUNT(id) AS count
-                FROM tweets
-                WHERE 'count' IS NOT NULL
-                AND DATE(FROM_UNIXTIME(created_at)) = '" . $currentdate . "'
-                GROUP BY 1, 2");
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $i = 0;
-    foreach ($data as $row) {
-        $i++;
-        $date = strtotime($row['date'] . ' ' . $row['hour'] . ':00');
-        $count = $row['count'];
-        $dbh->query("INSERT INTO tweets_count VALUES (" . $date . ", " . $count . ")");
+    foreach ($count as $day) {
+        var_dump($day); echo '<br>';
+        $dbh->query("INSERT INTO tweets_count VALUES (" . strtotime($day['date']) . ", " . $day['count'] . ")");
     }
+}
+
+/**
+ * Get tweet count for each hour
+ * @param date $currentdate
+ * @return array
+ */
+function getTweetsCount($currentdate) {
+
+    $database = new mongoDatabase;
+    $mongo = $database->getMongoDb();
+
+    $keys = new MongoCode('function(doc) {
+                    var date = new Date(doc.created_at);
+                    var dateKey = (date.getFullYear() + 1) + "-" + date.getMonth() + "-" + date.getDate() + "-" + date.getHours();
+                    return { "date": dateKey };
+                }');
+    $initial =  array('count' => 0);
+    $reduce = "function (obj, prev) { prev.count++; }";
+    $condition = array(
+        'created_at' => array( '$regex' => '.*' . $currentdate . ' *' ),
+        'retweeted_status' => array( '$exists' => false )
+    );
+    $result = $mongo->tweets->group($keys, $initial, $reduce, $condition);
+
+    return $result['retval'];
 }
 
 /**
@@ -61,5 +78,5 @@ function saveWordsCount($currentdate) {
     $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . serialize(array_slice($result_arr, 0, 100)) . "')");
 }
 
-saveWordsCount(date('Y-m-d', strtotime(date('Y-m-d') . '-1 day')));
-saveTweetsCount(date('Y-m-d', strtotime(date('Y-m-d') . '-1 day')));
+saveWordsCount(date('Y-m-d', strtotime(date('M m') . '-1 day')));
+//saveTweetsCount(date('M d', strtotime(date('M d') . '-1 day')));
