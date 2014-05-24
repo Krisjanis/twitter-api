@@ -1,4 +1,5 @@
 <?php
+MongoCursor::$timeout = -1;
 require(dirname(__FILE__) . '/db-connect.php');
 require(dirname(__FILE__) . '/mongo-connect.php');
 
@@ -11,8 +12,7 @@ function saveTweetsCount($currentdate) {
     $database = new database;
     $dbh = $database->getdbh();
     foreach ($count as $day) {
-        var_dump($day); echo '<br>';
-        $dbh->query("INSERT INTO tweets_count VALUES (" . strtotime($day['date']) . ", " . $day['count'] . ")");
+        $dbh->query("INSERT INTO tweets_count VALUES (" . strtotime($day['date'] . '-3 hour') . ", " . $day['count'] . ")");
     }
 }
 
