@@ -7,7 +7,7 @@
                     <div class="top-words uk-panel-box">
                         <?php $top = 1 ?>
                         <span class="uk-text-info"><?php echo date('d-m-Y', $day['date']) ?></span>
-                        <?php foreach (unserialize(html_entity_decode($day['words'])) as $word => $count): ?>
+                        <?php foreach (json_decode(html_entity_decode($day['words'])) as $word => $count): ?>
                             <span top="<?php echo $top ?>"
                                   data-uk-tooltip title="<?php echo $count ?>"
                                   class="word<?php if (in_array($word, $usedWords)) { echo ' used'; } ?>">

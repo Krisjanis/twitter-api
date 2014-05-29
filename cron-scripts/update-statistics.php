@@ -1,8 +1,8 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
 MongoCursor::$timeout = -1;
 require(dirname(__FILE__) . '/db-connect.php');
 require(dirname(__FILE__) . '/mongo-connect.php');
+ini_set('memory_limit', '128M');
 
 /**
  * Save tweet count per hour
@@ -54,11 +54,13 @@ function saveWordsCount($currentdate) {
         $tweets[] = $row['text'];
     }
 
-    $min_times_present = 10;
+    $minTimesPresent = 10;
     $words = array();
     foreach ($tweets as $str) {
-        $words_string = preg_split("/\P{L}+/u", $str, 0, PREG_SPLIT_NO_EMPTY);
-        foreach ($words_string as $word) {
+        //echo '45678904567890';
+        $wordsString = preg_split("/\P{L}+/u", $str, 0, PREG_SPLIT_NO_EMPTY);
+        //echo '4567890';
+        foreach ($wordsString as $word) {
             if (mb_strlen($word, "UTF-8") > 3) {
                 $word = mb_convert_case($word, MB_CASE_LOWER, "UTF-8");
                 if ($word != 'http' && $word != 'https') {
@@ -67,15 +69,14 @@ function saveWordsCount($currentdate) {
             }
         }
     }
-    $result_arr = array_filter($words, function($value) use ($min_times_present) {
-        return ($value >= $min_times_present);
+    $resultArr = array_filter($words, function($value) use ($minTimesPresent) {
+        return ($value >= $minTimesPresent);
     });
-    arsort($result_arr, SORT_NUMERIC);
+    arsort($resultArr, SORT_NUMERIC);
 
     $database = new database;
     $dbh = $database->getdbh();
-    $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . serialize(array_slice($result_arr, 0, 100)) . "')");
-    echo "INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . serialize(array_slice($result_arr, 0, 100)) . "')";
+    $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . json_encode(array_slice($resultArr, 0, 100), JSON_UNESCAPED_UNICODE) . "')");
 }
 
 /**
@@ -88,8 +89,7 @@ function getTweetText($currentdate) {
     $mongo = $database->getMongoDb();
 
     $query = array(
-        'created_at' => array( '$regex' => '.*' . $currentdate . ' *' ),
-        'retweeted_status' => array( '$exists' => false )
+        'created_at' => array( '$regex' => '.*' . $currentdate . ' *' )
     );
     $fields = array('text' => true);
 
