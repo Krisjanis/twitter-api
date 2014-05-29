@@ -76,7 +76,8 @@ function saveWordsCount($currentdate) {
 
     $database = new database;
     $dbh = $database->getdbh();
-    $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . json_encode(array_slice($resultArr, 0, 100), JSON_UNESCAPED_UNICODE) . "')");
+    $topWords = mysql_escape_string(json_encode(array_slice($resultArr, 0, 100)));
+    $dbh->query("INSERT INTO words_count VALUES ('" . strtotime($currentdate) . "', '" . $topWords . "')");
 }
 
 /**
