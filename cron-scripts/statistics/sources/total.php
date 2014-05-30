@@ -1,20 +1,17 @@
 <?php
+MongoCursor::$timeout = -1;
 require(dirname(__FILE__) . '/../../db-connect.php');
+require(dirname(__FILE__) . '/../../mongo-connect.php');
 ini_set('memory_limit', '128M');
 
 /**
  * Update tweet sources total count
  * @param date $currentdate
  */
-function updateTotalSourcesCount($currentdate) {
+function updateTotalSourcesCount() {
     $dbConnect = new database;
     $dbh = $dbConnect->getdbh();
-    $stmt = $dbh->query("SELECT source, count(id) AS count
-                         FROM tweets
-                         WHERE DATE(FROM_UNIXTIME(created_at)) < '" . $currentdate . "'
-                         GROUP BY 1
-                         ORDER BY count DESC");
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $data = getSources();
 
     foreach ($data as $row) {
         $source = $dbh->query("SELECT * FROM statistics_sources WHERE source = '" . $row['source'] . "'");
@@ -29,4 +26,23 @@ function updateTotalSourcesCount($currentdate) {
     }
 }
 
-updateTotalSourcesCount(date('Y-m-d', strtotime(date('Y-m-d') . '-1 day')));
+/**
+ * Get all used sources and count
+ * @param string $currentdate
+ * @return array
+ */
+function getSources() {
+    $database = new mongoDatabase;
+    $mongo = $database->getMongoDb();
+
+    $keys = new MongoCode('function(doc) {
+                    return { "source": doc.source };
+                }');
+    $initial =  array('count' => 0);
+    $reduce = "function (obj, prev) { prev.count++; }";
+    $result = $mongo->tweets->group($keys, $initial, $reduce);
+
+    return $result['retval'];
+}
+
+updateTotalSourcesCount();

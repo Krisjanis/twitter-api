@@ -36,12 +36,16 @@ function getRetweets($currentdate) {
         'created_at' => array( '$regex' => '.*' . $currentdate . ' *' ),
         'retweeted_status' => array( '$exists' => true )
     );
-    $fields = array('retweeted_status.id_str' => true, 'user.id' => true, 'created_at' => true);
+    $fields = array(
+        'retweeted_status.id_str' => true,
+        'user.id' => true,
+        'created_at' => true
+    );
 
     $result = $mongo->tweets->find($query, $fields);
 
     return $result;
 }
 
-saveWordsCount(date('M d', strtotime(date('M d') . '-1 day')));
+saveRetweets(date('M d', strtotime(date('M d') . '-1 day')));
 

@@ -1,5 +1,9 @@
 <?php
+MongoCursor::$timeout = -1;
 require(dirname(__FILE__) . '/../../db-connect.php');
+require(dirname(__FILE__) . '/../../mongo-connect.php');
+require(dirname(__FILE__) . '/../../helper.php');
+ini_set('memory_limit', '128M');
 
 /**
  * Update source count per month
@@ -8,13 +12,7 @@ require(dirname(__FILE__) . '/../../db-connect.php');
 function updateMonthSourcesCount($currentdate) {
     $dbConnect = new database;
     $dbh = $dbConnect->getdbh();
-    $stmt = $dbh->query("SELECT source, count(id) AS count
-                         FROM tweets
-                         WHERE DATE(FROM_UNIXTIME(created_at))
-                         BETWEEN '" . date('Y-m-d', strtotime($currentdate . '-1 month +1 day')) . "' AND '" . $currentdate . "'
-                         GROUP BY 1
-                         ORDER BY count DESC");
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $data = getSources($currentdate);
 
     foreach ($data as $row) {
         $source = $dbh->query("SELECT * FROM statistics_sources WHERE source = '" . $row['source'] . "'");
@@ -29,4 +27,26 @@ function updateMonthSourcesCount($currentdate) {
     }
 }
 
-updateMonthSourcesCount(date('Y-m-d', strtotime(date('Y-m-d') . '-1 day')));
+/**
+ * Get all used sources and count
+ * @param string $currentdate
+ * @return array
+ */
+function getSources($currentdate) {
+    $database = new mongoDatabase;
+    $mongo = $database->getMongoDb();
+
+    $keys = new MongoCode('function(doc) {
+                    return { "source": doc.source };
+                }');
+    $initial =  array('count' => 0);
+    $reduce = "function (obj, prev) { prev.count++; }";
+    $condition = array(
+        'created_at' => array('$regex' => getDatesRegex($currentdate, 30))
+    );
+    $result = $mongo->tweets->group($keys, $initial, $reduce, $condition);
+
+    return $result['retval'];
+}
+
+updateMonthSourcesCount(date('M d', strtotime(date('M d') . '-1 day')));

@@ -57,9 +57,7 @@ function saveWordsCount($currentdate) {
     $minTimesPresent = 10;
     $words = array();
     foreach ($tweets as $str) {
-        //echo '45678904567890';
         $wordsString = preg_split("/\P{L}+/u", $str, 0, PREG_SPLIT_NO_EMPTY);
-        //echo '4567890';
         foreach ($wordsString as $word) {
             if (mb_strlen($word, "UTF-8") > 3) {
                 $word = mb_convert_case($word, MB_CASE_LOWER, "UTF-8");

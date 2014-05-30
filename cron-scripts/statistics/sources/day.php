@@ -1,5 +1,7 @@
 <?php
+MongoCursor::$timeout = -1;
 require(dirname(__FILE__) . '/../../db-connect.php');
+require(dirname(__FILE__) . '/../../mongo-connect.php');
 
 /**
  * Update source count per day
@@ -8,14 +10,11 @@ require(dirname(__FILE__) . '/../../db-connect.php');
 function updateDaySourcesCount($currentdate) {
     $dbConnect = new database;
     $dbh = $dbConnect->getdbh();
-    $stmt = $dbh->query("SELECT source, count(id) AS count
-                         FROM tweets
-                         WHERE DATE(FROM_UNIXTIME(created_at)) = '" . $currentdate . "'
-                         GROUP BY 1
-                         ORDER BY count DESC");
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $data = getSources($currentdate);
 
     foreach ($data as $row) {
+        var_dump($row);
         $source = $dbh->query("SELECT * FROM statistics_sources WHERE source = '" . $row['source'] . "'");
         if ($source) {
             $dbh->query("UPDATE statistics_sources
@@ -28,4 +27,26 @@ function updateDaySourcesCount($currentdate) {
     }
 }
 
-updateDaySourcesCount(date('Y-m-d', strtotime(date('Y-m-d') . '-1 day')));
+/**
+ * Get all used sources and count
+ * @param string $currentdate
+ * @return array
+ */
+function getSources($currentdate) {
+    $database = new mongoDatabase;
+    $mongo = $database->getMongoDb();
+
+    $keys = new MongoCode('function(doc) {
+                    return { "source": doc.source };
+                }');
+    $initial =  array('count' => 0);
+    $reduce = "function (obj, prev) { prev.count++; }";
+    $condition = array(
+        'created_at' => array( '$regex' => '.*' . $currentdate . ' *' )
+    );
+    $result = $mongo->tweets->group($keys, $initial, $reduce, $condition);
+
+    return $result['retval'];
+}
+
+updateDaySourcesCount(date('M d', strtotime(date('M d') . '-1 day')));
