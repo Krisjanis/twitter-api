@@ -14,7 +14,6 @@ function updateDaySourcesCount($currentdate) {
     $data = getSources($currentdate);
 
     foreach ($data as $row) {
-        var_dump($row);
         $source = $dbh->query("SELECT * FROM statistics_sources WHERE source = '" . $row['source'] . "'");
         if ($source) {
             $dbh->query("UPDATE statistics_sources
