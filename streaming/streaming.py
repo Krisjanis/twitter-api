@@ -39,7 +39,8 @@ DB_TABLE = config.DB_TABLE
 POST_PARAMS = {'include_entities': 0,
     'stall_warning': 'true',
     'language': 'lv',
-    'track': 'šodien, diena, tikai, tagad, viņa, viņš, labrīt, mājās, laikam, ļoti, miegs, atkal, mamma, kāds, tomēr, būtu, līdz, beidzot, paldies, skolu, dienu, viņi, filma, nakts, gribu, tikko, vakarā, varbūt, patīk, vairāk, varētu, jāiet, dienas, viņu, kādu, tāds, vismaz, rīts, vispār, drīz, jūtos, vienmēr, tāda, laiks, skolā, vienkārši, rīga, rīta, darīt, labāk, kāpēc, mīlu, tieši, cilvēki, tiešām, mūsu, kurš, kāda, brokastis, laikā, domāju, nebūs, šovakar, latvija, izskatās, nekā, tāpēc, kopā, forši, tāpat, stundas, cilvēks, protams, iešu, treniņš, cerams, latvijas, sajūta, tādu, rudens, reizi, darbu, reizi, atpakaļ, viņam, mājas, būšu, gribas, stjuarts, taču, nenāk, garīgais, galīgi, rīgu, pēdējā, skolas, rīgas, vakariņas, gandrīz, iespējams, lūdzu, piektdien, tētis, negribu, ātri, cilvēku, nakti, treniņu, viņai, pirmā, kādam, braucu, normāli, mazliet, māsa, rīgā, pusdienas, dienā, viņas, pārāk, mājām, piektdiena, latvijā, domā, kamēr, vakara, ātrāk, pilnīgi, jautri, spēle, nesaprotu, braukt, manā, šķiet, nedēļas, vietā, nebūtu, sestdien, draugi, skatīties, brālis, cilvēkiem, dzīve, klāt, pirmdiena, sapratu, viņiem, jābūt, jāsāk, nopietni, interesanti, ziņas, brauc, bildes, nedēļa, sēžu, tādi, redzēt, slikts, reāli, dzimšanas, šeit, īpaši, gadu, pāris, grūti, vakaru, vētra, arlabunakti, tajā, negribas, iespēja, vēlāk, meitenes, jābrauc, tādas, stundu, nepatīk, jūtu, ielā, brīvdienas, īsti, valsts, ciemos, šajā, naktī, savādāk, lāčplēša, nedēļu, kādas, savā, pirmdien, dzīvē, dziesmu, liels, jauns, telefonu, latviešu, uzreiz, sāku, krievu, mācīties, vajadzētu, mācos, izmēģini, iedomājieties, forša, vārda, virtuālā, lekcija, reisā, tevis, tālāk, dzīvi, pavisam, priekš, mammu, dziesma, itkā, saprotu, draugiem, jauna, gultā, joprojām, besī, māju, runā, pirmais, spēlē, saprast, tiekamies, tūlīt, sākas, šobrīd, pareizi, jautājums, darbā, galvenais, priekšā, jaunu, šonakt, citi, angļu, gribētu, šodienas, gribās, bijām, vienā, varēšu, ejam, šoreiz, māsu, spēles, reizes, gāja, kurā, augšā, neiet, spēli, pagaidām, pavadīta, paši, trīs, filmas, galā, jūsu, mūzika, izrādās, kādi, lieliska, līdzi, cikos, sanāca, lieliski, gribēju, meitene, jaunā, aizmigt, šodiena, jāceļas, šorīt, ziņu, izdevusies, pasaules, brīvlaiks, vakardienas, vajadzēja, labākais, dzīvot, kādreiz, nozīmē, garām, beigās, mūziku, naudu, jādodas, lekciju, likās, gultas, vaļā, dzīves, twitterspēks, kārtīgi, redzēju, dziesmas, cilvēkus, sirds, varēs, tātad, vienīgais, pašu, piemēram, rakstīt, valodā, kājas, sanāk, kapēc, būsi, liela, koncerts, vārdu, zināt, brāli, ziema, pasaulē, ideāli, nogurums, agrāk, skaidrs, vējš, negrib, ceturtdien, skaisti, šito, izdarīt'}
+    'track': 'esmu, kāds, šodien, tagad, tikai, tavs, sirdī, dziļi, noskaidro, paldies, diena, bija, mājās, mani, laikam, atkal, ļoti, beidzot, patīk, visu, labi, labrīt, kaut, viss, līdz, laiks, gulēt, jauns, būtu, gribu, dziesmu, daudz, dienu, kultūras, kādu, dienas, estēts, tikko, tekstu, tulkojumu, viņš, viņa, atzīmēja, lattelecom, tevi, interneta, kurš, raidījums, vienkārši, varētu, drīz, savu, galerijā, mums, vairāk, televīzijas, arhīvā, pievienots, kāpēc, visiem, viņu, neko, vismaz, visi, vakar, latvijas, labāk, cilvēki, varbūt, tāds, mūsu, darīt, dzīves, vairs, mamma, vispār, tāda, šovakar, tieši, rīta, tiešām, vienmēr, labs, kāda, miegs, laiku, jāiet, nevaru, tomēr, rīga, vajag, mana, jums, nevar, laikā, kopā, vakars, nekā, cilvēks, protams, reizi, jūtos, ziemeļnieks, bezbailīgais, mans, nezinu, nekas, viena, baudītājs, tādu, pret, nakts, video, lūdzu, forši, braucu, nekad, laba, viens, mājas, brīvdienas, gribas, atpakaļ, biju, brīvdomātājs, nedēļas, liberālais, sajūta, esam, filma, rīts, kādam, neesmu, viņi, vienu, rīgu, skolu, cilvēku, varu, pirms, domāju, tāpēc, normāli, rīgas, prieks, arlabunakti, izskatās, pats, draugi, sevi, vakara, mazliet, vakardienas, bildes, gandrīz, nebūs, dienā, pirmo, tāpat, stundas, pārāk, nakti, vakarā, darbu, viņam, būšu, notiek, braukt, visa, negribu, jautri, pilnīgi, taču, galīgi, dzīve, liels, brauc, jāsāk, cilvēkiem, ceru, labu, latvijā, visas, manis, manu, jauki, pati, nopietni, pirmā, šodienas, katru, nesaprotu, riga, meitenes, cerams, iešu, vien, grib, dzimšanas, nebija, dodos, darba, nedaudz, latvija, nevis, gadu, pēdējā, filmu, neviens, spēle, draugiem, ciemos, ātri, viņas, kamēr, skatos, skatīties, others, kuri, dzīvē, manā, brokastis, pāris, zinu, telefonu, vakaru, baigi, redzēt, kuru, jaunu, laika, mājām, super, saka, mūzika, tevis, liekas, lieliski, negrib, viņiem, savā, iespējams, sapratu, sēžu, rīgā, mīlu, viņai, pirmais, ejam, dziesma, šeit, manas, domā, skaisti, uzreiz, garīgais, vēlāk, gaidu, spēles, kādas, prom, aiziet, krievu, skaidrs, grūti, jauna, jābūt, tiem, šobrīd, nebūtu, šķiet, priekš, pamodos, pasaules, ilgi, vietā, divas, ātrāk, nemaz, lietas, lieliska, joprojām, klāt, dzīvi, latviešu, auto, negribas, interesanti, reāli, spēlē, filmas, sirds, neiet, diezgan, jābrauc, citu, galva, tādas, pareizi, slikti, noteikti, tādi, galvenais, trīs, valsts, mammu, meitene, teica, labākais, tālāk, majas, savas, vari, īpaši, nepatīk, aizmigt, sāku, dziesmas, iespēja, vieta, tajā, vajadzētu, kājas, šoreiz, šajā, pavisam, tūlīt, naktī, dara, nogurums, citi, kapēc, lietus, bijis, īsti, nedēļa, nenāk, jauka, sākas, skolā, saprast, visus, nevajag, runā, gribās, šodiena, punktuālais, praktiķis, vārda, naudu, spēli, vajadzēja, cilvēkus, gultā, gribēju, haha, vienalga, gudļevskis, līdzi, darbs, augšā, bijām, gultas, pasaulē, cikos, pavadīta, jūsu, koncerts, reizes, vienā, kura, tētis, saprotu, kurā, mūziku, ideāli, itkā, forša, gada, kādi, šito, garām, kārtīgi, vaļā, kādreiz, nedēļu, pagaidām, šonakt, skolas, seko, liela, svētdiena, domas, tiekamies, beigās, kkas, pateikt, stundu'}
+#    'track': 'šodien, diena, tikai, tagad, viņa, viņš, labrīt, mājās, laikam, ļoti, miegs, atkal, mamma, kāds, tomēr, būtu, līdz, beidzot, paldies, skolu, dienu, viņi, filma, nakts, gribu, tikko, vakarā, varbūt, patīk, vairāk, varētu, jāiet, dienas, viņu, kādu, tāds, vismaz, rīts, vispār, drīz, jūtos, vienmēr, tāda, laiks, skolā, vienkārši, rīga, rīta, darīt, labāk, kāpēc, mīlu, tieši, cilvēki, tiešām, mūsu, kurš, kāda, brokastis, laikā, domāju, nebūs, šovakar, latvija, izskatās, nekā, tāpēc, kopā, forši, tāpat, stundas, cilvēks, protams, iešu, treniņš, cerams, latvijas, sajūta, tādu, rudens, reizi, darbu, reizi, atpakaļ, viņam, mājas, būšu, gribas, stjuarts, taču, nenāk, garīgais, galīgi, rīgu, pēdējā, skolas, rīgas, vakariņas, gandrīz, iespējams, lūdzu, piektdien, tētis, negribu, ātri, cilvēku, nakti, treniņu, viņai, pirmā, kādam, braucu, normāli, mazliet, māsa, rīgā, pusdienas, dienā, viņas, pārāk, mājām, piektdiena, latvijā, domā, kamēr, vakara, ātrāk, pilnīgi, jautri, spēle, nesaprotu, braukt, manā, šķiet, nedēļas, vietā, nebūtu, sestdien, draugi, skatīties, brālis, cilvēkiem, dzīve, klāt, pirmdiena, sapratu, viņiem, jābūt, jāsāk, nopietni, interesanti, ziņas, brauc, bildes, nedēļa, sēžu, tādi, redzēt, slikts, reāli, dzimšanas, šeit, īpaši, gadu, pāris, grūti, vakaru, vētra, arlabunakti, tajā, negribas, iespēja, vēlāk, meitenes, jābrauc, tādas, stundu, nepatīk, jūtu, ielā, brīvdienas, īsti, valsts, ciemos, šajā, naktī, savādāk, lāčplēša, nedēļu, kādas, savā, pirmdien, dzīvē, dziesmu, liels, jauns, telefonu, latviešu, uzreiz, sāku, krievu, mācīties, vajadzētu, mācos, izmēģini, iedomājieties, forša, vārda, virtuālā, lekcija, reisā, tevis, tālāk, dzīvi, pavisam, priekš, mammu, dziesma, itkā, saprotu, draugiem, jauna, gultā, joprojām, besī, māju, runā, pirmais, spēlē, saprast, tiekamies, tūlīt, sākas, šobrīd, pareizi, jautājums, darbā, galvenais, priekšā, jaunu, šonakt, citi, angļu, gribētu, šodienas, gribās, bijām, vienā, varēšu, ejam, šoreiz, māsu, spēles, reizes, gāja, kurā, augšā, neiet, spēli, pagaidām, pavadīta, paši, trīs, filmas, galā, jūsu, mūzika, izrādās, kādi, lieliska, līdzi, cikos, sanāca, lieliski, gribēju, meitene, jaunā, aizmigt, šodiena, jāceļas, šorīt, ziņu, izdevusies, pasaules, brīvlaiks, vakardienas, vajadzēja, labākais, dzīvot, kādreiz, nozīmē, garām, beigās, mūziku, naudu, jādodas, lekciju, likās, gultas, vaļā, dzīves, twitterspēks, kārtīgi, redzēju, dziesmas, cilvēkus, sirds, varēs, tātad, vienīgais, pašu, piemēram, rakstīt, valodā, kājas, sanāk, kapēc, būsi, liela, koncerts, vārdu, zināt, brāli, ziema, pasaulē, ideāli, nogurums, agrāk, skaidrs, vējš, negrib, ceturtdien, skaisti, šito, izdarīt'}
 #    'track': 'jā, nē, būs, kā, arī, tomēr, laigan, mēs, jūs, viņš, viņa, viņi, šis, šī, šo, labs, labi, slikts, slikti, vakar, šodien, rīt, parīt, nākamnedēļ, pirmdiena, pirmdien, pirmdienā, otrdiena, otrdien, otrdienā, trešdiena, trešdien, trešdienā, ceturtdiena, ceturtdien, ceturdienā, piektdiena, piektdien, piektdienā, sestdiena, sestdien, sestdienā, svētdiena, svētdien, svētdienā, latvija, latvieši, jāņi, jāņos, rīga, labrīt, nakts, rīts, diena, pusdienas, vakariņas, brokastis, ēst, mācās, mācos, twitterspēks, pulkstenis, miegs, gulēt, filma, mīlu, iela, ielā, ielu, piemēram, piemērs, atzīme, ziņas, vasara, vasaru, vasarā, rudens, rudeni, rudenī, ziema, ziemu, ziemā, pavasaris, pavasarī, pavasari, šņabis, šnabi, treniņš, terniņā, treniņu, kurss, kursos, kursiem, lekcija, lekcijā, lekciju, mamma, tētis, sencis, muča, muteri, māsa, māsu, brālis, brāli'}
 
 class TwitterStream:
@@ -123,24 +124,27 @@ class TwitterStream:
         self.buffer += data
         if data.endswith('\r\n') and self.buffer.strip():
             # Complete message received
-            message = json.loads(self.buffer)
-            self.buffer = ''
-            msg = ''
-            if message.get('limit'):
-                print 'Rate limiting caused us to miss %s tweets' % (message['limit'].get('track'))
-            elif message.get('disconnect'):
-                raise Exception('Got disconnect: %s' % message['disconnect'].get('reason'))
-            elif message.get('warning'):
-                print 'Got warning: %s' % message['warning'].get('message')
-            else:
-                # Save tweet in CSV file
-                #self.save_tweet_csv(message)
+            try:
+            	message = json.loads(self.buffer)
+                self.buffer = ''
+                msg = ''
+                if message.get('limit'):
+                    print 'Rate limiting caused us to miss %s tweets' % (message['limit'].get('track'))
+                elif message.get('disconnect'):
+                    raise Exception('Got disconnect: %s' % message['disconnect'].get('reason'))
+                elif message.get('warning'):
+                    print 'Got warning: %s' % message['warning'].get('message')
+                else:
+                    # Save tweet in CSV file
+                    #self.save_tweet_csv(message)
 
-                # Save tweet in database
-                #self.save_tweet_db(message)
+                    # Save tweet in database
+                    #self.save_tweet_db(message)
 
-                # Save tweet in NoSQL
-                self.save_tweet_nosql(message)
+                    # Save tweet in NoSQL
+                    self.save_tweet_nosql(message)
+            except ValueError, e:
+                print self.buffer
 
     def save_tweet_db(self, message):
         """ This method saves tweets into database.
@@ -289,7 +293,6 @@ class TwitterStream:
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
             print self.cur._last_executed
 
-
     def save_tweet_nosql(self, message):
         """ This method saves tweets into database.
             """
@@ -304,7 +307,6 @@ class TwitterStream:
             # Saving error
             print "saving tweet error:"
             pprint.pprint(pymongo.errors)
-
 
     def save_tweet_csv(self, message):
         # Create directory and files for saving
