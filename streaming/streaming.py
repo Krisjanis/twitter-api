@@ -293,8 +293,6 @@ class TwitterStream:
             print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
             print self.cur._last_executed
 
-<<<<<<< Updated upstream
-=======
     def save_tweet_nosql(self, message):
         """ This method saves tweets into database.
             """
@@ -309,7 +307,6 @@ class TwitterStream:
             # Saving error
             print "saving tweet error:"
             pprint.pprint(pymongo.errors)
->>>>>>> Stashed changes
 
     def save_tweet_nosql(self, message):
         """ This method saves tweets into database.
