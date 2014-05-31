@@ -308,22 +308,6 @@ class TwitterStream:
             print "saving tweet error:"
             pprint.pprint(pymongo.errors)
 
-    def save_tweet_nosql(self, message):
-        """ This method saves tweets into database.
-            """
-
-        try:
-            # Save DB system ID as twitter id
-            message['_id'] = message.get('id')
-            del message['id']
-            self.no_db.tweets.save(message)
-
-        except pymongo.errors:
-            # Saving error
-            print "saving tweet error:"
-            pprint.pprint(pymongo.errors)
-
-
     def save_tweet_csv(self, message):
         # Create directory and files for saving
         explode = message.get('created_at').split(' ')
